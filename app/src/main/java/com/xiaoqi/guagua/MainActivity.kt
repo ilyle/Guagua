@@ -11,20 +11,20 @@ import android.widget.Toast
 
 class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
-    private lateinit var articleFragment: ArticleFragment
-    private lateinit var categoryFragment: CategoryFragment
-    private lateinit var aboutFragment: AboutFragment
+    private lateinit var mArticleFragment: ArticleFragment
+    private lateinit var mCategoryFragment: CategoryFragment
+    private lateinit var mAboutFragment: AboutFragment
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when (p0.itemId) {
             R.id.nav_article -> {
-                showFragment(articleFragment)
+                showFragment(mArticleFragment)
             }
             R.id.nav_category -> {
-                showFragment(categoryFragment)
+                showFragment(mCategoryFragment)
             }
             R.id.nav_about -> {
-                showFragment(aboutFragment)
+                showFragment(mAboutFragment)
             }
         }
         return true
@@ -47,36 +47,36 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
     private fun initFragment(savedInstanceState: Bundle?) {
         val fragmentManager = supportFragmentManager
         if (savedInstanceState != null) {
-            articleFragment = fragmentManager.getFragment(savedInstanceState, ArticleFragment::class.java.simpleName) as ArticleFragment
-            categoryFragment = fragmentManager.getFragment(savedInstanceState, CategoryFragment::class.java.simpleName) as CategoryFragment
-            aboutFragment = fragmentManager.getFragment(savedInstanceState, AboutFragment::class.java.simpleName) as AboutFragment
+            mArticleFragment = fragmentManager.getFragment(savedInstanceState, ArticleFragment::class.java.simpleName) as ArticleFragment
+            mCategoryFragment = fragmentManager.getFragment(savedInstanceState, CategoryFragment::class.java.simpleName) as CategoryFragment
+            mAboutFragment = fragmentManager.getFragment(savedInstanceState, AboutFragment::class.java.simpleName) as AboutFragment
         } else {
-            articleFragment = ArticleFragment.newInstance()
-            categoryFragment = CategoryFragment.newInstance()
-            aboutFragment = AboutFragment.newInstance()
+            mArticleFragment = ArticleFragment.newInstance()
+            mCategoryFragment = CategoryFragment.newInstance()
+            mAboutFragment = AboutFragment.newInstance()
         }
-        if (!articleFragment.isAdded) {
-            fragmentManager.beginTransaction().add(R.id.fl_main, articleFragment, ArticleFragment::class.java.simpleName).commit()
+        if (!mArticleFragment.isAdded) {
+            fragmentManager.beginTransaction().add(R.id.fl_main, mArticleFragment, ArticleFragment::class.java.simpleName).commit()
         }
-        if (!categoryFragment.isAdded) {
-            fragmentManager.beginTransaction().add(R.id.fl_main, categoryFragment, CategoryFragment::class.java.simpleName).commit()
+        if (!mCategoryFragment.isAdded) {
+            fragmentManager.beginTransaction().add(R.id.fl_main, mCategoryFragment, CategoryFragment::class.java.simpleName).commit()
         }
-        if (!aboutFragment.isAdded) {
-            fragmentManager.beginTransaction().add(R.id.fl_main, aboutFragment, AboutFragment::class.java.simpleName).commit()
+        if (!mAboutFragment.isAdded) {
+            fragmentManager.beginTransaction().add(R.id.fl_main, mAboutFragment, AboutFragment::class.java.simpleName).commit()
         }
-        showFragment(articleFragment)
+        showFragment(mArticleFragment)
     }
 
     private fun showFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         if (fragment is ArticleFragment) {
-            fragmentManager.beginTransaction().show(articleFragment).hide(categoryFragment).hide(aboutFragment).commit()
+            fragmentManager.beginTransaction().show(mArticleFragment).hide(mCategoryFragment).hide(mAboutFragment).commit()
             setTitle(R.string.nav_bottom_main_article)
         } else if (fragment is CategoryFragment) {
-            fragmentManager.beginTransaction().show(categoryFragment).hide(articleFragment).hide(aboutFragment).commit()
+            fragmentManager.beginTransaction().show(mCategoryFragment).hide(mArticleFragment).hide(mAboutFragment).commit()
             setTitle(R.string.nav_bottom_main_category)
         } else if (fragment is AboutFragment) {
-            fragmentManager.beginTransaction().show(aboutFragment).hide(articleFragment).hide(categoryFragment).commit()
+            fragmentManager.beginTransaction().show(mAboutFragment).hide(mArticleFragment).hide(mCategoryFragment).commit()
             setTitle(R.string.nav_bottom_main_about)
         }
     }

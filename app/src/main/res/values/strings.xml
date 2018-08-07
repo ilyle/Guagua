@@ -6,4 +6,7 @@
     <string name="nav_bottom_main_about">关于</string>
 
     <string name="nav_sign_out">退出</string>
+
+    <string name="tl_article_essay">文章</string>
+    <string name="tl_article_read_later">稍后阅读</string>
 </resources>
