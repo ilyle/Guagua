@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Guagua</string>
+    <string name="app_name">呱呱</string>
+
+    <string name="nav_bottom_main_articles">文章</string>
+    <string name="nav_bottom_main_categories">类别</string>
+    <string name="nav_bottom_main_about">关于</string>
+
+    <string name="nav_sign_out">退出</string>
 </resources>
