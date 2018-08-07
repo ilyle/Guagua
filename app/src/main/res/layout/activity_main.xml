@@ -14,15 +14,11 @@
         android:orientation="vertical">
 
         <FrameLayout
+            android:id="@+id/fl_main"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@color/color_layout_background" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/color_a5a5a5" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bnv_main"
