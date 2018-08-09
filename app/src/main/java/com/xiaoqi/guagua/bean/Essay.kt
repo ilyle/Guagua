@@ -1,9 +1,8 @@
 package com.xiaoqi.guagua.bean
 
-class Essay {
-
-    var mChapterName: String? = null
-    var mDate: String? = null
-    var mTitle: String? = null
-    var mAuthor: String? = null
-}
+data class Essay(
+        var mChapterName: String,
+        var mDate: String,
+        var mTitle: String,
+        var mAuthor: String
+)
