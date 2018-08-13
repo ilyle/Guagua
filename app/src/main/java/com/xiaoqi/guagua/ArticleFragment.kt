@@ -7,6 +7,10 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.xiaoqi.guagua.mvp.model.source.impl.EssayDataSourceImpl
+import com.xiaoqi.guagua.mvp.model.source.remote.EssayDataSourceRemote
+import com.xiaoqi.guagua.mvp.presenter.EssayPresenter
+import com.xiaoqi.guagua.mvp.presenter.impl.EssayPresenterImpl
 
 class ArticleFragment: Fragment() {
 
@@ -38,6 +42,8 @@ class ArticleFragment: Fragment() {
             mEssayFragment = EssayFragment.newInstance()
             mReadLaterFragment = ReadLaterFragment.newInstance()
         }
+
+        EssayPresenterImpl(mEssayFragment, EssayDataSourceImpl.getInstance(EssayDataSourceRemote.instance))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
