@@ -11,4 +11,6 @@
     <string name="tl_article_read_later">稍后阅读</string>
 
     <string name="tv_nothing">暂无内容</string>
+
+    <string name="toast_network_unavailable">网络不可用</string>
 </resources>

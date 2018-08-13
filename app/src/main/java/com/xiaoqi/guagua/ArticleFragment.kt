@@ -43,7 +43,10 @@ class ArticleFragment: Fragment() {
             mReadLaterFragment = ReadLaterFragment.newInstance()
         }
 
-        EssayPresenterImpl(mEssayFragment, EssayDataSourceImpl.getInstance(EssayDataSourceRemote.instance))
+        /*
+        Presenter拥有View和Model实例
+         */
+        EssayPresenterImpl.build(mEssayFragment, EssayDataSourceImpl.getInstance(EssayDataSourceRemote.getInstance()))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

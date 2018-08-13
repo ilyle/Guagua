@@ -10,14 +10,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.xiaoqi.guagua.mvp.model.bean.EssayData
 import com.xiaoqi.guagua.mvp.presenter.EssayPresenter
 import com.xiaoqi.guagua.mvp.view.EssayView
+import com.xiaoqi.guagua.util.NetWorkUtil
 
 class EssayFragment : Fragment(), EssayView {
 
     private var mIsFirstLoad: Boolean = true
-    private val index: Int = 0
     private var curPage: Int = 0
 
     private lateinit var mSrlEssay: SwipeRefreshLayout
@@ -38,10 +39,13 @@ class EssayFragment : Fragment(), EssayView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_essay, container, false)
         initView(view)
-        mSrlEssay.setOnRefreshListener { presenter.getEssay(index, true, true) }
+        mSrlEssay.setOnRefreshListener { presenter.getEssay(0, true, true) }
         mNsvEssay.setOnScrollChangeListener { nestScrollView: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
+            /*
+            nestScrollView只有一个子View，nestScrollView.getChildAt(0)获取的是RecyclerView，根据布局R.layout.fragment_essay定义
+             */
             if (scrollY == (nestScrollView.getChildAt(0).measuredHeight - view.measuredHeight)) {
-                loadMore()
+                loadMore(++curPage)
             }
         }
         return view
@@ -51,8 +55,8 @@ class EssayFragment : Fragment(), EssayView {
         super.onResume()
         if (mIsFirstLoad) {
             mIsFirstLoad = false
-            presenter.getEssay(index, true, true)
-            curPage = index
+            presenter.getEssay(0, true, true)
+            curPage = 0
         } else {
             presenter.getEssay(curPage, false, false)
         }
@@ -90,7 +94,11 @@ class EssayFragment : Fragment(), EssayView {
         this.presenter = presenter
     }
 
-    private fun loadMore() {
-
+    private fun loadMore(page: Int) {
+        if (NetWorkUtil.isNetWorkAvailable(context!!)) {
+            presenter.getEssay(page, true, false)
+        } else {
+            Toast.makeText(context!!, R.string.toast_network_unavailable, Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -3,9 +3,12 @@ package com.xiaoqi.guagua.mvp.model.source.impl
 import com.xiaoqi.guagua.mvp.model.bean.EssayData
 import com.xiaoqi.guagua.mvp.model.source.EssayDataSource
 import com.xiaoqi.guagua.mvp.model.source.remote.EssayDataSourceRemote
+import com.xiaoqi.guagua.util.SortDescendUtil
 import io.reactivex.Observable
+import io.reactivex.functions.BiConsumer
+import java.util.concurrent.Callable
 
-class EssayDataSourceImpl(essayDataSourceRemote: EssayDataSourceRemote): EssayDataSource {
+class EssayDataSourceImpl(essayDataSourceRemote: EssayDataSourceRemote) : EssayDataSource {
 
     private var mEssayDataSourceRemote = essayDataSourceRemote
 
@@ -21,10 +24,10 @@ class EssayDataSourceImpl(essayDataSourceRemote: EssayDataSourceRemote): EssayDa
         }
     }
 
-    private var mEssayCache: LinkedHashMap<Int, EssayData.Data.Essay>? = null
+    private var mEssayCache: LinkedHashMap<Int, EssayData.Data.Essay>? = null // 缓存数据
     private val index: Int = 0
 
-    override fun getEssay(page: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<List<EssayData.Data.Essay>> {
+    override fun getEssay(page: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<EssayData.Data.Essay>> {
         /*
         !forceUpdate，不更新，即用户按HOME键再返回APP，此时返回缓存的文章列表
          */
@@ -35,12 +38,23 @@ class EssayDataSourceImpl(essayDataSourceRemote: EssayDataSourceRemote): EssayDa
         forceUpdate&&!clearCache，更新且不清缓存，即用户向下滑动列表的情况，此时请求数据并保存缓存
          */
         if (!clearCache && mEssayCache != null) {
-
+            val ob1 = Observable.fromIterable(ArrayList(mEssayCache!!.values))
+                    .toSortedList { essay1, essay2 -> SortDescendUtil.sortEssay(essay1, essay2) }
+                    .toObservable()
+            /*
+            请求新的数据
+             */
+            val ob2 = mEssayDataSourceRemote.getEssay(page, forceUpdate, clearCache)
+                    .doOnNext { refreshEssayCache(clearCache, it) }
+            /*
+            合并数据
+             */
+            return Observable.merge(ob1, ob2).collect({ mutableListOf<EssayData.Data.Essay>() }, { t1, t2 -> t1.addAll(t2) }).toObservable()
         }
         /*
         forceUpdate && cleanCache，更新且清缓存，即下拉刷新，还有第一次加载的情况
          */
-        return mEssayDataSourceRemote.getEssay(index, forceUpdate, clearCache)
+        return mEssayDataSourceRemote.getEssay(0, forceUpdate, clearCache)
                 .doOnNext { refreshEssayCache(clearCache, it) }
     }
 

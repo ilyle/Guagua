@@ -10,13 +10,20 @@ import io.reactivex.Observable
 /**
  * 文章数据类，远程获取
  */
-class EssayDataSourceRemote : EssayDataSource {
+class EssayDataSourceRemote private constructor(): EssayDataSource {
 
     companion object {
-        val instance by lazy { EssayDataSourceRemote() }
+        private var singleInstance : EssayDataSourceRemote? = null
+
+        fun getInstance() : EssayDataSourceRemote {
+            if (singleInstance == null) {
+                singleInstance = EssayDataSourceRemote()
+            }
+            return singleInstance!!
+        }
     }
 
-    override fun getEssay(page: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<List<EssayData.Data.Essay>> {
+    override fun getEssay(page: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<EssayData.Data.Essay>> {
         return RetrofitClient.getInstance()
                 .create(RetrofitService::class.java)
                 .getEssayData(page)
