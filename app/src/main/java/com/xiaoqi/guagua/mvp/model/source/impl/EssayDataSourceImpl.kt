@@ -5,8 +5,6 @@ import com.xiaoqi.guagua.mvp.model.source.EssayDataSource
 import com.xiaoqi.guagua.mvp.model.source.remote.EssayDataSourceRemote
 import com.xiaoqi.guagua.util.SortDescendUtil
 import io.reactivex.Observable
-import io.reactivex.functions.BiConsumer
-import java.util.concurrent.Callable
 
 class EssayDataSourceImpl(essayDataSourceRemote: EssayDataSourceRemote) : EssayDataSource {
 
@@ -25,14 +23,15 @@ class EssayDataSourceImpl(essayDataSourceRemote: EssayDataSourceRemote) : EssayD
     }
 
     private var mEssayCache: LinkedHashMap<Int, EssayData.Data.Essay>? = null // 缓存数据
-    private val index: Int = 0
 
     override fun getEssay(page: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<EssayData.Data.Essay>> {
         /*
         !forceUpdate，不更新，即用户按HOME键再返回APP，此时返回缓存的文章列表
          */
         if (!forceUpdate && mEssayCache != null) {
-
+            return Observable.fromIterable(ArrayList(mEssayCache!!.values))
+                    .toSortedList { essay1, essay2 -> SortDescendUtil.sortEssay(essay1, essay2) }
+                    .toObservable()
         }
         /*
         forceUpdate&&!clearCache，更新且不清缓存，即用户向下滑动列表的情况，此时请求数据并保存缓存

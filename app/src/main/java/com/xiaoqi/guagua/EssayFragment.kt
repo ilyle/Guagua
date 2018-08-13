@@ -39,7 +39,7 @@ class EssayFragment : Fragment(), EssayView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_essay, container, false)
         initView(view)
-        mSrlEssay.setOnRefreshListener { presenter.getEssay(0, true, true) }
+        mSrlEssay.setOnRefreshListener { curPage = 0; presenter.getEssay(0, true, true) }
         mNsvEssay.setOnScrollChangeListener { nestScrollView: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
             /*
             nestScrollView只有一个子View，nestScrollView.getChildAt(0)获取的是RecyclerView，根据布局R.layout.fragment_essay定义
