@@ -1,10 +1,9 @@
 package com.xiaoqi.guagua.mvp.presenter.impl
 
-import android.widget.Toast
 import com.xiaoqi.guagua.mvp.model.bean.EssayData
 import com.xiaoqi.guagua.mvp.model.source.impl.EssayDataSourceImpl
 import com.xiaoqi.guagua.mvp.presenter.EssayPresenter
-import com.xiaoqi.guagua.mvp.view.EssayView
+import com.xiaoqi.guagua.mvp.view.article.essay.EssayView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

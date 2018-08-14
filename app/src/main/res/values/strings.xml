@@ -5,6 +5,8 @@
     <string name="nav_bottom_main_category">类别</string>
     <string name="nav_bottom_main_about">关于</string>
 
+    <string name="nav_open">打开导航栏</string>
+    <string name="nav_close">关闭导航栏</string>
     <string name="nav_sign_out">退出</string>
 
     <string name="tl_article_essay">文章</string>
@@ -13,4 +15,6 @@
     <string name="tv_nothing">暂无内容</string>
 
     <string name="toast_network_unavailable">网络不可用</string>
+
+    <string name="tb_detail">文章详情</string>
 </resources>

@@ -1,9 +1,12 @@
-package com.xiaoqi.guagua
+package com.xiaoqi.guagua.mvp.view.article
 
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import com.xiaoqi.guagua.mvp.view.article.essay.EssayFragment
+import com.xiaoqi.guagua.R
+import com.xiaoqi.guagua.ReadLaterFragment
 
 class ArticleAdapter(manager: FragmentManager, context: Context?, essayFragment: EssayFragment,
                      readLaterFragment: ReadLaterFragment) : FragmentPagerAdapter(manager) {

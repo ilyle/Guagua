@@ -1,4 +1,4 @@
-package com.xiaoqi.guagua
+package com.xiaoqi.guagua.mvp.view.article
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -7,9 +7,11 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.xiaoqi.guagua.mvp.view.article.essay.EssayFragment
+import com.xiaoqi.guagua.R
+import com.xiaoqi.guagua.ReadLaterFragment
 import com.xiaoqi.guagua.mvp.model.source.impl.EssayDataSourceImpl
 import com.xiaoqi.guagua.mvp.model.source.remote.EssayDataSourceRemote
-import com.xiaoqi.guagua.mvp.presenter.EssayPresenter
 import com.xiaoqi.guagua.mvp.presenter.impl.EssayPresenterImpl
 
 class ArticleFragment: Fragment() {

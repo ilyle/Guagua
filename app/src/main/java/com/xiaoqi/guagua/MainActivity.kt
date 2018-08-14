@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import android.widget.Toast
+import com.xiaoqi.guagua.mvp.view.article.ArticleFragment
 
 class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
@@ -30,7 +32,9 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         return true
     }
 
-    private lateinit var mBnv: BottomNavigationView
+    private lateinit var mDlMain: DrawerLayout
+    private lateinit var mTbMain: Toolbar
+    private lateinit var mBnvMain: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +44,13 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
     }
 
     private fun initView() {
-        mBnv = findViewById(R.id.bnv_main)
-        mBnv.setOnNavigationItemSelectedListener(this)
+        mTbMain = findViewById(R.id.tb_main)
+        mTbMain.title = "fafafa"
+        mTbMain.setNavigationIcon(R.drawable.ic_menu)
+//        setSupportActionBar(mTbMain)
+
+        mBnvMain = findViewById(R.id.bnv_main)
+        mBnvMain.setOnNavigationItemSelectedListener(this)
     }
 
     private fun initFragment(savedInstanceState: Bundle?) {
@@ -69,15 +78,22 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
     private fun showFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
-        if (fragment is ArticleFragment) {
-            fragmentManager.beginTransaction().show(mArticleFragment).hide(mCategoryFragment).hide(mAboutFragment).commit()
-            setTitle(R.string.nav_bottom_main_article)
-        } else if (fragment is CategoryFragment) {
-            fragmentManager.beginTransaction().show(mCategoryFragment).hide(mArticleFragment).hide(mAboutFragment).commit()
-            setTitle(R.string.nav_bottom_main_category)
-        } else if (fragment is AboutFragment) {
-            fragmentManager.beginTransaction().show(mAboutFragment).hide(mArticleFragment).hide(mCategoryFragment).commit()
-            setTitle(R.string.nav_bottom_main_about)
+        when (fragment) {
+            is ArticleFragment -> {
+                fragmentManager.beginTransaction().show(mArticleFragment).hide(mCategoryFragment).hide(mAboutFragment).commit()
+                mTbMain.title = getString(R.string.nav_bottom_main_article)
+                supportActionBar?.setTitle(R.string.nav_bottom_main_article)
+            }
+            is CategoryFragment -> {
+                fragmentManager.beginTransaction().show(mCategoryFragment).hide(mArticleFragment).hide(mAboutFragment).commit()
+                mTbMain.title = getString(R.string.nav_bottom_main_category)
+                supportActionBar?.setTitle(R.string.nav_bottom_main_category)
+            }
+            is AboutFragment -> {
+                fragmentManager.beginTransaction().show(mAboutFragment).hide(mArticleFragment).hide(mCategoryFragment).commit()
+                mTbMain.title = getString(R.string.nav_bottom_main_about)
+                supportActionBar?.setTitle(R.string.nav_bottom_main_about)
+            }
         }
     }
 }

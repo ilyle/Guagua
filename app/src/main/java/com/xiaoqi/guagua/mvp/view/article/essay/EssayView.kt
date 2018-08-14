@@ -1,7 +1,8 @@
-package com.xiaoqi.guagua.mvp.view
+package com.xiaoqi.guagua.mvp.view.article.essay
 
 import com.xiaoqi.guagua.mvp.model.bean.EssayData
 import com.xiaoqi.guagua.mvp.presenter.EssayPresenter
+import com.xiaoqi.guagua.mvp.view.BaseView
 
 interface EssayView: BaseView<EssayPresenter> {
 
