@@ -17,4 +17,9 @@
     <string name="toast_network_unavailable">网络不可用</string>
 
     <string name="tb_detail">文章详情</string>
+
+    <string name="tb_detail_link">复制链接</string>
+    <string name="tb_detail_share">分享</string>
+    <string name="tb_detail_open_in_browser">系统浏览器打开</string>
+    <string name="tb_detail_collect">收藏</string>
 </resources>

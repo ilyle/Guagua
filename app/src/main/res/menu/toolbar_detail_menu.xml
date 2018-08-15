@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/tb_detail_collect"
+            android:icon="@drawable/ic_collect"
+            android:title="@string/tb_detail_collect" />
+
+        <item
+            android:id="@+id/tb_detail_share"
+            android:icon="@drawable/ic_share"
+            android:title="@string/tb_detail_share" />
+
+        <item
+            android:id="@+id/tb_detail_link"
+            android:icon="@drawable/ic_link"
+            android:title="@string/tb_detail_link" />
+
+        <item
+            android:id="@+id/tb_detail_open_in_browser"
+            android:icon="@drawable/ic_open_in_browser"
+            android:title="@string/tb_detail_open_in_browser" />
+    </group>
+</menu>
