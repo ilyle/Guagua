@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/color_primary"
+        app:navigationIcon="@drawable/ic_close"
+        app:title="@string/tb_detail"
         app:titleTextColor="@color/white" />
 
     <FrameLayout

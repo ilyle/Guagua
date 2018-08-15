@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener
+import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
     private lateinit var mDlMain: DrawerLayout
     private lateinit var mTbMain: Toolbar
+    private lateinit var mNvMain: NavigationView
     private lateinit var mBnvMain: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,12 +46,14 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
     }
 
     private fun initView() {
+        mDlMain = findViewById(R.id.dl_main)
         mTbMain = findViewById(R.id.tb_main)
-        mTbMain.title = "fafafa"
-        mTbMain.setNavigationIcon(R.drawable.ic_menu)
-//        setSupportActionBar(mTbMain)
-
+        mNvMain = findViewById(R.id.nv_main)
         mBnvMain = findViewById(R.id.bnv_main)
+        setSupportActionBar(mTbMain)
+        val toggle = ActionBarDrawerToggle(this, mDlMain, mTbMain, R.string.nav_open, R.string.nav_close)
+        mDlMain.addDrawerListener(toggle)
+        toggle.syncState()
         mBnvMain.setOnNavigationItemSelectedListener(this)
     }
 

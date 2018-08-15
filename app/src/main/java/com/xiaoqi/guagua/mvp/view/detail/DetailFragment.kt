@@ -41,10 +41,10 @@ class DetailFragment : Fragment() {
 
     private fun initView(view: View) {
         mTbDetail = view.findViewById(R.id.tb_detail)
-        mTbDetail.title = getString(R.string.tb_detail)
-        mTbDetail.setNavigationIcon(R.drawable.ic_close)
+        mTbDetail.setNavigationOnClickListener { activity?.onBackPressed() }
         mFlDetail = view.findViewById(R.id.fl_detail)
     }
+
 
     private fun load(url: String) {
         mAgentWeb = AgentWeb.with(this)
