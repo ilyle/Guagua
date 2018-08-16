@@ -3,6 +3,7 @@ package com.xiaoqi.guagua.mvp.view.detail
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
@@ -45,6 +46,8 @@ class DetailFragment : Fragment() {
     private fun initView(view: View) {
         mTbDetail = view.findViewById(R.id.tb_detail)
         mTbDetail.setNavigationOnClickListener { activity?.onBackPressed() }
+        mTbDetail.inflateMenu(R.menu.toolbar_detail_menu)
+        mTbDetail.setOnMenuItemClickListener(mTbMenuListener)
         mFlDetail = view.findViewById(R.id.fl_detail)
     }
 
@@ -58,25 +61,25 @@ class DetailFragment : Fragment() {
                 .go(url)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.toolbar_detail_menu, menu)
+
+    private val mTbMenuListener = Toolbar.OnMenuItemClickListener {
+        when(it.itemId) {
+            R.id.tb_detail_menu -> { onDetailMenuClick() }
+        }
+        true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId) {
-            R.id.tb_detail_collect -> { }
-            R.id.tb_detail_share -> { }
-            R.id.tb_detail_link -> {
-                copyLink(mUrl)
-            }
-            R.id.tb_detail_open_in_browser -> { }
-        }
-        return super.onOptionsItemSelected(item)
+    private fun onDetailMenuClick() {
+
     }
 
     private fun copyLink(url: String) {
         val manager = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clipData = ClipData.newPlainText("link", Html.fromHtml(url))
+        val clipData = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            ClipData.newPlainText("link", Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY))
+        } else {
+            ClipData.newPlainText("link", Html.fromHtml(url))
+        }
         manager.primaryClip = clipData
     }
 }

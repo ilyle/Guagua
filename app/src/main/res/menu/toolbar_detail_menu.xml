@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/tb_detail_menu"
+            android:icon="@drawable/ic_more"
+            app:showAsAction="always"
+            android:title="" />
 
         <item
             android:id="@+id/tb_detail_collect"
@@ -23,5 +28,4 @@
             android:id="@+id/tb_detail_open_in_browser"
             android:icon="@drawable/ic_open_in_browser"
             android:title="@string/tb_detail_open_in_browser" />
-    </group>
 </menu>
