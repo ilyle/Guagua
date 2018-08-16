@@ -11,15 +11,19 @@ import android.text.Html
 import android.view.*
 import android.widget.FrameLayout
 import com.just.agentweb.AgentWeb
+import com.xiaoqi.base.dialog.BaseDialog
+import com.xiaoqi.base.toast.BaseToast
 import com.xiaoqi.guagua.R
 
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(), View.OnClickListener {
+
 
     private lateinit var mUrl: String
     private lateinit var mTitle: String
 
     private lateinit var mTbDetail: Toolbar
     private lateinit var mFlDetail: FrameLayout
+    private lateinit var mMenuDetail: BaseDialog
 
     private lateinit var mAgentWeb: AgentWeb
     companion object {
@@ -41,6 +45,21 @@ class DetailFragment : Fragment() {
         load(mUrl)
         setHasOptionsMenu(true)
         return view
+    }
+
+    override fun onClick(p0: View?) {
+        if (mMenuDetail.isShowing) {
+            mMenuDetail.dismiss()
+        }
+        when (p0?.id) {
+            R.id.tv_detail_collect -> {}
+            R.id.tv_detail_share -> {}
+            R.id.tv_detail_link -> {
+                copyLink(mUrl)
+                BaseToast.showMsg(context!!, resources.getString(R.string.toast_copy_link))
+            }
+            R.id.tv_detail_browser -> {}
+        }
     }
 
     private fun initView(view: View) {
@@ -70,7 +89,17 @@ class DetailFragment : Fragment() {
     }
 
     private fun onDetailMenuClick() {
-
+        mMenuDetail = BaseDialog.Builder(context!!)
+                .contentView(R.layout.dialog_detail_menu)
+                .widthPx(ViewGroup.LayoutParams.MATCH_PARENT)
+                .heightPx(ViewGroup.LayoutParams.WRAP_CONTENT)
+                .gravity(Gravity.BOTTOM)
+                .addViewOnClick(R.id.tv_detail_collect, this)
+                .addViewOnClick(R.id.tv_detail_share, this)
+                .addViewOnClick(R.id.tv_detail_link, this)
+                .addViewOnClick(R.id.tv_detail_browser, this)
+                .build()
+        mMenuDetail.show()
     }
 
     private fun copyLink(url: String) {
