@@ -2,6 +2,7 @@ package com.xiaoqi.guagua.mvp.view.article.essay
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.AppCompatTextView
@@ -39,6 +40,7 @@ class EssayFragment : Fragment(), EssayView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_essay, container, false)
         initView(view)
+        mSrlEssay.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.color_primary))
         mSrlEssay.setOnRefreshListener { curPage = 0; presenter.getEssay(0, true, true) }
         mNsvEssay.setOnScrollChangeListener { nestScrollView: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
             /*

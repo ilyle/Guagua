@@ -3,12 +3,12 @@ package com.xiaoqi.guagua
 import android.app.Application
 import android.content.Context
 
-class BaseApplication : Application() {
+class MainApplication : Application() {
     companion object {
-        private var instance: BaseApplication? = null
+        private lateinit var instance: MainApplication
 
-        fun getContext() : Context {
-            return instance!!.applicationContext
+        @JvmStatic fun getContext() : Context {
+            return instance.applicationContext
         }
     }
 
