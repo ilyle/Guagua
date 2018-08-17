@@ -48,6 +48,16 @@ class DetailFragment : Fragment(), View.OnClickListener {
         return view
     }
 
+    override fun onPause() {
+        mAgentWeb.webLifeCycle.onPause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        mAgentWeb.webLifeCycle.onDestroy()
+        super.onDestroy()
+    }
+
     override fun onClick(p0: View?) {
         if (mMenuDetail.isShowing) {
             mMenuDetail.dismiss()

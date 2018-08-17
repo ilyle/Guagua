@@ -10,7 +10,7 @@
     <string name="nav_sign_out">退出</string>
 
     <string name="tl_article_essay">文章</string>
-    <string name="tl_article_read_later">稍后阅读</string>
+    <string name="tl_article_collection">收藏</string>
 
     <string name="tv_nothing">暂无内容</string>
 
@@ -19,7 +19,8 @@
 
     <string name="tb_detail">文章详情</string>
 
-    <string name="tv_detail_collect">收藏</string>
+    <string name="tv_detail_collect">添加收藏</string>
+    <string name="tv_detail_not_collect">取消收藏</string>
     <string name="tv_detail_share">分享</string>
     <string name="tv_detail_link">复制链接</string>
     <string name="tv_detail_browser">系统浏览器打开</string>
