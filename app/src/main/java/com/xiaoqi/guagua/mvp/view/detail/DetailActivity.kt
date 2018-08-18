@@ -3,32 +3,38 @@ package com.xiaoqi.guagua.mvp.view.detail
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.xiaoqi.guagua.R
-import kotlinx.android.synthetic.main.activity_detail.view.*
+import com.xiaoqi.guagua.mvp.model.source.impl.CollectionDataSourceImpl
+import com.xiaoqi.guagua.mvp.model.source.local.CollectionDataSourceLocal
+import com.xiaoqi.guagua.mvp.presenter.impl.DetailPresenterImpl
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var detailFragment: DetailFragment
+    private lateinit var mDetailFragment: DetailFragment
 
     companion object {
-        const val LINK: String = "Link"
-        const val TITLE: String = "Title"
+        const val ESSAY: String = "Essay"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        detailFragment = if (savedInstanceState != null) {
+        mDetailFragment = if (savedInstanceState != null) {
             supportFragmentManager.getFragment(savedInstanceState, DetailFragment::class.java.simpleName) as DetailFragment
         } else {
             DetailFragment.newInstance()
         }
-        supportFragmentManager.beginTransaction().replace(R.id.fl_activity_detail, detailFragment).commit() // 展示DetailFragment
+        supportFragmentManager.beginTransaction().replace(R.id.fl_activity_detail, mDetailFragment).commit() // 展示DetailFragment
+
+        /*
+        构建DetailPresenter，用有view和model实例
+         */
+        DetailPresenterImpl.build(mDetailFragment, CollectionDataSourceImpl.getInstance(CollectionDataSourceLocal.getInstance()))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (detailFragment.isAdded) {
-            supportFragmentManager.putFragment(outState, DetailFragment::class.java.simpleName, detailFragment)
+        if (mDetailFragment.isAdded) {
+            supportFragmentManager.putFragment(outState, DetailFragment::class.java.simpleName, mDetailFragment)
         }
     }
 }

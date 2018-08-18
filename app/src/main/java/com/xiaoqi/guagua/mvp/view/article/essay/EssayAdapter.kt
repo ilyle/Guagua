@@ -64,8 +64,7 @@ class EssayAdapter(context: Context?, essayList: MutableList<EssayData.Data.Essa
                 R.id.cv_item_essay -> {
                     val intent = Intent(mContext, DetailActivity::class.java)
                     val essay = mEssayList[adapterPosition]
-                    intent.putExtra(DetailActivity.LINK, essay.link)
-                    intent.putExtra(DetailActivity.TITLE, essay.title)
+                    intent.putExtra(DetailActivity.ESSAY, essay) // Essay实现Parcelable接口，可以在Activity间传输
                     mContext?.startActivity(intent)
                 }
             }

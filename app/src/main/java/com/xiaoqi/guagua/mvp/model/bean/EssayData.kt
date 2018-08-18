@@ -1,5 +1,7 @@
 package com.xiaoqi.guagua.mvp.model.bean
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 class EssayData {
@@ -26,7 +28,7 @@ class EssayData {
         @SerializedName("datas")
         var datas: List<Essay>? = null
 
-        class Essay {
+        class Essay() : Parcelable {
             @SerializedName("apkLink")
             var apkLink: String? = null
             @SerializedName("author")
@@ -74,11 +76,75 @@ class EssayData {
             @SerializedName("tags")
             var tags: List<Tags>? = null
 
+            constructor(parcel: Parcel) : this() {
+                apkLink = parcel.readString()
+                author = parcel.readString()
+                chapterId = parcel.readInt()
+                chapterName = parcel.readString()
+                isCollect = parcel.readByte() != 0.toByte()
+                courseId = parcel.readInt()
+                desc = parcel.readString()
+                envelopePic = parcel.readString()
+                isFresh = parcel.readByte() != 0.toByte()
+                id = parcel.readInt()
+                link = parcel.readString()
+                niceDate = parcel.readString()
+                origin = parcel.readString()
+                projectLink = parcel.readString()
+                publishTime = parcel.readLong()
+                superChapterId = parcel.readInt()
+                superChapterName = parcel.readString()
+                title = parcel.readString()
+                type = parcel.readInt()
+                userId = parcel.readInt()
+                visible = parcel.readInt()
+                zan = parcel.readInt()
+            }
+
             class Tags {
                 @SerializedName("name")
                 var name: String? = null
                 @SerializedName("url")
                 var url: String? = null
+            }
+
+            override fun writeToParcel(parcel: Parcel, flags: Int) {
+                parcel.writeString(apkLink)
+                parcel.writeString(author)
+                parcel.writeInt(chapterId)
+                parcel.writeString(chapterName)
+                parcel.writeByte(if (isCollect) 1 else 0)
+                parcel.writeInt(courseId)
+                parcel.writeString(desc)
+                parcel.writeString(envelopePic)
+                parcel.writeByte(if (isFresh) 1 else 0)
+                parcel.writeInt(id)
+                parcel.writeString(link)
+                parcel.writeString(niceDate)
+                parcel.writeString(origin)
+                parcel.writeString(projectLink)
+                parcel.writeLong(publishTime)
+                parcel.writeInt(superChapterId)
+                parcel.writeString(superChapterName)
+                parcel.writeString(title)
+                parcel.writeInt(type)
+                parcel.writeInt(userId)
+                parcel.writeInt(visible)
+                parcel.writeInt(zan)
+            }
+
+            override fun describeContents(): Int {
+                return 0
+            }
+
+            companion object CREATOR : Parcelable.Creator<Essay> {
+                override fun createFromParcel(parcel: Parcel): Essay {
+                    return Essay(parcel)
+                }
+
+                override fun newArray(size: Int): Array<Essay?> {
+                    return arrayOfNulls(size)
+                }
             }
         }
     }

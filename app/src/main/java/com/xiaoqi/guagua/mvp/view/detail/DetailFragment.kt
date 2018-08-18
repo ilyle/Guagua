@@ -7,19 +7,22 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.text.Html
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import com.just.agentweb.AgentWeb
 import com.xiaoqi.base.dialog.BaseDialog
-import com.xiaoqi.base.toast.BaseToast
 import com.xiaoqi.guagua.R
+import com.xiaoqi.guagua.mvp.model.bean.Collection
+import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.presenter.DetailPresenter
+import com.xiaoqi.guagua.util.ToastUtil
 
-class DetailFragment : Fragment(), View.OnClickListener {
+class DetailFragment : Fragment(), View.OnClickListener, DetailView {
 
-
-    private lateinit var mUrl: String
-    private lateinit var mTitle: String
+    private lateinit var mEssay: EssayData.Data.Essay
 
     private lateinit var mTbDetail: Toolbar
     private lateinit var mFlDetail: FrameLayout
@@ -27,7 +30,11 @@ class DetailFragment : Fragment(), View.OnClickListener {
 
     private lateinit var mAgentWeb: AgentWeb
 
+    private lateinit var mPresenter: DetailPresenter
+
     companion object {
+        private const val USER_ID_DEFAULT = 0 // 未登陆时的用户id
+
         fun newInstance(): DetailFragment {
             return DetailFragment()
         }
@@ -36,14 +43,13 @@ class DetailFragment : Fragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val intent = activity?.intent!!
-        mUrl = intent.getStringExtra(DetailActivity.LINK)
-        mTitle = intent.getStringExtra(DetailActivity.TITLE)
+        mEssay = intent.getParcelableExtra(DetailActivity.ESSAY)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
         initView(view)
-        load(mUrl)
+        load(mEssay.link!!)
         setHasOptionsMenu(true)
         return view
     }
@@ -64,12 +70,13 @@ class DetailFragment : Fragment(), View.OnClickListener {
         }
         when (p0?.id) {
             R.id.tv_detail_collect -> {
+                collect()
             }
             R.id.tv_detail_share -> {
             }
             R.id.tv_detail_link -> {
-                copyLink(mUrl)
-                BaseToast.showMsg(context!!, resources.getString(R.string.toast_copy_link))
+                copyLink(mEssay.link!!)
+                ToastUtil.showMsg(resources.getString(R.string.toast_copy_link))
             }
             R.id.tv_detail_browser -> {
                 openInBrowser()
@@ -77,7 +84,7 @@ class DetailFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun initView(view: View) {
+    override fun initView(view: View) {
         mTbDetail = view.findViewById(R.id.tb_detail)
         mTbDetail.setNavigationOnClickListener { activity?.onBackPressed() }
         mTbDetail.inflateMenu(R.menu.toolbar_detail_menu)
@@ -120,6 +127,12 @@ class DetailFragment : Fragment(), View.OnClickListener {
     }
 
 
+    private fun collect() {
+        val collection = Collection.build(mEssay)
+        collection.timestamp = System.currentTimeMillis()
+        mPresenter.insertCollection(USER_ID_DEFAULT, collection)
+    }
+
     private fun share() {
 
     }
@@ -136,10 +149,22 @@ class DetailFragment : Fragment(), View.OnClickListener {
 
     private fun openInBrowser() {
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(mUrl))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(mEssay.link!!))
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            BaseToast.showMsg(context!!, e.toString())
+            ToastUtil.showMsg(e.toString())
         }
+    }
+
+    override fun addToCollectionSuccess() {
+        ToastUtil.showMsg(resources.getString(R.string.toast_add_collection_success))
+    }
+
+    override fun addToCollectionFail() {
+        ToastUtil.showMsg(resources.getString(R.string.toast_add_collection_fail))
+    }
+
+    override fun setPresenter(presenter: DetailPresenter) {
+        mPresenter = presenter
     }
 }

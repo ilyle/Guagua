@@ -1,17 +1,17 @@
 package com.xiaoqi.guagua.mvp.model.source
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.model.bean.Collection
 import io.reactivex.Observable
 
 interface CollectionDataSource {
 
-    fun getCollection(userId: Int): Observable<MutableList<EssayData.Data.Essay>>
+    fun getCollection(userId: Int): Observable<MutableList<Collection>>
 
-    fun insertCollection(userId: Int, essayId: Int, timeStamp: Long)
+    fun insertCollection(collection: Collection): Boolean
 
-    fun removeCollection(userId: Int, essayId: Int)
+    fun removeCollection(userId: Int, collection: Collection): Boolean
 
-    fun isExist(userId: Int, essayId: Int): Boolean
+    fun isExist(userId: Int, collection: Collection): Boolean
 
     fun clearAll()
 }

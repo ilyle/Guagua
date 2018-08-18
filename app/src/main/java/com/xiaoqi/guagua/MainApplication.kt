@@ -2,6 +2,7 @@ package com.xiaoqi.guagua
 
 import android.app.Application
 import android.content.Context
+import org.litepal.LitePal
 
 class MainApplication : Application() {
     companion object {
@@ -15,5 +16,6 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        LitePal.initialize(this)
     }
 }

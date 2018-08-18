@@ -1,28 +1,44 @@
 package com.xiaoqi.guagua.mvp.model.source.local
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.model.bean.Collection
 import com.xiaoqi.guagua.mvp.model.source.CollectionDataSource
 import io.reactivex.Observable
+import org.litepal.LitePal
 
-class CollectionDataSourceLocal : CollectionDataSource{
-    override fun getCollection(userId: Int): Observable<MutableList<EssayData.Data.Essay>> {
+class CollectionDataSourceLocal : CollectionDataSource {
+    override fun getCollection(userId: Int): Observable<MutableList<Collection>> {
+        val collectionList = LitePal.where("userId = ", userId.toString()).find(Collection::class.java)
+        return Observable.fromIterable(collectionList).toSortedList {
+            c1, c2 -> if (c1.timestamp > c2.timestamp) -1 else 1
+        }.toObservable()
+    }
+
+    override fun insertCollection(collection: Collection): Boolean {
+        return collection.save()
+    }
+
+    override fun removeCollection(userId: Int, collection: Collection): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun insertCollection(userId: Int, essayId: Int, timeStamp: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun removeCollection(userId: Int, essayId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun isExist(userId: Int, essayId: Int): Boolean {
+    override fun isExist(userId: Int, collection: Collection): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun clearAll() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    companion object {
+        private var singleInstance: CollectionDataSourceLocal? = null
+
+        fun getInstance(): CollectionDataSourceLocal {
+            if (singleInstance == null) {
+                singleInstance = CollectionDataSourceLocal()
+            }
+            return singleInstance!!
+        }
+    }
+
 
 }
