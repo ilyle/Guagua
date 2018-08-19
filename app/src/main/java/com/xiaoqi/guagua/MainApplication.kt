@@ -2,6 +2,7 @@ package com.xiaoqi.guagua
 
 import android.app.Application
 import android.content.Context
+import com.facebook.stetho.Stetho
 import org.litepal.LitePal
 
 class MainApplication : Application() {
@@ -17,5 +18,6 @@ class MainApplication : Application() {
         super.onCreate()
         instance = this
         LitePal.initialize(this)
+        Stetho.initializeWithDefaults(this);
     }
 }

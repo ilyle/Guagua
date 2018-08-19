@@ -36,7 +36,7 @@ class DetailPresenterImpl(view: DetailView, model: CollectionDataSource) : Detai
     }
 
     override fun checkIsCollection(userId: Int, collection: Collection) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mModel.isExist(userId, collection)
     }
 
     override fun subscribe() {

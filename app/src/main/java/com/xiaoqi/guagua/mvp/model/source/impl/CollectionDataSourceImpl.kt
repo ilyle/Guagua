@@ -19,7 +19,7 @@ class CollectionDataSourceImpl(collectionDataSourceLocal: CollectionDataSourceLo
     }
 
     override fun isExist(userId: Int, collection: Collection): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return mCollectionDataSourceLocal.isExist(userId, collection)
     }
 
     override fun clearAll() {

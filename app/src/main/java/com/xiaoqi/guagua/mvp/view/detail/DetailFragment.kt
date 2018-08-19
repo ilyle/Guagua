@@ -19,10 +19,13 @@ import com.xiaoqi.guagua.mvp.model.bean.Collection
 import com.xiaoqi.guagua.mvp.model.bean.EssayData
 import com.xiaoqi.guagua.mvp.presenter.DetailPresenter
 import com.xiaoqi.guagua.util.ToastUtil
+import kotlinx.android.synthetic.main.dialog_detail_menu.*
+import kotlinx.android.synthetic.main.item_essay.*
 
 class DetailFragment : Fragment(), View.OnClickListener, DetailView {
 
     private lateinit var mEssay: EssayData.Data.Essay
+    private lateinit var mCollection: Collection
 
     private lateinit var mTbDetail: Toolbar
     private lateinit var mFlDetail: FrameLayout
@@ -32,8 +35,10 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
 
     private lateinit var mPresenter: DetailPresenter
 
+    private var isCollected: Boolean = false
+
     companion object {
-        private const val USER_ID_DEFAULT = 0 // 未登陆时的用户id
+        private const val USER_ID_DEFAULT = -1 // 未登陆时的用户id
 
         fun newInstance(): DetailFragment {
             return DetailFragment()
@@ -44,13 +49,14 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
         super.onCreate(savedInstanceState)
         val intent = activity?.intent!!
         mEssay = intent.getParcelableExtra(DetailActivity.ESSAY)
+        mCollection = Collection.build(mEssay)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
         initView(view)
         load(mEssay.link!!)
-        setHasOptionsMenu(true)
+        mPresenter.checkIsCollection(USER_ID_DEFAULT, mCollection)
         return view
     }
 
@@ -123,14 +129,17 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
                 .addViewOnClick(R.id.tv_detail_link, this)
                 .addViewOnClick(R.id.tv_detail_browser, this)
                 .build()
+        mMenuDetail.tv_detail_collect.text = if (isCollected) {
+            resources.getString(R.string.tv_detail_not_collect)
+        } else {
+            resources.getString(R.string.tv_detail_collect)
+        }
         mMenuDetail.show()
     }
 
 
     private fun collect() {
-        val collection = Collection.build(mEssay)
-        collection.timestamp = System.currentTimeMillis()
-        mPresenter.insertCollection(USER_ID_DEFAULT, collection)
+        mPresenter.insertCollection(USER_ID_DEFAULT, mCollection)
     }
 
     private fun share() {
@@ -162,6 +171,10 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
 
     override fun addToCollectionFail() {
         ToastUtil.showMsg(resources.getString(R.string.toast_add_collection_fail))
+    }
+
+    override fun saveCollectionStatus(isCollected: Boolean) {
+        this.isCollected = isCollected
     }
 
     override fun setPresenter(presenter: DetailPresenter) {

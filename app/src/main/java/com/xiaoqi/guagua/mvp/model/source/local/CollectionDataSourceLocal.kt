@@ -22,7 +22,10 @@ class CollectionDataSourceLocal : CollectionDataSource {
     }
 
     override fun isExist(userId: Int, collection: Collection): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val essayList = LitePal
+                .where("userId = ? and essayId = ?", userId.toString(), collection.essayId.toString())
+                .find(Collection::class.java)
+        return essayList.isEmpty()
     }
 
     override fun clearAll() {
