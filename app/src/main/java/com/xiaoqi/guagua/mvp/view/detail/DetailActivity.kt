@@ -17,13 +17,13 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        setContentView(R.layout.activity_common)
         mDetailFragment = if (savedInstanceState != null) {
             supportFragmentManager.getFragment(savedInstanceState, DetailFragment::class.java.simpleName) as DetailFragment
         } else {
             DetailFragment.newInstance()
         }
-        supportFragmentManager.beginTransaction().replace(R.id.fl_activity_detail, mDetailFragment).commit() // 展示DetailFragment
+        supportFragmentManager.beginTransaction().replace(R.id.fl_activity_common, mDetailFragment).commit() // 展示DetailFragment
 
         /*
         构建DetailPresenter，用有view和model实例

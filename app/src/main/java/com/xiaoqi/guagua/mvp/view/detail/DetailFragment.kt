@@ -91,7 +91,7 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
         mTbDetail = view.findViewById(R.id.tb_detail)
         mTbDetail.setNavigationOnClickListener { activity?.onBackPressed() }
         mTbDetail.inflateMenu(R.menu.toolbar_detail_menu)
-        mTbDetail.setOnMenuItemClickListener(mTbMenuListener)
+        mTbDetail.setOnMenuItemClickListener(mTbDetailListener)
         mFlDetail = view.findViewById(R.id.fl_detail)
     }
 
@@ -106,7 +106,7 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
     }
 
 
-    private val mTbMenuListener = Toolbar.OnMenuItemClickListener {
+    private val mTbDetailListener = Toolbar.OnMenuItemClickListener {
         when (it.itemId) {
             R.id.tb_detail_menu -> {
                 onDetailMenuClick()
