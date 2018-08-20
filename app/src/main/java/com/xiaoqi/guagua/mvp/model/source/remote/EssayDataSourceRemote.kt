@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.model.source.remote
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Essay
 import com.xiaoqi.guagua.mvp.model.source.EssayDataSource
 import com.xiaoqi.guagua.retrofit.RetrofitClient
 import com.xiaoqi.guagua.retrofit.RetrofitService

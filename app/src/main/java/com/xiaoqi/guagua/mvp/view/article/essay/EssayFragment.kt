@@ -13,7 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Essay
 import com.xiaoqi.guagua.mvp.presenter.EssayPresenter
 import com.xiaoqi.guagua.util.NetWorkUtil
 

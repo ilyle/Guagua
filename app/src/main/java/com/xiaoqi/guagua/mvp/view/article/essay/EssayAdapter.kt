@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Essay
 import com.xiaoqi.guagua.mvp.view.detail.DetailActivity
 
 class EssayAdapter(context: Context?, essayList: MutableList<Essay>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {

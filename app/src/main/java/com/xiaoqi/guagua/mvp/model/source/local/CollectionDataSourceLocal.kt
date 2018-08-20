@@ -1,13 +1,13 @@
 package com.xiaoqi.guagua.mvp.model.source.local
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Essay
 import com.xiaoqi.guagua.mvp.model.source.CollectionDataSource
 import io.reactivex.Observable
 import org.litepal.LitePal
 
 class CollectionDataSourceLocal : CollectionDataSource {
     override fun getCollection(userId: Int): Observable<MutableList<Essay>> {
-        val essayList = LitePal.where("userId = ", userId.toString()).find(Essay::class.java)
+        val essayList = LitePal.where("userId = ?", userId.toString()).find(Essay::class.java)
         return Observable.fromIterable(essayList).toSortedList {
             c1, c2 -> if (c1.timestamp > c2.timestamp) -1 else 1
         }.toObservable()
@@ -18,14 +18,14 @@ class CollectionDataSourceLocal : CollectionDataSource {
     }
 
     override fun removeCollection(userId: Int, essay: Essay): Boolean {
-        val ret = LitePal.deleteAll(Collection::class.java, "userId = ? and essayId = ?", userId.toString(), essay.essayId.toString())
+        val ret = LitePal.deleteAll(Essay::class.java, "userId = ? and essayId = ?", userId.toString(), essay.essayId.toString())
         return ret != -1
     }
 
     override fun isExist(userId: Int, essay: Essay): Boolean {
         val essayList = LitePal
                 .where("userId = ? and essayId = ?", userId.toString(), essay.essayId.toString())
-                .find(Collection::class.java)
+                .find(Essay::class.java)
         return !essayList.isEmpty()
     }
 

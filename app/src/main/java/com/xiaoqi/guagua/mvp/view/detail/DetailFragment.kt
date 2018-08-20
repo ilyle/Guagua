@@ -16,7 +16,7 @@ import android.widget.FrameLayout
 import com.just.agentweb.AgentWeb
 import com.xiaoqi.base.dialog.BaseDialog
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Essay
 import com.xiaoqi.guagua.mvp.presenter.DetailPresenter
 import com.xiaoqi.guagua.util.ToastUtil
 

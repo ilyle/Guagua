@@ -9,9 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.xiaoqi.guagua.mvp.view.article.essay.EssayFragment
 import com.xiaoqi.guagua.R
+import com.xiaoqi.guagua.mvp.model.source.impl.CollectionDataSourceImpl
 import com.xiaoqi.guagua.mvp.view.article.collection.CollectionFragment
 import com.xiaoqi.guagua.mvp.model.source.impl.EssayDataSourceImpl
+import com.xiaoqi.guagua.mvp.model.source.local.CollectionDataSourceLocal
 import com.xiaoqi.guagua.mvp.model.source.remote.EssayDataSourceRemote
+import com.xiaoqi.guagua.mvp.presenter.impl.CollectionPresenterImpl
 import com.xiaoqi.guagua.mvp.presenter.impl.EssayPresenterImpl
 
 class ArticleFragment: Fragment() {
@@ -49,6 +52,7 @@ class ArticleFragment: Fragment() {
         Presenter拥有View和Model实例
          */
         EssayPresenterImpl.build(mEssayFragment, EssayDataSourceImpl.getInstance(EssayDataSourceRemote.getInstance()))
+        CollectionPresenterImpl.build(mCollectionFragment, CollectionDataSourceImpl.getInstance(CollectionDataSourceLocal.getInstance()))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

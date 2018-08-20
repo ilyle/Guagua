@@ -14,7 +14,7 @@ class ArticleAdapter(manager: FragmentManager, context: Context?, essayFragment:
     private val mCount = 2
     private val mContext = context
     private val mEssayFragment = essayFragment
-    private val mReadLaterFragment = collectionFragment
+    private val mCollectionFragment = collectionFragment
     private val mTitle: Array<String> = arrayOf(mContext!!.getString(R.string.tl_article_essay), mContext.getString(R.string.tl_article_collection))
 
     override fun getCount(): Int {
@@ -25,7 +25,7 @@ class ArticleAdapter(manager: FragmentManager, context: Context?, essayFragment:
         var fragment = Fragment()
         when (p0) {
             0 -> fragment = mEssayFragment
-            1 -> fragment = mReadLaterFragment
+            1 -> fragment = mCollectionFragment
         }
         return fragment
     }

@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.presenter.impl
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Essay
 import com.xiaoqi.guagua.mvp.model.source.CollectionDataSource
 import com.xiaoqi.guagua.mvp.presenter.CollectionPresenter
 import com.xiaoqi.guagua.mvp.view.article.collection.CollectionFragment
@@ -20,6 +20,15 @@ class CollectionPresenterImpl(view: CollectionFragment, model: CollectionDataSou
     init {
         mView.setPresenter(this)
         mCompositeDisposable = CompositeDisposable()
+    }
+
+    companion object {
+        /**
+         * 对外构造函数
+         */
+        fun build(view: CollectionFragment, model: CollectionDataSource) {
+            CollectionPresenterImpl(view, model)
+        }
     }
 
     override fun getCollection(userId: Int) {

@@ -4,24 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/srl_collection"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_collection"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nsv_collection"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_collection"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </android.support.v4.widget.NestedScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_collection_nothing"
@@ -29,8 +15,8 @@
         android:layout_height="wrap_content"
         android:drawablePadding="16dp"
         android:drawableTop="@drawable/ic_nothing"
-        android:textColor="@color/color_a5a5a5"
         android:text="@string/tv_nothing"
+        android:textColor="@color/color_a5a5a5"
         android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

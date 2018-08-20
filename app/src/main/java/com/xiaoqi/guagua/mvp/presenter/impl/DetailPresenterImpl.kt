@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.presenter.impl
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Essay
 import com.xiaoqi.guagua.mvp.model.source.CollectionDataSource
 import com.xiaoqi.guagua.mvp.presenter.DetailPresenter
 import com.xiaoqi.guagua.mvp.view.detail.DetailView

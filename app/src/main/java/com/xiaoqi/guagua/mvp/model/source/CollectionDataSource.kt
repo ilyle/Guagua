@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.model.source
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Essay
 import io.reactivex.Observable
 
 interface CollectionDataSource {

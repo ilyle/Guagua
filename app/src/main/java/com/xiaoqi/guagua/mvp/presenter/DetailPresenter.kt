@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.presenter
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Essay
 
 interface DetailPresenter : BasePresenter {
     /**

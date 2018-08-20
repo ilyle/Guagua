@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.util
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Essay
 
 object SortDescendUtil {
     fun sortEssay(e1: Essay, e2: Essay): Int {
