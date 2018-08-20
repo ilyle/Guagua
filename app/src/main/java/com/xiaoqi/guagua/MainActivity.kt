@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         mTbMain = findViewById(R.id.tb_main)
         mNvMain = findViewById(R.id.nv_main)
         mBnvMain = findViewById(R.id.bnv_main)
+        mTbMain.inflateMenu(R.menu.toolbar_main_menu)
         setSupportActionBar(mTbMain)
         val toggle = ActionBarDrawerToggle(this, mDlMain, mTbMain, R.string.nav_open, R.string.nav_close)
         mDlMain.addDrawerListener(toggle)
