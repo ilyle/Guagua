@@ -13,7 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
 import com.xiaoqi.guagua.mvp.presenter.EssayPresenter
 import com.xiaoqi.guagua.util.NetWorkUtil
 
@@ -29,7 +29,7 @@ class EssayFragment : Fragment(), EssayView {
 
     private lateinit var mAdapter: EssayAdapter
 
-    private lateinit var presenter: EssayPresenter
+    private lateinit var mPresenter: EssayPresenter
 
     companion object {
         fun newInstance(): EssayFragment {
@@ -41,7 +41,7 @@ class EssayFragment : Fragment(), EssayView {
         val view = inflater.inflate(R.layout.fragment_essay, container, false)
         initView(view)
         mSrlEssay.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.color_primary))
-        mSrlEssay.setOnRefreshListener { curPage = 0; presenter.getEssay(0, true, true) }
+        mSrlEssay.setOnRefreshListener { curPage = 0; mPresenter.getEssay(0, true, true) }
         mNsvEssay.setOnScrollChangeListener { nestScrollView: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
             /*
             nestScrollView只有一个子View，nestScrollView.getChildAt(0)获取的是RecyclerView，根据布局R.layout.fragment_essay定义
@@ -57,10 +57,10 @@ class EssayFragment : Fragment(), EssayView {
         super.onResume()
         if (mIsFirstLoad) {
             mIsFirstLoad = false
-            presenter.getEssay(0, true, true)
+            mPresenter.getEssay(0, true, true)
             curPage = 0
         } else {
-            presenter.getEssay(curPage, false, false)
+            mPresenter.getEssay(curPage, false, false)
         }
     }
 
@@ -82,7 +82,7 @@ class EssayFragment : Fragment(), EssayView {
         mSrlEssay.isRefreshing = isActive
     }
 
-    override fun showEssay(essayList: List<EssayData.Data.Essay>) {
+    override fun showEssay(essayList: List<Essay>) {
         mAdapter.update(essayList)
         mRvEssay.adapter = mAdapter
     }
@@ -93,12 +93,12 @@ class EssayFragment : Fragment(), EssayView {
     }
 
     override fun setPresenter(presenter: EssayPresenter) {
-        this.presenter = presenter
+        this.mPresenter = presenter
     }
 
     private fun loadMore(page: Int) {
         if (NetWorkUtil.isNetWorkAvailable(context!!)) {
-            presenter.getEssay(page, true, false)
+            mPresenter.getEssay(page, true, false)
         } else {
             Toast.makeText(context!!, R.string.toast_network_unavailable, Toast.LENGTH_SHORT).show()
         }

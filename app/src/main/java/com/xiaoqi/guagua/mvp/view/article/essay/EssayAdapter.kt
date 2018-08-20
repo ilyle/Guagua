@@ -11,10 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
 import com.xiaoqi.guagua.mvp.view.detail.DetailActivity
 
-class EssayAdapter(context: Context?, essayList: MutableList<EssayData.Data.Essay>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class EssayAdapter(context: Context?, essayList: MutableList<Essay>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var mContext = context
     private var mEssayList = essayList
@@ -32,7 +32,7 @@ class EssayAdapter(context: Context?, essayList: MutableList<EssayData.Data.Essa
         essayHolder.setData(p1)
     }
 
-    fun update(essayList: List<EssayData.Data.Essay>) {
+    fun update(essayList: List<Essay>) {
         mEssayList.clear()
         mEssayList.addAll(essayList)
         notifyDataSetChanged()

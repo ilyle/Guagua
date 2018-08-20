@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.Toolbar
 import android.text.Html
 import android.view.Gravity
@@ -15,17 +16,13 @@ import android.widget.FrameLayout
 import com.just.agentweb.AgentWeb
 import com.xiaoqi.base.dialog.BaseDialog
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.model.bean.Collection
-import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
 import com.xiaoqi.guagua.mvp.presenter.DetailPresenter
 import com.xiaoqi.guagua.util.ToastUtil
-import kotlinx.android.synthetic.main.dialog_detail_menu.*
-import kotlinx.android.synthetic.main.item_essay.*
 
 class DetailFragment : Fragment(), View.OnClickListener, DetailView {
 
-    private lateinit var mEssay: EssayData.Data.Essay
-    private lateinit var mCollection: Collection
+    private lateinit var mEssay: Essay
 
     private lateinit var mTbDetail: Toolbar
     private lateinit var mFlDetail: FrameLayout
@@ -49,14 +46,14 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
         super.onCreate(savedInstanceState)
         val intent = activity?.intent!!
         mEssay = intent.getParcelableExtra(DetailActivity.ESSAY)
-        mCollection = Collection.build(mEssay)
+        mEssay.timestamp = System.currentTimeMillis()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
         initView(view)
         load(mEssay.link!!)
-        mPresenter.checkIsCollection(USER_ID_DEFAULT, mCollection)
+        mPresenter.checkIsCollection(USER_ID_DEFAULT, mEssay)
         return view
     }
 
@@ -129,7 +126,7 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
                 .addViewOnClick(R.id.tv_detail_link, this)
                 .addViewOnClick(R.id.tv_detail_browser, this)
                 .build()
-        mMenuDetail.tv_detail_collect.text = if (isCollected) {
+        mMenuDetail.getContentView().findViewById<AppCompatTextView>(R.id.tv_detail_collect).text = if (isCollected) {
             resources.getString(R.string.tv_detail_not_collect)
         } else {
             resources.getString(R.string.tv_detail_collect)
@@ -139,7 +136,12 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
 
 
     private fun collect() {
-        mPresenter.insertCollection(USER_ID_DEFAULT, mCollection)
+        if (isCollected) {
+            mPresenter.removeCollection(USER_ID_DEFAULT, mEssay)
+        } else {
+            mPresenter.insertCollection(USER_ID_DEFAULT, mEssay)
+        }
+        mPresenter.checkIsCollection(USER_ID_DEFAULT, mEssay)
     }
 
     private fun share() {
@@ -171,6 +173,14 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
 
     override fun addToCollectionFail() {
         ToastUtil.showMsg(resources.getString(R.string.toast_add_collection_fail))
+    }
+
+    override fun removeCollectionSuccess() {
+        ToastUtil.showMsg(resources.getString(R.string.toast_remove_collection_success))
+    }
+
+    override fun removeCollectionFail() {
+        ToastUtil.showMsg(resources.getString(R.string.toast_remove_collection_fail))
     }
 
     override fun saveCollectionStatus(isCollected: Boolean) {

@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.model.source.impl
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
 import com.xiaoqi.guagua.mvp.model.source.EssayDataSource
 import com.xiaoqi.guagua.mvp.model.source.remote.EssayDataSourceRemote
 import com.xiaoqi.guagua.util.SortDescendUtil
@@ -22,9 +22,9 @@ class EssayDataSourceImpl(essayDataSourceRemote: EssayDataSourceRemote) : EssayD
         }
     }
 
-    private var mEssayCache: LinkedHashMap<Int, EssayData.Data.Essay>? = null // 缓存数据
+    private var mEssayCache: LinkedHashMap<Int, Essay>? = null // 缓存数据
 
-    override fun getEssay(page: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<EssayData.Data.Essay>> {
+    override fun getEssay(page: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<Essay>> {
         /*
         !forceUpdate，不更新，即用户按HOME键再返回APP，此时返回缓存的文章列表
          */
@@ -48,7 +48,7 @@ class EssayDataSourceImpl(essayDataSourceRemote: EssayDataSourceRemote) : EssayD
             /*
             合并数据
              */
-            return Observable.merge(ob1, ob2).collect({ mutableListOf<EssayData.Data.Essay>() }, { t1, t2 -> t1.addAll(t2) }).toObservable()
+            return Observable.merge(ob1, ob2).collect({ mutableListOf<Essay>() }, { t1, t2 -> t1.addAll(t2) }).toObservable()
         }
         /*
         forceUpdate && cleanCache，更新且清缓存，即下拉刷新，还有第一次加载的情况
@@ -60,7 +60,7 @@ class EssayDataSourceImpl(essayDataSourceRemote: EssayDataSourceRemote) : EssayD
     /**
      * 刷新文章缓存
      */
-    private fun refreshEssayCache(clearCache: Boolean, essayList: List<EssayData.Data.Essay>) {
+    private fun refreshEssayCache(clearCache: Boolean, essayList: List<Essay>) {
         if (mEssayCache == null) {
             mEssayCache = LinkedHashMap()
         }
@@ -68,7 +68,7 @@ class EssayDataSourceImpl(essayDataSourceRemote: EssayDataSourceRemote) : EssayD
             mEssayCache?.clear()
         }
         for (essay in essayList) {
-            mEssayCache?.put(essay.id, essay)
+            mEssayCache?.put(essay.essayId, essay)
         }
     }
 

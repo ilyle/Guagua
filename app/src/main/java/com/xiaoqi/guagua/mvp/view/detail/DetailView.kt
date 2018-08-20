@@ -16,6 +16,16 @@ interface DetailView : BaseView<DetailPresenter> {
     fun addToCollectionFail()
 
     /**
+     * 取消收藏成功
+     */
+    fun removeCollectionSuccess()
+
+    /**
+     * 取消收藏失败
+     */
+
+    fun removeCollectionFail()
+    /**
      * 保存收藏状态
      */
     fun saveCollectionStatus(isCollected: Boolean)

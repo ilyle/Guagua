@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.view.article.collection
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
 import com.xiaoqi.guagua.mvp.presenter.CollectionPresenter
 import com.xiaoqi.guagua.mvp.view.BaseView
 
@@ -10,7 +10,7 @@ interface CollectionView : BaseView<CollectionPresenter> {
      */
     fun isActive(): Boolean
 
-    fun showCollection(essayList: List<EssayData.Data.Essay>)
+    fun showCollection(essayList: MutableList<Essay>)
 
     fun showEmptyView(toShow: Boolean)
 }

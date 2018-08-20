@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.model.source.remote
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
 import com.xiaoqi.guagua.mvp.model.source.EssayDataSource
 import com.xiaoqi.guagua.retrofit.RetrofitClient
 import com.xiaoqi.guagua.retrofit.RetrofitService
@@ -23,7 +23,7 @@ class EssayDataSourceRemote private constructor(): EssayDataSource {
         }
     }
 
-    override fun getEssay(page: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<EssayData.Data.Essay>> {
+    override fun getEssay(page: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<Essay>> {
         return RetrofitClient.getInstance()
                 .create(RetrofitService::class.java)
                 .getEssayData(page)

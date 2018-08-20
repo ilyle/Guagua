@@ -21,6 +21,13 @@ class BaseDialog private constructor(builder: Builder)
     private var mGravity = Gravity.CENTER
     private var mVerticalMargin = 0.0f
 
+    /**
+     * 对外提供view，方便根据业务设定view的内容
+     */
+    fun getContentView(): View {
+        return mContentView
+    }
+
     init {
         mHeight = builder.mHeight
         mWidth = builder.mWidth

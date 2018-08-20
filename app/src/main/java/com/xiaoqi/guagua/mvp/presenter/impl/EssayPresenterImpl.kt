@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.presenter.impl
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
 import com.xiaoqi.guagua.mvp.model.source.impl.EssayDataSourceImpl
 import com.xiaoqi.guagua.mvp.presenter.EssayPresenter
 import com.xiaoqi.guagua.mvp.view.article.essay.EssayView
@@ -12,13 +12,13 @@ import io.reactivex.schedulers.Schedulers
 
 class EssayPresenterImpl private constructor(view: EssayView, model: EssayDataSourceImpl) : EssayPresenter {
 
-    private val mEssayView = view // 拥有View实例
-    private val mEssayDataSourceImpl = model // 拥有Model实例
+    private val mView = view // 拥有View实例
+    private val mModel = model // 拥有Model实例
 
     private val mCompositeDisposable: CompositeDisposable
 
     init {
-        mEssayView.setPresenter(this)
+        mView.setPresenter(this)
         mCompositeDisposable = CompositeDisposable()
     }
 
@@ -32,27 +32,27 @@ class EssayPresenterImpl private constructor(view: EssayView, model: EssayDataSo
     }
 
     override fun getEssay(page: Int, forceUpdate: Boolean, cleanCache: Boolean) {
-        val disposable: Disposable = mEssayDataSourceImpl.getEssay(page, forceUpdate, cleanCache)
+        val disposable: Disposable = mModel.getEssay(page, forceUpdate, cleanCache)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<List<EssayData.Data.Essay>>() {
+                .subscribeWith(object : DisposableObserver<List<Essay>>() {
                     override fun onComplete() {
-                        if (mEssayView.isActive()) {
-                            mEssayView.setLoadingIndicator(false)
+                        if (mView.isActive()) {
+                            mView.setLoadingIndicator(false)
                         }
                     }
 
-                    override fun onNext(t: List<EssayData.Data.Essay>) {
-                        if (mEssayView.isActive()) {
-                            mEssayView.showEmptyView(false)
-                            mEssayView.showEssay(t)
+                    override fun onNext(t: List<Essay>) {
+                        if (mView.isActive()) {
+                            mView.showEmptyView(false)
+                            mView.showEssay(t)
                         }
                     }
 
                     override fun onError(e: Throwable) {
-                        if (mEssayView.isActive()) {
-                            mEssayView.showEmptyView(true)
-                            mEssayView.setLoadingIndicator(false)
+                        if (mView.isActive()) {
+                            mView.showEmptyView(true)
+                            mView.setLoadingIndicator(false)
                         }
                     }
                 })

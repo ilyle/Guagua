@@ -1,25 +1,25 @@
 package com.xiaoqi.guagua.mvp.model.source.impl
 
-import com.xiaoqi.guagua.mvp.model.bean.Collection
+import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
 import com.xiaoqi.guagua.mvp.model.source.CollectionDataSource
 import com.xiaoqi.guagua.mvp.model.source.local.CollectionDataSourceLocal
 import io.reactivex.Observable
 
 class CollectionDataSourceImpl(collectionDataSourceLocal: CollectionDataSourceLocal) : CollectionDataSource {
-    override fun getCollection(userId: Int): Observable<MutableList<Collection>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getCollection(userId: Int): Observable<MutableList<Essay>> {
+        return mCollectionDataSourceLocal.getCollection(userId)
     }
 
-    override fun insertCollection(collection: Collection): Boolean {
-        return mCollectionDataSourceLocal.insertCollection(collection)
+    override fun insertCollection(userId: Int, essay: Essay): Boolean {
+        return mCollectionDataSourceLocal.insertCollection(userId, essay)
     }
 
-    override fun removeCollection(userId: Int, collection: Collection): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun removeCollection(userId: Int, essay: Essay): Boolean {
+        return mCollectionDataSourceLocal.removeCollection(userId, essay)
     }
 
-    override fun isExist(userId: Int, collection: Collection): Boolean {
-        return mCollectionDataSourceLocal.isExist(userId, collection)
+    override fun isExist(userId: Int, essay: Essay): Boolean {
+        return mCollectionDataSourceLocal.isExist(userId, essay)
     }
 
     override fun clearAll() {

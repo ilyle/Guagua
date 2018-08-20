@@ -3,6 +3,7 @@ package com.xiaoqi.guagua.mvp.model.bean
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import org.litepal.crud.LitePalSupport
 
 class EssayData {
     @SerializedName("data")
@@ -28,7 +29,10 @@ class EssayData {
         @SerializedName("datas")
         var datas: List<Essay>? = null
 
-        class Essay() : Parcelable {
+        /**
+         * 单个文章
+         */
+        class Essay() : Parcelable, LitePalSupport() {
             @SerializedName("apkLink")
             var apkLink: String? = null
             @SerializedName("author")
@@ -48,7 +52,7 @@ class EssayData {
             @SerializedName("fresh")
             var isFresh: Boolean = false
             @SerializedName("id")
-            var id: Int = 0
+            var essayId: Int = 0
             @SerializedName("link")
             var link: String? = null
             @SerializedName("niceDate")
@@ -73,6 +77,7 @@ class EssayData {
             var visible: Int = 0
             @SerializedName("zan")
             var zan: Int = 0
+            var timestamp: Long = 0 // 收藏时间戳
             @SerializedName("tags")
             var tags: List<Tags>? = null
 
@@ -86,7 +91,7 @@ class EssayData {
                 desc = parcel.readString()
                 envelopePic = parcel.readString()
                 isFresh = parcel.readByte() != 0.toByte()
-                id = parcel.readInt()
+                essayId = parcel.readInt()
                 link = parcel.readString()
                 niceDate = parcel.readString()
                 origin = parcel.readString()
@@ -118,7 +123,7 @@ class EssayData {
                 parcel.writeString(desc)
                 parcel.writeString(envelopePic)
                 parcel.writeByte(if (isFresh) 1 else 0)
-                parcel.writeInt(id)
+                parcel.writeInt(essayId)
                 parcel.writeString(link)
                 parcel.writeString(niceDate)
                 parcel.writeString(origin)

@@ -18,6 +18,8 @@
     <string name="toast_copy_link">已复制链接</string>
     <string name="toast_add_collection_success">添加收藏成功</string>
     <string name="toast_add_collection_fail">添加收藏失败</string>
+    <string name="toast_remove_collection_success">取消收藏成功</string>
+    <string name="toast_remove_collection_fail">取消收藏失败</string>
 
     <string name="tb_detail">文章详情</string>
 

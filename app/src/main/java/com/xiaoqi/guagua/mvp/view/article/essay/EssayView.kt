@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.view.article.essay
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.model.bean.EssayData.Data.Essay
 import com.xiaoqi.guagua.mvp.presenter.EssayPresenter
 import com.xiaoqi.guagua.mvp.view.BaseView
 
@@ -13,7 +13,7 @@ interface EssayView: BaseView<EssayPresenter> {
 
     fun setLoadingIndicator(isActive: Boolean)
 
-    fun showEssay(essayList: List<EssayData.Data.Essay>)
+    fun showEssay(essayList: List<Essay>)
 
     fun showEmptyView(toShow: Boolean)
 }
