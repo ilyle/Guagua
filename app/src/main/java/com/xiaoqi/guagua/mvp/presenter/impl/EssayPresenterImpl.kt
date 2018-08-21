@@ -1,6 +1,7 @@
 package com.xiaoqi.guagua.mvp.presenter.impl
 
 import com.xiaoqi.guagua.mvp.model.bean.Essay
+import com.xiaoqi.guagua.mvp.model.source.EssayDataSource
 import com.xiaoqi.guagua.mvp.model.source.impl.EssayDataSourceImpl
 import com.xiaoqi.guagua.mvp.presenter.EssayPresenter
 import com.xiaoqi.guagua.mvp.view.article.essay.EssayView
@@ -10,7 +11,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 
-class EssayPresenterImpl private constructor(view: EssayView, model: EssayDataSourceImpl) : EssayPresenter {
+class EssayPresenterImpl private constructor(view: EssayView, model: EssayDataSource) : EssayPresenter {
 
     private val mView = view // 拥有View实例
     private val mModel = model // 拥有Model实例

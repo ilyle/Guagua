@@ -10,12 +10,12 @@ import io.reactivex.Observable
 /**
  * 文章数据类，远程获取
  */
-class EssayDataSourceRemote private constructor(): EssayDataSource {
+class EssayDataSourceRemote private constructor() : EssayDataSource {
 
     companion object {
-        private var singleInstance : EssayDataSourceRemote? = null
+        private var singleInstance: EssayDataSourceRemote? = null
 
-        fun getInstance() : EssayDataSourceRemote {
+        fun getInstance(): EssayDataSourceRemote {
             if (singleInstance == null) {
                 singleInstance = EssayDataSourceRemote()
             }
@@ -31,4 +31,11 @@ class EssayDataSourceRemote private constructor(): EssayDataSource {
                 .flatMap { Observable.fromIterable(it.data?.datas).toSortedList { e1, e2 -> SortDescendUtil.sortEssay(e1, e2) }.toObservable() }
     }
 
+    override fun searchEssay(page: Int, query: String, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<Essay>> {
+        return RetrofitClient.getInstance()
+                .create(RetrofitService::class.java)
+                .searchEssayData(page, query)
+                .filter { it.errorCode != -1 }
+                .flatMap { Observable.fromIterable(it.data?.datas).toSortedList { e1, e2 -> SortDescendUtil.sortEssay(e1, e2) }.toObservable() }
+    }
 }

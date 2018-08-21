@@ -57,6 +57,10 @@ class EssayDataSourceImpl(essayDataSourceRemote: EssayDataSourceRemote) : EssayD
                 .doOnNext { refreshEssayCache(clearCache, it) }
     }
 
+    override fun searchEssay(page: Int, query: String, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<Essay>> {
+        return mEssayDataSourceRemote.searchEssay(0, query, forceUpdate, clearCache)
+    }
+
     /**
      * 刷新文章缓存
      */

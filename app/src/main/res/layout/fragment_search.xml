@@ -13,9 +13,13 @@
         app:titleTextColor="@color/white">
 
         <android.support.v7.widget.SearchView
+            android:id="@+id/sv_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:queryHint="@string/tb_query" />
+            app:iconifiedByDefault="true"
+            android:imeOptions="actionSearch|flagNoExtractUi"
+            app:queryHint="@string/tb_query" >
+        </android.support.v7.widget.SearchView>
     </android.support.v7.widget.Toolbar>
 
     <FrameLayout
