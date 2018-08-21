@@ -2,7 +2,7 @@ package com.xiaoqi.guagua.mvp.model.bean
 
 import com.google.gson.annotations.SerializedName
 
-class EssayData {
+class ArticleData {
     @SerializedName("data")
     var data: Data? = null
     @SerializedName("errorCode")
@@ -24,6 +24,6 @@ class EssayData {
         @SerializedName("total")
         var total: Int = 0
         @SerializedName("datas")
-        var datas: List<Essay>? = null
+        var datas: List<Article>? = null
     }
 }

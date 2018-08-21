@@ -4,18 +4,18 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.xiaoqi.guagua.mvp.view.article.essay.EssayFragment
+import com.xiaoqi.guagua.mvp.view.article.suggestion.SuggestionFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.view.article.collection.CollectionFragment
 
-class ArticleAdapter(manager: FragmentManager, context: Context?, essayFragment: EssayFragment,
-                     collectionFragment: CollectionFragment) : FragmentPagerAdapter(manager) {
+class ArticleFragmentPagerAdapter(manager: FragmentManager, context: Context?, suggestionFragment: SuggestionFragment,
+                                  collectionFragment: CollectionFragment) : FragmentPagerAdapter(manager) {
 
     private val mCount = 2
     private val mContext = context
-    private val mEssayFragment = essayFragment
+    private val mSuggestionFragment = suggestionFragment
     private val mCollectionFragment = collectionFragment
-    private val mTitle: Array<String> = arrayOf(mContext!!.getString(R.string.tl_article_essay), mContext.getString(R.string.tl_article_collection))
+    private val mTitle: Array<String> = arrayOf(mContext!!.getString(R.string.tl_article_suggestion), mContext.getString(R.string.tl_article_collection))
 
     override fun getCount(): Int {
         return mCount
@@ -24,7 +24,7 @@ class ArticleAdapter(manager: FragmentManager, context: Context?, essayFragment:
     override fun getItem(p0: Int): Fragment {
         var fragment = Fragment()
         when (p0) {
-            0 -> fragment = mEssayFragment
+            0 -> fragment = mSuggestionFragment
             1 -> fragment = mCollectionFragment
         }
         return fragment

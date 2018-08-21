@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.retrofit
 
-import com.xiaoqi.guagua.mvp.model.bean.EssayData
+import com.xiaoqi.guagua.mvp.model.bean.ArticleData
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -9,9 +9,9 @@ import retrofit2.http.Query
 
 interface RetrofitService {
 
-    @GET(Api.ESSAY_LIST + "{page}/json")
-    fun getEssayData(@Path("page") page: Int): Observable<EssayData>
+    @GET(Api.ARTICLE_LIST + "{page}/json")
+    fun listArticle(@Path("page") page: Int): Observable<ArticleData>
 
-    @POST(Api.SEARCH_ESSAY + "{page}/json")
-    fun searchEssayData(@Path("page") page: Int, @Query("k") query: String): Observable<EssayData>
+    @POST(Api.ARTICLE_QUERY + "{page}/json")
+    fun queryArticle(@Path("page") page: Int, @Query("k") query: String): Observable<ArticleData>
 }

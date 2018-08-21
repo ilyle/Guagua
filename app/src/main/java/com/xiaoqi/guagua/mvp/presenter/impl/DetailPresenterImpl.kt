@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.presenter.impl
 
-import com.xiaoqi.guagua.mvp.model.bean.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.model.source.CollectionDataSource
 import com.xiaoqi.guagua.mvp.presenter.DetailPresenter
 import com.xiaoqi.guagua.mvp.view.detail.DetailView
@@ -23,24 +23,24 @@ class DetailPresenterImpl(view: DetailView, model: CollectionDataSource) : Detai
         }
     }
 
-    override fun insertCollection(userId: Int, essay: Essay) {
-        if (mModel.insertCollection(userId, essay)){
+    override fun insertCollection(userId: Int, article: Article) {
+        if (mModel.insertCollection(userId, article)){
             mView.addToCollectionSuccess()
         } else {
             mView.addToCollectionFail()
         }
     }
 
-    override fun removeCollection(userId: Int, essay: Essay) {
-        if (mModel.removeCollection(userId, essay)) {
+    override fun removeCollection(userId: Int, article: Article) {
+        if (mModel.removeCollection(userId, article)) {
             mView.removeCollectionSuccess()
         } else {
             mView.removeCollectionFail()
         }
     }
 
-    override fun checkIsCollection(userId: Int, essay: Essay) {
-        mView.saveCollectionStatus(mModel.isExist(userId, essay))
+    override fun checkIsCollection(userId: Int, article: Article) {
+        mView.saveCollectionStatus(mModel.isExist(userId, article))
     }
 
     override fun subscribe() {

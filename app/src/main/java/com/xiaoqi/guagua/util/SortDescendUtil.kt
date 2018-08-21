@@ -1,9 +1,9 @@
 package com.xiaoqi.guagua.util
 
-import com.xiaoqi.guagua.mvp.model.bean.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Article
 
 object SortDescendUtil {
-    fun sortEssay(e1: Essay, e2: Essay): Int {
-        return if (e1.publishTime > e2.publishTime) -1 else 1
+    fun sortArticle(a1: Article, a2: Article): Int {
+        return if (a1.publishTime > a1.publishTime) -1 else 1
     }
 }

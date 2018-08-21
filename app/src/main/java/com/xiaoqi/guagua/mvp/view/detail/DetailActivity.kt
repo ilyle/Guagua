@@ -12,7 +12,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var mDetailFragment: DetailFragment
 
     companion object {
-        const val ESSAY: String = "Essay"
+        const val ARTICLE: String = "Article"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

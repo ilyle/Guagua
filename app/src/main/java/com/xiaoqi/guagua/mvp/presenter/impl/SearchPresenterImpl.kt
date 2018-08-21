@@ -1,11 +1,10 @@
 package com.xiaoqi.guagua.mvp.presenter.impl
 
-import com.xiaoqi.guagua.mvp.model.source.EssayDataSource
+import com.xiaoqi.guagua.mvp.model.source.ArticleDataSource
 import com.xiaoqi.guagua.mvp.presenter.SearchPresenter
-import com.xiaoqi.guagua.mvp.view.BaseView
-import com.xiaoqi.guagua.mvp.view.SearchFragment
+import com.xiaoqi.guagua.mvp.view.search.SearchView
 
-class SearchPresenterImpl(view: SearchFragment, model: EssayDataSource) : SearchPresenter {
+class SearchPresenterImpl(view: SearchView, model: ArticleDataSource) : SearchPresenter {
 
     private val mView = view
     private val mModel = model
@@ -22,7 +21,7 @@ class SearchPresenterImpl(view: SearchFragment, model: EssayDataSource) : Search
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun searchEssay(page: Int, query: String, forceUpdate: Boolean, cleanCache: Boolean) {
+    override fun queryArticle(page: Int, query: String, forceUpdate: Boolean, cleanCache: Boolean) {
 
     }
 

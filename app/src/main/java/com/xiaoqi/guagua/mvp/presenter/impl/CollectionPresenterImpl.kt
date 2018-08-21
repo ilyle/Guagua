@@ -1,6 +1,6 @@
 package com.xiaoqi.guagua.mvp.presenter.impl
 
-import com.xiaoqi.guagua.mvp.model.bean.Essay
+import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.model.source.CollectionDataSource
 import com.xiaoqi.guagua.mvp.presenter.CollectionPresenter
 import com.xiaoqi.guagua.mvp.view.article.collection.CollectionFragment
@@ -35,8 +35,8 @@ class CollectionPresenterImpl(view: CollectionFragment, model: CollectionDataSou
         val disposable: Disposable = mModel.getCollection(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<MutableList<Essay>>(){
-                    override fun onNext(t: MutableList<Essay>) {
+                .subscribeWith(object : DisposableObserver<MutableList<Article>>(){
+                    override fun onNext(t: MutableList<Article>) {
                         if (mView.isActive()) {
                             mView.showEmptyView(false)
                             mView.showCollection(t)

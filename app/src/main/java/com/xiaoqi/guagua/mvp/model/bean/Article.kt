@@ -8,7 +8,7 @@ import org.litepal.crud.LitePalSupport
 /**
  * 单个文章
  */
-class Essay() : Parcelable, LitePalSupport() {
+class Article() : Parcelable, LitePalSupport() {
     @SerializedName("apkLink")
     var apkLink: String? = null
     @SerializedName("author")
@@ -28,7 +28,7 @@ class Essay() : Parcelable, LitePalSupport() {
     @SerializedName("fresh")
     var isFresh: Boolean = false
     @SerializedName("id")
-    var essayId: Int = 0
+    var articleId: Int = 0
     @SerializedName("link")
     var link: String? = null
     @SerializedName("niceDate")
@@ -67,7 +67,7 @@ class Essay() : Parcelable, LitePalSupport() {
         desc = parcel.readString()
         envelopePic = parcel.readString()
         isFresh = parcel.readByte() != 0.toByte()
-        essayId = parcel.readInt()
+        articleId = parcel.readInt()
         link = parcel.readString()
         niceDate = parcel.readString()
         origin = parcel.readString()
@@ -99,7 +99,7 @@ class Essay() : Parcelable, LitePalSupport() {
         parcel.writeString(desc)
         parcel.writeString(envelopePic)
         parcel.writeByte(if (isFresh) 1 else 0)
-        parcel.writeInt(essayId)
+        parcel.writeInt(articleId)
         parcel.writeString(link)
         parcel.writeString(niceDate)
         parcel.writeString(origin)
@@ -118,12 +118,12 @@ class Essay() : Parcelable, LitePalSupport() {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Essay> {
-        override fun createFromParcel(parcel: Parcel): Essay {
-            return Essay(parcel)
+    companion object CREATOR : Parcelable.Creator<Article> {
+        override fun createFromParcel(parcel: Parcel): Article {
+            return Article(parcel)
         }
 
-        override fun newArray(size: Int): Array<Essay?> {
+        override fun newArray(size: Int): Array<Article?> {
             return arrayOfNulls(size)
         }
     }
