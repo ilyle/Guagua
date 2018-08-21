@@ -1,4 +1,4 @@
-package com.xiaoqi.guagua.mvp.view.article
+package com.xiaoqi.guagua.mvp.vp.article
 
 import android.content.Context
 import android.content.Intent
@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Article
-import com.xiaoqi.guagua.mvp.view.detail.DetailActivity
+import com.xiaoqi.guagua.mvp.vp.detail.DetailActivity
 
 class ArticleRecyclerViewAdapter(context: Context?, articleList: MutableList<Article>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

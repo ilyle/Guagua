@@ -1,4 +1,4 @@
-package com.xiaoqi.guagua.mvp.presenter
+package com.xiaoqi.guagua.mvp.vp
 
 interface BasePresenter {
     fun subscribe()

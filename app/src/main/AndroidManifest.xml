@@ -22,9 +22,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".mvp.view.detail.DetailActivity" />
+            android:name="com.xiaoqi.guagua.mvp.vp.detail.DetailActivity" />
         <activity
-            android:name=".mvp.view.SearchActivity" />
+            android:name=".mvp.vp.search.SearchActivity" />
     </application>
 
 </manifest>

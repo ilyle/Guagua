@@ -1,20 +1,17 @@
-package com.xiaoqi.guagua.mvp.view
+package com.xiaoqi.guagua.mvp.vp.search
 
-import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.TextView
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.presenter.SearchPresenter
-import com.xiaoqi.guagua.util.ToastUtil
 
 /**
- * Created by xujie on 2018/8/20.
- */
-class SearchFragment : BaseFragment(), com.xiaoqi.guagua.mvp.view.search.SearchView {
+* Created by xujie on 2018/8/20.
+*/
+class SearchFragment : BaseFragment(), com.xiaoqi.guagua.mvp.vp.search.SearchView {
 
 
     private lateinit var mTbSearch: Toolbar
@@ -41,8 +38,8 @@ class SearchFragment : BaseFragment(), com.xiaoqi.guagua.mvp.view.search.SearchV
         mSvSearch.isSubmitButtonEnabled = true
         mSvSearch.setOnQueryTextListener(mQueryTextListener)
         mSacSearch = mSvSearch.findViewById<SearchView.SearchAutoComplete>(R.id.search_src_text)
-        mSacSearch.setTextColor(resources.getColor(R.color.white)) // 设置输入文字的颜色
-        mSacSearch.setHintTextColor(resources.getColor(R.color.white)) // 设置提示文字的颜色
+        mSacSearch.setTextColor(ContextCompat.getColor(context!!, R.color.white)) // 设置输入文字的颜色
+        mSacSearch.setHintTextColor(ContextCompat.getColor(context!!, R.color.white)) // 设置提示文字的颜色
     }
 
     private val mQueryTextListener = object : SearchView.OnQueryTextListener {

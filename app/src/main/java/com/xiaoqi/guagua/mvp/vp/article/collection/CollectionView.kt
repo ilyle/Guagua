@@ -1,8 +1,8 @@
-package com.xiaoqi.guagua.mvp.view.article.collection
+package com.xiaoqi.guagua.mvp.vp.article.collection
 
 import com.xiaoqi.guagua.mvp.model.bean.Article
-import com.xiaoqi.guagua.mvp.presenter.CollectionPresenter
-import com.xiaoqi.guagua.mvp.view.BaseView
+import com.xiaoqi.guagua.mvp.vp.BaseView
+import com.xiaoqi.guagua.mvp.vp.article.collection.CollectionPresenter
 
 interface CollectionView : BaseView<CollectionPresenter> {
     /**

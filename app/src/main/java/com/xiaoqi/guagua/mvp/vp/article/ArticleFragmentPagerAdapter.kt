@@ -1,12 +1,12 @@
-package com.xiaoqi.guagua.mvp.view.article
+package com.xiaoqi.guagua.mvp.vp.article
 
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.xiaoqi.guagua.mvp.view.article.suggestion.SuggestionFragment
+import com.xiaoqi.guagua.mvp.vp.article.suggestion.SuggestionFragment
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.view.article.collection.CollectionFragment
+import com.xiaoqi.guagua.mvp.vp.article.collection.CollectionFragment
 
 class ArticleFragmentPagerAdapter(manager: FragmentManager, context: Context?, suggestionFragment: SuggestionFragment,
                                   collectionFragment: CollectionFragment) : FragmentPagerAdapter(manager) {

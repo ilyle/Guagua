@@ -1,4 +1,4 @@
-package com.xiaoqi.guagua.mvp.view
+package com.xiaoqi.guagua.mvp.vp
 
 interface BaseView<T> {
 

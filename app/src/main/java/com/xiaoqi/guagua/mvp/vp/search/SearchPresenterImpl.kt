@@ -1,8 +1,6 @@
-package com.xiaoqi.guagua.mvp.presenter.impl
+package com.xiaoqi.guagua.mvp.vp.search
 
 import com.xiaoqi.guagua.mvp.model.source.ArticleDataSource
-import com.xiaoqi.guagua.mvp.presenter.SearchPresenter
-import com.xiaoqi.guagua.mvp.view.search.SearchView
 
 class SearchPresenterImpl(view: SearchView, model: ArticleDataSource) : SearchPresenter {
 

@@ -1,11 +1,10 @@
-package com.xiaoqi.guagua.mvp.view.detail
+package com.xiaoqi.guagua.mvp.vp.detail
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.source.impl.CollectionDataSourceImpl
 import com.xiaoqi.guagua.mvp.model.source.local.CollectionDataSourceLocal
-import com.xiaoqi.guagua.mvp.presenter.impl.DetailPresenterImpl
 
 class DetailActivity : AppCompatActivity() {
 

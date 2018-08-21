@@ -1,8 +1,7 @@
-package com.xiaoqi.guagua.mvp.view.article.suggestion
+package com.xiaoqi.guagua.mvp.vp.article.suggestion
 
 import com.xiaoqi.guagua.mvp.model.bean.Article
-import com.xiaoqi.guagua.mvp.presenter.SuggestionPresenter
-import com.xiaoqi.guagua.mvp.view.BaseView
+import com.xiaoqi.guagua.mvp.vp.BaseView
 
 interface SuggestionView : BaseView<SuggestionPresenter> {
 

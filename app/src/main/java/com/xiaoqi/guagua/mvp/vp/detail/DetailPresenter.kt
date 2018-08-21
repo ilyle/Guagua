@@ -1,6 +1,7 @@
-package com.xiaoqi.guagua.mvp.presenter
+package com.xiaoqi.guagua.mvp.vp.detail
 
 import com.xiaoqi.guagua.mvp.model.bean.Article
+import com.xiaoqi.guagua.mvp.vp.BasePresenter
 
 interface DetailPresenter : BasePresenter {
     /**

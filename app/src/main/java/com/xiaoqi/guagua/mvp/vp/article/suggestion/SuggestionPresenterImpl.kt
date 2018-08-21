@@ -1,9 +1,7 @@
-package com.xiaoqi.guagua.mvp.presenter.impl
+package com.xiaoqi.guagua.mvp.vp.article.suggestion
 
 import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.model.source.ArticleDataSource
-import com.xiaoqi.guagua.mvp.presenter.SuggestionPresenter
-import com.xiaoqi.guagua.mvp.view.article.suggestion.SuggestionView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

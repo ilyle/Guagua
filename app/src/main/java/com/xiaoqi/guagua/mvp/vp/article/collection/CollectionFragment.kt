@@ -1,4 +1,4 @@
-package com.xiaoqi.guagua.mvp.view.article.collection
+package com.xiaoqi.guagua.mvp.vp.article.collection
 
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutManager
@@ -7,10 +7,9 @@ import android.view.View
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Article
-import com.xiaoqi.guagua.mvp.presenter.CollectionPresenter
-import com.xiaoqi.guagua.mvp.view.article.ArticleRecyclerViewAdapter
+import com.xiaoqi.guagua.mvp.vp.article.ArticleRecyclerViewAdapter
 
-class CollectionFragment: BaseFragment(), CollectionView{
+class CollectionFragment: BaseFragment(), CollectionView {
 
     private lateinit var mPresenter: CollectionPresenter
 

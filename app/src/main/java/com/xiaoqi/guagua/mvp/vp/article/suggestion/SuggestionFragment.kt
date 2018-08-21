@@ -1,4 +1,4 @@
-package com.xiaoqi.guagua.mvp.view.article.suggestion
+package com.xiaoqi.guagua.mvp.vp.article.suggestion
 
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
@@ -11,8 +11,7 @@ import android.widget.Toast
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Article
-import com.xiaoqi.guagua.mvp.presenter.SuggestionPresenter
-import com.xiaoqi.guagua.mvp.view.article.ArticleRecyclerViewAdapter
+import com.xiaoqi.guagua.mvp.vp.article.ArticleRecyclerViewAdapter
 import com.xiaoqi.guagua.util.NetWorkUtil
 
 class SuggestionFragment : BaseFragment(), SuggestionView {

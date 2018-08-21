@@ -1,9 +1,7 @@
-package com.xiaoqi.guagua.mvp.presenter.impl
+package com.xiaoqi.guagua.mvp.vp.article.collection
 
 import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.model.source.CollectionDataSource
-import com.xiaoqi.guagua.mvp.presenter.CollectionPresenter
-import com.xiaoqi.guagua.mvp.view.article.collection.CollectionFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

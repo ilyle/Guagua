@@ -1,9 +1,7 @@
-package com.xiaoqi.guagua.mvp.presenter.impl
+package com.xiaoqi.guagua.mvp.vp.detail
 
 import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.model.source.CollectionDataSource
-import com.xiaoqi.guagua.mvp.presenter.DetailPresenter
-import com.xiaoqi.guagua.mvp.view.detail.DetailView
 
 class DetailPresenterImpl(view: DetailView, model: CollectionDataSource) : DetailPresenter {
 

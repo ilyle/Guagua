@@ -1,4 +1,4 @@
-package com.xiaoqi.guagua.mvp.view.article
+package com.xiaoqi.guagua.mvp.vp.article
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -10,10 +10,10 @@ import com.xiaoqi.guagua.mvp.model.source.impl.CollectionDataSourceImpl
 import com.xiaoqi.guagua.mvp.model.source.impl.ArticleDataSourceImpl
 import com.xiaoqi.guagua.mvp.model.source.local.CollectionDataSourceLocal
 import com.xiaoqi.guagua.mvp.model.source.remote.ArticleDataSourceRemote
-import com.xiaoqi.guagua.mvp.presenter.impl.CollectionPresenterImpl
-import com.xiaoqi.guagua.mvp.presenter.impl.SuggestionPresenterImpl
-import com.xiaoqi.guagua.mvp.view.article.collection.CollectionFragment
-import com.xiaoqi.guagua.mvp.view.article.suggestion.SuggestionFragment
+import com.xiaoqi.guagua.mvp.vp.article.collection.CollectionPresenterImpl
+import com.xiaoqi.guagua.mvp.vp.article.suggestion.SuggestionPresenterImpl
+import com.xiaoqi.guagua.mvp.vp.article.collection.CollectionFragment
+import com.xiaoqi.guagua.mvp.vp.article.suggestion.SuggestionFragment
 
 class ArticleFragment: BaseFragment() {
 

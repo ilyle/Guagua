@@ -1,7 +1,7 @@
-package com.xiaoqi.guagua.mvp.view.detail
+package com.xiaoqi.guagua.mvp.vp.detail
 
-import com.xiaoqi.guagua.mvp.presenter.DetailPresenter
-import com.xiaoqi.guagua.mvp.view.BaseView
+import com.xiaoqi.guagua.mvp.vp.BaseView
+import com.xiaoqi.guagua.mvp.vp.detail.DetailPresenter
 
 interface DetailView : BaseView<DetailPresenter> {
 

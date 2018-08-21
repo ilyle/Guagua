@@ -1,4 +1,4 @@
-package com.xiaoqi.guagua.mvp.view.detail
+package com.xiaoqi.guagua.mvp.vp.detail
 
 import android.content.*
 import android.net.Uri
@@ -17,7 +17,6 @@ import com.xiaoqi.base.dialog.BaseDialog
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Article
-import com.xiaoqi.guagua.mvp.presenter.DetailPresenter
 import com.xiaoqi.guagua.util.ToastUtil
 
 class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {

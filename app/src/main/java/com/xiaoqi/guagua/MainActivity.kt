@@ -12,9 +12,8 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import com.xiaoqi.guagua.mvp.view.SearchActivity
-import com.xiaoqi.guagua.mvp.view.article.ArticleFragment
-import com.xiaoqi.guagua.util.ToastUtil
+import com.xiaoqi.guagua.mvp.vp.search.SearchActivity
+import com.xiaoqi.guagua.mvp.vp.article.ArticleFragment
 
 class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
