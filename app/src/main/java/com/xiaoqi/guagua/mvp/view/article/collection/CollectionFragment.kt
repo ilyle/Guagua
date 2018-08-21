@@ -1,21 +1,16 @@
 package com.xiaoqi.guagua.mvp.view.article.collection
 
-import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.NestedScrollView
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Essay
 import com.xiaoqi.guagua.mvp.presenter.CollectionPresenter
 import com.xiaoqi.guagua.mvp.view.article.essay.EssayAdapter
 
-class CollectionFragment: Fragment(), CollectionView{
+class CollectionFragment: BaseFragment(), CollectionView{
 
     private lateinit var mPresenter: CollectionPresenter
 
@@ -30,10 +25,16 @@ class CollectionFragment: Fragment(), CollectionView{
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_collection, container, false)
-        initView(view)
-        return view
+    override fun getResource(): Int {
+        return R.layout.fragment_collection
+    }
+
+    override fun initView(view: View) {
+        mRvCollection = view.findViewById(R.id.rv_collection)
+        mRvCollection.layoutManager = LinearLayoutManager(context)
+        mAdapter = EssayAdapter(context, mutableListOf())
+        mRvCollection.adapter = mAdapter
+        mTvCollectionNothing = view.findViewById(R.id.tv_collection_nothing)
     }
 
     override fun onResume() {
@@ -53,14 +54,6 @@ class CollectionFragment: Fragment(), CollectionView{
     override fun showEmptyView(toShow: Boolean) {
         mTvCollectionNothing.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
         mRvCollection.visibility = if (toShow) View.INVISIBLE else View.VISIBLE
-    }
-
-    override fun initView(view: View) {
-        mRvCollection = view.findViewById(R.id.rv_collection)
-        mRvCollection.layoutManager = LinearLayoutManager(context)
-        mAdapter = EssayAdapter(context, mutableListOf())
-        mRvCollection.adapter = mAdapter
-        mTvCollectionNothing = view.findViewById(R.id.tv_collection_nothing)
     }
 
     override fun setPresenter(presenter: CollectionPresenter) {

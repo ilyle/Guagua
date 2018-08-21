@@ -12,12 +12,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Essay
 import com.xiaoqi.guagua.mvp.presenter.EssayPresenter
 import com.xiaoqi.guagua.util.NetWorkUtil
 
-class EssayFragment : Fragment(), EssayView {
+class EssayFragment : BaseFragment(), EssayView {
 
     private var mIsFirstLoad: Boolean = true
     private var curPage: Int = 0
@@ -37,9 +38,18 @@ class EssayFragment : Fragment(), EssayView {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_essay, container, false)
-        initView(view)
+    override fun getResource(): Int {
+        return R.layout.fragment_essay
+    }
+
+    override fun initView(view: View) {
+        mSrlEssay = view.findViewById(R.id.srl_essay)
+        mNsvEssay = view.findViewById(R.id.nsv_essay)
+        mRvEssay = view.findViewById(R.id.rv_essay)
+        mAdapter = EssayAdapter(context, mutableListOf())
+        mRvEssay.adapter = mAdapter
+        mRvEssay.layoutManager = LinearLayoutManager(context)
+        mTvEssayNothing = view.findViewById(R.id.tv_essay_nothing)
         mSrlEssay.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.color_primary))
         mSrlEssay.setOnRefreshListener { curPage = 0; mPresenter.getEssay(0, true, true) }
         mNsvEssay.setOnScrollChangeListener { nestScrollView: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
@@ -50,7 +60,6 @@ class EssayFragment : Fragment(), EssayView {
                 loadMore(++curPage)
             }
         }
-        return view
     }
 
     override fun onResume() {
@@ -64,15 +73,6 @@ class EssayFragment : Fragment(), EssayView {
         }
     }
 
-    override fun initView(view: View) {
-        mSrlEssay = view.findViewById(R.id.srl_essay)
-        mNsvEssay = view.findViewById(R.id.nsv_essay)
-        mRvEssay = view.findViewById(R.id.rv_essay)
-        mAdapter = EssayAdapter(context, mutableListOf())
-        mRvEssay.adapter = mAdapter
-        mRvEssay.layoutManager = LinearLayoutManager(context)
-        mTvEssayNothing = view.findViewById(R.id.tv_essay_nothing)
-    }
 
     override fun isActive(): Boolean {
         return isAdded && isResumed

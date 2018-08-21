@@ -2,22 +2,20 @@ package com.xiaoqi.guagua.mvp.view.article
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import com.xiaoqi.guagua.mvp.view.article.essay.EssayFragment
+import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.source.impl.CollectionDataSourceImpl
-import com.xiaoqi.guagua.mvp.view.article.collection.CollectionFragment
 import com.xiaoqi.guagua.mvp.model.source.impl.EssayDataSourceImpl
 import com.xiaoqi.guagua.mvp.model.source.local.CollectionDataSourceLocal
 import com.xiaoqi.guagua.mvp.model.source.remote.EssayDataSourceRemote
 import com.xiaoqi.guagua.mvp.presenter.impl.CollectionPresenterImpl
 import com.xiaoqi.guagua.mvp.presenter.impl.EssayPresenterImpl
+import com.xiaoqi.guagua.mvp.view.article.collection.CollectionFragment
+import com.xiaoqi.guagua.mvp.view.article.essay.EssayFragment
 
-class ArticleFragment: Fragment() {
+class ArticleFragment: BaseFragment() {
 
     private lateinit var mEssayFragment: EssayFragment
     private lateinit var mCollectionFragment: CollectionFragment
@@ -29,12 +27,6 @@ class ArticleFragment: Fragment() {
         fun newInstance(): ArticleFragment {
             return ArticleFragment()
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_article, container, false)
-        initView(view)
-        return view
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +47,19 @@ class ArticleFragment: Fragment() {
         CollectionPresenterImpl.build(mCollectionFragment, CollectionDataSourceImpl.getInstance(CollectionDataSourceLocal.getInstance()))
     }
 
+
+    override fun getResource(): Int {
+        return R.layout.fragment_article
+    }
+
+    override fun initView(view: View) {
+        mTlArticle = view.findViewById(R.id.tl_article)
+        mVpArticle = view.findViewById(R.id.vp_article)
+        mVpArticle.adapter = ArticleAdapter(childFragmentManager, context, mEssayFragment, mCollectionFragment)
+        mVpArticle.offscreenPageLimit = 2
+        mTlArticle.setupWithViewPager(mVpArticle)
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         val fragmentManager = childFragmentManager
@@ -66,11 +71,4 @@ class ArticleFragment: Fragment() {
         }
     }
 
-    private fun initView(view: View) {
-        mTlArticle = view.findViewById(R.id.tl_article)
-        mVpArticle = view.findViewById(R.id.vp_article)
-        mVpArticle.adapter = ArticleAdapter(childFragmentManager, context, mEssayFragment, mCollectionFragment)
-        mVpArticle.offscreenPageLimit = 2
-        mTlArticle.setupWithViewPager(mVpArticle)
-    }
 }

@@ -4,7 +4,6 @@ import android.content.*
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.Toolbar
 import android.text.Html
@@ -15,12 +14,13 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.just.agentweb.AgentWeb
 import com.xiaoqi.base.dialog.BaseDialog
+import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Essay
 import com.xiaoqi.guagua.mvp.presenter.DetailPresenter
 import com.xiaoqi.guagua.util.ToastUtil
 
-class DetailFragment : Fragment(), View.OnClickListener, DetailView {
+class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
 
     private lateinit var mEssay: Essay
 
@@ -52,19 +52,36 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
         initView(view)
-        load(mEssay.link!!)
-        mPresenter.checkIsCollection(USER_ID_DEFAULT, mEssay)
+
         return view
     }
 
+    override fun getResource(): Int {
+        return R.layout.fragment_detail
+    }
+
+    override fun initView(view: View) {
+        mTbDetail = view.findViewById(R.id.tb_detail)
+        mTbDetail.setNavigationOnClickListener { activity?.onBackPressed() }
+        mTbDetail.inflateMenu(R.menu.toolbar_detail_menu)
+        mTbDetail.setOnMenuItemClickListener(mTbDetailListener)
+        mFlDetail = view.findViewById(R.id.fl_detail)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        load(mEssay.link!!)
+        mPresenter.checkIsCollection(USER_ID_DEFAULT, mEssay)
+    }
+
     override fun onPause() {
-        mAgentWeb.webLifeCycle.onPause()
         super.onPause()
+        mAgentWeb.webLifeCycle.onPause()
     }
 
     override fun onDestroy() {
-        mAgentWeb.webLifeCycle.onDestroy()
         super.onDestroy()
+        mAgentWeb.webLifeCycle.onDestroy()
     }
 
     override fun onClick(p0: View?) {
@@ -87,13 +104,6 @@ class DetailFragment : Fragment(), View.OnClickListener, DetailView {
         }
     }
 
-    override fun initView(view: View) {
-        mTbDetail = view.findViewById(R.id.tb_detail)
-        mTbDetail.setNavigationOnClickListener { activity?.onBackPressed() }
-        mTbDetail.inflateMenu(R.menu.toolbar_detail_menu)
-        mTbDetail.setOnMenuItemClickListener(mTbDetailListener)
-        mFlDetail = view.findViewById(R.id.fl_detail)
-    }
 
 
     private fun load(url: String) {
