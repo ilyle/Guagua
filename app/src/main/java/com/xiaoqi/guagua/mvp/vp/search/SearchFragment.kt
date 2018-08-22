@@ -1,23 +1,33 @@
 package com.xiaoqi.guagua.mvp.vp.search
 
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.SearchView
+import android.support.v4.widget.NestedScrollView
+import android.support.v7.widget.AppCompatTextView
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.View
-import android.widget.FrameLayout
+import com.codingending.library.FairySearchView
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
+import com.xiaoqi.guagua.mvp.model.bean.Article
+import com.xiaoqi.guagua.mvp.vp.article.ArticleRecyclerViewAdapter
+import com.xiaoqi.guagua.util.ToastUtil
 
 /**
 * Created by xujie on 2018/8/20.
 */
-class SearchFragment : BaseFragment(), com.xiaoqi.guagua.mvp.vp.search.SearchView {
+class SearchFragment : BaseFragment(), SearchView {
+
+
 
 
     private lateinit var mTbSearch: Toolbar
-    private lateinit var mSvSearch: SearchView
-    private lateinit var mSacSearch: SearchView.SearchAutoComplete
-    private lateinit var mFlSearch: FrameLayout
+    private lateinit var mFsvSearch: FairySearchView
+    private lateinit var mNsvSearch: NestedScrollView
+    private lateinit var mRvSearch: RecyclerView
+    private lateinit var mTvSearchNothing: AppCompatTextView
+
+    private lateinit var mAdapter: ArticleRecyclerViewAdapter
 
     private lateinit var mPresenter: SearchPresenter
 
@@ -33,26 +43,36 @@ class SearchFragment : BaseFragment(), com.xiaoqi.guagua.mvp.vp.search.SearchVie
 
     override fun initView(view: View) {
         mTbSearch = view.findViewById(R.id.tb_search)
-        mSvSearch = view.findViewById(R.id.sv_search)
-        mSvSearch.onActionViewExpanded()
-        mSvSearch.isSubmitButtonEnabled = true
-        mSvSearch.setOnQueryTextListener(mQueryTextListener)
-        mSacSearch = mSvSearch.findViewById<SearchView.SearchAutoComplete>(R.id.search_src_text)
-        mSacSearch.setTextColor(ContextCompat.getColor(context!!, R.color.white)) // 设置输入文字的颜色
-        mSacSearch.setHintTextColor(ContextCompat.getColor(context!!, R.color.white)) // 设置提示文字的颜色
+        mFsvSearch = view.findViewById(R.id.fsv_search)
+        mFsvSearch.setOnBackClickListener { activity?.onBackPressed() }
+        mFsvSearch.setOnEnterClickListener { queryArticle(mFsvSearch.searchText) }
+        mNsvSearch = view.findViewById(R.id.nsv_search)
+        mRvSearch = view.findViewById(R.id.rv_search)
+        mRvSearch.layoutManager = LinearLayoutManager(context)
+        mAdapter = ArticleRecyclerViewAdapter(context, mutableListOf())
+        mRvSearch.adapter = mAdapter
+        mTvSearchNothing = view.findViewById(R.id.tv_search_nothing)
     }
 
-    private val mQueryTextListener = object : SearchView.OnQueryTextListener {
-        override fun onQueryTextSubmit(query: String): Boolean {
-            return false
-        }
-
-        override fun onQueryTextChange(newText: String): Boolean {
-            return false
-        }
+    private fun queryArticle(query: String) {
+        mPresenter.queryArticle(0, query, true, true)
+        ToastUtil.showMsg(query)
     }
 
     override fun setPresenter(presenter: SearchPresenter) {
         mPresenter = presenter
+    }
+
+    override fun isActive(): Boolean {
+        return isAdded && isResumed
+    }
+
+    override fun showArticle(articleList: List<Article>) {
+        mAdapter.update(articleList)
+    }
+
+    override fun showEmpty(toShow: Boolean) {
+        mTvSearchNothing.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
+        mNsvSearch.visibility = if (toShow) View.INVISIBLE else View.VISIBLE
     }
 }

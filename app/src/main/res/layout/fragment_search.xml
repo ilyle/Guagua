@@ -9,23 +9,52 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/color_primary"
-        app:navigationIcon="@drawable/ic_back"
+        app:contentInsetStart="0dp"
         app:titleTextColor="@color/white">
 
-        <android.support.v7.widget.SearchView
-            android:id="@+id/sv_search"
+        <com.codingending.library.FairySearchView
+            android:id="@+id/fsv_search"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:iconifiedByDefault="true"
-            android:imeOptions="actionSearch|flagNoExtractUi"
-            app:queryHint="@string/tb_query" >
-        </android.support.v7.widget.SearchView>
+            android:layout_height="wrap_content"
+            app:searchHint="@string/tb_search"
+            app:showBackButton="true"
+            app:showCancelButton="false"
+            app:showClearButton="true"
+            app:showSearchIcon="true" />
     </android.support.v7.widget.Toolbar>
 
-    <FrameLayout
-        android:id="@+id/fl_search"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nsv_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_search_nothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="16dp"
+            android:drawableTop="@drawable/ic_nothing"
+            android:text="@string/tv_nothing"
+            android:textColor="@color/color_a5a5a5"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.design.widget.CoordinatorLayout>
