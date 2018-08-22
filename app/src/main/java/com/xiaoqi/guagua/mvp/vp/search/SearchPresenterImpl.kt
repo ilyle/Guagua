@@ -3,6 +3,7 @@ package com.xiaoqi.guagua.mvp.vp.search
 import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.model.source.ArticleDataSource
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
@@ -12,8 +13,11 @@ class SearchPresenterImpl private constructor(view: SearchView, model: ArticleDa
     private val mView = view
     private val mModel = model
 
+    private val mDisposable: CompositeDisposable
+
     init {
         mView.setPresenter(this)
+        mDisposable = CompositeDisposable()
     }
 
     companion object {
@@ -51,6 +55,7 @@ class SearchPresenterImpl private constructor(view: SearchView, model: ArticleDa
                         }
                     }
                 })
+        mDisposable.add(disposable)
     }
 
 }

@@ -9,12 +9,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.vp.detail.DetailActivity
 
-class ArticleRecyclerViewAdapter(context: Context?, articleList: MutableList<Article>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ArticleRecyclerViewAdapter(context: Context?, articleList: MutableList<Article>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var mContext = context
     private var mArticleList = articleList
@@ -39,20 +40,23 @@ class ArticleRecyclerViewAdapter(context: Context?, articleList: MutableList<Art
         notifyItemChanged(articleList.size)
     }
 
-    inner class ArticleHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener{
+    inner class ArticleHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-        private var mBtnArticleChapterName: AppCompatButton = view.findViewById(R.id.btn_item_article_chapter_name)
-        private var mTvArticleDate: AppCompatTextView = view.findViewById(R.id.tv_item_article_date)
+        private var mTvArticleChapterName: TextView = view.findViewById(R.id.tv_item_article_chapter_name)
         private var mTvArticleTitle: TextView = view.findViewById(R.id.tv_item_article_title)
+        private var mTvArticleDesc: TextView = view.findViewById(R.id.tv_item_article_desc)
+        private var mIvArticlePic: ImageView = view.findViewById(R.id.iv_item_article_pic)
         private var mTvArticleAuthor: AppCompatTextView = view.findViewById(R.id.tv_item_article_author)
+        private var mTvArticleDate: AppCompatTextView = view.findViewById(R.id.tv_item_article_date)
         private var mCvArticle: CardView = view.findViewById(R.id.cv_item_article)
 
         fun setData(position: Int) {
             val article = mArticleList[position]
-            mBtnArticleChapterName.text = article.chapterName
-            mTvArticleDate.text = article.niceDate
+            mTvArticleChapterName.text = article.chapterName
             mTvArticleTitle.text = article.title
+            mTvArticleDesc.text = article.desc
             mTvArticleAuthor.text = article.author
+            mTvArticleDate.text = article.niceDate
             mCvArticle.setOnClickListener(this)
         }
 
