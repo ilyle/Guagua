@@ -6,11 +6,13 @@ import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.vp.detail.DetailActivity
@@ -53,10 +55,13 @@ class ArticleRecyclerViewAdapter(context: Context?, articleList: MutableList<Art
         fun setData(position: Int) {
             val article = mArticleList[position]
             mTvArticleChapterName.text = article.chapterName
-            mTvArticleTitle.text = article.title
-            mTvArticleDesc.text = article.desc
+            mTvArticleTitle.text = article.title?.replace(Regex("</?[^>]+>"), "") // 去除Html标记
+            mTvArticleDesc.text = article.desc?.replace(Regex("</?[^>]+>"), "")
             mTvArticleAuthor.text = article.author
             mTvArticleDate.text = article.niceDate
+            if (!TextUtils.isEmpty(article.envelopePic)) {
+                Glide.with(mContext!!).load(article.envelopePic).into(mIvArticlePic)
+            }
             mCvArticle.setOnClickListener(this)
         }
 

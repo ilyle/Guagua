@@ -47,6 +47,9 @@ dependencies {
     implementation group: 'com.facebook.stetho', name: 'stetho', version: '1.5.0'
     // FairySearchView
     implementation 'com.github.CodingEnding:FairySearchView:1.01'
+    // Glide
+    implementation group: 'com.github.bumptech.glide', name: 'glide', version: '4.8.0'
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

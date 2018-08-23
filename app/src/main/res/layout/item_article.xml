@@ -24,9 +24,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:textSize="20sp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/color_a5a5a5"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/app_name" />
@@ -45,7 +45,8 @@
                 android:id="@+id/iv_item_article_pic"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="@color/color_primary"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_android"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -61,11 +62,11 @@
                 android:maxLines="2"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="罗纳尔多罗纳落落萝莉多罗纳尔多多" />
+                tools:text="@string/app_name" />
 
             <TextView
                 android:id="@+id/tv_item_article_desc"
@@ -78,18 +79,19 @@
                 android:maxLines="2"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:textSize="16sp"
+                android:textColor="@color/color_a5a5a5"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@id/view_item_article"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/color_a5a5a5"
                 app:layout_constraintTop_toBottomOf="@+id/tv_item_article_title"
-                tools:text="罗纳尔多罗纳尔多罗纳尔多罗纳尔多罗纳尔多罗纳" />
+                tools:text="@string/app_name" />
 
-            <view
+            <View
                 android:id="@+id/view_item_article"
                 android:layout_width="64dp"
                 android:layout_height="1dp"
+                android:background="@color/color_primary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </android.support.constraint.ConstraintLayout>
@@ -99,7 +101,7 @@
             android:id="@+id/tv_item_article_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"

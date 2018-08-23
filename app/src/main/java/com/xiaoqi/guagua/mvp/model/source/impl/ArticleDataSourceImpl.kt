@@ -53,8 +53,7 @@ class ArticleDataSourceImpl(articleDataSourceRemote: ArticleDataSourceRemote) : 
         /*
         forceUpdate && cleanCache，更新且清缓存，即下拉刷新，还有第一次加载的情况
          */
-        return mArticleDataSourceRemote.listArticle(0, forceUpdate, clearCache)
-                .doOnNext { refreshArticleCache(clearCache, it) }
+        return mArticleDataSourceRemote.listArticle(0, forceUpdate, clearCache).doOnNext { refreshArticleCache(clearCache, it) }
     }
 
     override fun queryArticle(page: Int, query: String, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<Article>> {
