@@ -18,9 +18,6 @@ import com.xiaoqi.guagua.util.ToastUtil
 */
 class SearchFragment : BaseFragment(), SearchView {
 
-
-
-
     private lateinit var mTbSearch: Toolbar
     private lateinit var mFsvSearch: FairySearchView
     private lateinit var mNsvSearch: NestedScrollView
@@ -56,7 +53,7 @@ class SearchFragment : BaseFragment(), SearchView {
 
     private fun queryArticle(query: String) {
         mPresenter.queryArticle(0, query, true, true)
-        ToastUtil.showMsg(query)
+        // ToastUtil.showMsg(query)
     }
 
     override fun setPresenter(presenter: SearchPresenter) {
