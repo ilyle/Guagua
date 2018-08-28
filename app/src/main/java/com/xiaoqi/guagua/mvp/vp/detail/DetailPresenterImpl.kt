@@ -3,7 +3,7 @@ package com.xiaoqi.guagua.mvp.vp.detail
 import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.model.source.CollectionDataSource
 
-class DetailPresenterImpl(view: DetailView, model: CollectionDataSource) : DetailPresenter {
+class DetailPresenterImpl private constructor(view: DetailView, model: CollectionDataSource) : DetailPresenter {
 
     private var mView = view
     private var mModel = model

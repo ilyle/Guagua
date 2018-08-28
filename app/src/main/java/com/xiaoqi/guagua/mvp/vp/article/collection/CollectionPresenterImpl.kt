@@ -8,16 +8,16 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 
-class CollectionPresenterImpl(view: CollectionFragment, model: CollectionDataSource) : CollectionPresenter {
+class CollectionPresenterImpl private constructor(view: CollectionFragment, model: CollectionDataSource) : CollectionPresenter {
 
     private val mView = view
     private val mModel = model
 
-    private val mCompositeDisposable: CompositeDisposable
+    private val mDisposable: CompositeDisposable
 
     init {
         mView.setPresenter(this)
-        mCompositeDisposable = CompositeDisposable()
+        mDisposable = CompositeDisposable()
     }
 
     companion object {
@@ -33,7 +33,7 @@ class CollectionPresenterImpl(view: CollectionFragment, model: CollectionDataSou
         val disposable: Disposable = mModel.getCollection(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<MutableList<Article>>(){
+                .subscribeWith(object : DisposableObserver<MutableList<Article>>() {
                     override fun onNext(t: MutableList<Article>) {
                         if (mView.isActive()) {
                             mView.showEmptyView(false)
@@ -50,7 +50,7 @@ class CollectionPresenterImpl(view: CollectionFragment, model: CollectionDataSou
                         }
                     }
                 })
-        mCompositeDisposable.add(disposable)
+        mDisposable.add(disposable)
     }
 
     override fun subscribe() {

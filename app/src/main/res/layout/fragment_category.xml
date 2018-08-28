@@ -4,11 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_category"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_category"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_category_nothing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nav_bottom_main_category"
-        android:textColor="@color/black"
+        android:drawablePadding="16dp"
+        android:drawableTop="@drawable/ic_nothing"
+        android:text="@string/tv_nothing"
+        android:textColor="@color/color_a5a5a5"
+        android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

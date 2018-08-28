@@ -14,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.xiaoqi.guagua.mvp.vp.search.SearchActivity
 import com.xiaoqi.guagua.mvp.vp.article.ArticleFragment
+import com.xiaoqi.guagua.mvp.vp.category.CategoryFragment
 
 class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 

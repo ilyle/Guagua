@@ -103,11 +103,9 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
         }
     }
 
-
-
     private fun load(url: String) {
         mAgentWeb = AgentWeb.with(this)
-                .setAgentWebParent(mFlDetail, FrameLayout.LayoutParams(-1, -1))
+                .setAgentWebParent(mFlDetail, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator()
                 .createAgentWeb()
                 .ready()

@@ -6,17 +6,17 @@ import com.xiaoqi.guagua.mvp.model.source.remote.ArticleDataSourceRemote
 import com.xiaoqi.guagua.util.SortDescendUtil
 import io.reactivex.Observable
 
-class ArticleDataSourceImpl(articleDataSourceRemote: ArticleDataSourceRemote) : ArticleDataSource {
+class ArticleDataSourceImpl(remote: ArticleDataSourceRemote) : ArticleDataSource {
 
-    private var mArticleDataSourceRemote = articleDataSourceRemote
+    private var mRemote = remote
 
     companion object {
 
         private var mInstance: ArticleDataSourceImpl? = null
 
-        fun getInstance(articleDataSourceRemote: ArticleDataSourceRemote): ArticleDataSourceImpl {
+        fun getInstance(remote: ArticleDataSourceRemote): ArticleDataSourceImpl {
             if (mInstance == null) {
-                mInstance = ArticleDataSourceImpl(articleDataSourceRemote)
+                mInstance = ArticleDataSourceImpl(remote)
             }
             return mInstance!!
         }
@@ -43,7 +43,7 @@ class ArticleDataSourceImpl(articleDataSourceRemote: ArticleDataSourceRemote) : 
             /*
             请求新的数据
              */
-            val ob2 = mArticleDataSourceRemote.listArticle(page, forceUpdate, clearCache)
+            val ob2 = mRemote.listArticle(page, forceUpdate, clearCache)
                     .doOnNext { refreshArticleCache(clearCache, it) }
             /*
             合并数据
@@ -53,11 +53,11 @@ class ArticleDataSourceImpl(articleDataSourceRemote: ArticleDataSourceRemote) : 
         /*
         forceUpdate && cleanCache，更新且清缓存，即下拉刷新，还有第一次加载的情况
          */
-        return mArticleDataSourceRemote.listArticle(0, forceUpdate, clearCache).doOnNext { refreshArticleCache(clearCache, it) }
+        return mRemote.listArticle(0, forceUpdate, clearCache).doOnNext { refreshArticleCache(clearCache, it) }
     }
 
     override fun queryArticle(page: Int, query: String, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<Article>> {
-        return mArticleDataSourceRemote.queryArticle(0, query, forceUpdate, clearCache)
+        return mRemote.queryArticle(0, query, forceUpdate, clearCache)
     }
 
     /**

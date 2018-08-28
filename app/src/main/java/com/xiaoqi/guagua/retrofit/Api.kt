@@ -7,4 +7,6 @@ object Api {
     const val ARTICLE_LIST = API_BASE + "article/list/"
 
     const val ARTICLE_QUERY = API_BASE + "article/query/"
+
+    const val CATEGORY_LIST = API_BASE + "tree/json"
 }

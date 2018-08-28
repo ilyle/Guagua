@@ -13,13 +13,13 @@ import io.reactivex.Observable
 class ArticleDataSourceRemote private constructor() : ArticleDataSource {
 
     companion object {
-        private var singleInstance: ArticleDataSourceRemote? = null
+        private var mInstance: ArticleDataSourceRemote? = null
 
         fun getInstance(): ArticleDataSourceRemote {
-            if (singleInstance == null) {
-                singleInstance = ArticleDataSourceRemote()
+            if (mInstance == null) {
+                mInstance = ArticleDataSourceRemote()
             }
-            return singleInstance!!
+            return mInstance!!
         }
     }
 
