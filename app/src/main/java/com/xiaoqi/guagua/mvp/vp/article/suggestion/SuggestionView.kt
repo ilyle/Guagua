@@ -10,7 +10,7 @@ interface SuggestionView : BaseView<SuggestionPresenter> {
      */
     fun isActive(): Boolean
 
-    fun setLoadingIndicator(isActive: Boolean)
+    fun setLoadingIndicator(isRefreshing: Boolean)
 
     fun showArticle(articleList: List<Article>)
 

@@ -13,7 +13,7 @@ class CategoryDataSourceImpl(remote: CategoryDataSourceRemote) : CategoryDataSou
         private var mInstance: CategoryDataSourceImpl? = null
 
         fun getInstance(remote: CategoryDataSourceRemote): CategoryDataSourceImpl {
-            if (mInstance != null) {
+            if (mInstance == null) {
                 mInstance = CategoryDataSourceImpl(remote)
             }
             return mInstance!!

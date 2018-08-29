@@ -74,13 +74,12 @@ class SuggestionFragment : BaseFragment(), SuggestionView {
         return isAdded && isResumed
     }
 
-    override fun setLoadingIndicator(isActive: Boolean) {
-        mSrlSuggestion.isRefreshing = isActive
+    override fun setLoadingIndicator(isRefreshing: Boolean) {
+        mSrlSuggestion.isRefreshing = isRefreshing
     }
 
     override fun showArticle(articleList: List<Article>) {
         mAdapter.update(articleList)
-        mRvSuggestion.adapter = mAdapter
     }
 
     override fun showEmpty(toShow: Boolean) {

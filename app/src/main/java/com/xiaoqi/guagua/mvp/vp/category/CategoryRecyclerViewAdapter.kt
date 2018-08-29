@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Category
+import com.xiaoqi.guagua.util.ToastUtil
+import com.zhy.view.flowlayout.FlowLayout
+import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 
-class CategoryRecyclerViewAdapter(context: Context?, categoryList: MutableList<Category>) : RecyclerView.Adapter<RecyclerView.ViewHolder> () {
+class CategoryRecyclerViewAdapter(context: Context?, categoryList: MutableList<Category>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val mContext = context
     private val mCategoryList = categoryList
@@ -24,23 +27,37 @@ class CategoryRecyclerViewAdapter(context: Context?, categoryList: MutableList<C
         return mCategoryList.size
     }
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder{
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         return CategoryHolder(LayoutInflater.from(mContext).inflate(R.layout.item_category, p0, false))
     }
 
-    inner class CategoryHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    fun update(categoryList: List<Category>) {
+        mCategoryList.clear()
+        mCategoryList.addAll(categoryList)
+        notifyDataSetChanged()
+        notifyItemChanged(categoryList.size)
+    }
 
-        private val mTvCategory = view.findViewById<TextView>(R.id.tv_item_category)
-        private val mTflCategory = view.findViewById<TagFlowLayout>(R.id.tfl_category)
+    inner class CategoryHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        private val mTvCategory = view.findViewById<TextView>(R.id.tv_item_category) // 展示一级分类
+        private val mTflCategory = view.findViewById<TagFlowLayout>(R.id.tfl_category) // 展示二级分类
 
         fun setData(position: Int) {
-            val category = mCategoryList[position]
+            val category = mCategoryList[position] // 一级分类
+            val categoryList: MutableList<Category>? = category.children // 二级分类
             mTvCategory.text = category.name
-
-        }
-
-        override fun onClick(p0: View?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            mTflCategory.adapter = object : TagAdapter<Category>(categoryList) {
+                override fun getView(parent: FlowLayout?, position: Int, t: Category?): View? {
+                    val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_fl_category, mTflCategory, false) as TextView
+                    if (t == null) {
+                        return null
+                    } else {
+                        view.text = t.name
+                    }
+                    return view
+                }
+            }
         }
 
     }

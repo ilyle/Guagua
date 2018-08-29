@@ -10,7 +10,9 @@ interface CategoryView : BaseView<CategoryPresenter> {
      */
     fun isActive(): Boolean
 
-    fun showCategory(articleList: MutableList<Category>)
+    fun setLoadingIndicator(isRefreshing: Boolean)
+
+    fun showCategory(categoryList: MutableList<Category>)
 
     fun showEmpty(toShow: Boolean)
 }

@@ -13,11 +13,9 @@ class CategoryPresenterImpl private constructor(view: CategoryView, model: Categ
     private val mView = view
     private val mModel = model
 
-    private val mDisposable: CompositeDisposable
+    private val mDisposable: CompositeDisposable = CompositeDisposable()
 
     init {
-
-        mDisposable = CompositeDisposable()
         mView.setPresenter(this)
     }
 
@@ -33,7 +31,9 @@ class CategoryPresenterImpl private constructor(view: CategoryView, model: Categ
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableObserver<MutableList<Category>>() {
                     override fun onComplete() {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        if (mView.isActive()) {
+                            mView.setLoadingIndicator(false)
+                        }
                     }
 
                     override fun onNext(t: MutableList<Category>) {
@@ -46,6 +46,7 @@ class CategoryPresenterImpl private constructor(view: CategoryView, model: Categ
                     override fun onError(e: Throwable) {
                         if (mView.isActive()) {
                             mView.showEmpty(true)
+                            mView.setLoadingIndicator(false)
                         }
                       }
 

@@ -16,5 +16,5 @@ class Category {
     @SerializedName("visible")
     var visible: Int = 0
     @SerializedName("children")
-    var children: List<Category>? = null
+    var children: MutableList<Category>? = null
 }
