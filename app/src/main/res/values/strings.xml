@@ -12,7 +12,7 @@
     <string name="tl_article_suggestion">推荐</string>
     <string name="tl_article_collection">收藏</string>
 
-    <string name="tv_nothing">暂无内容</string>
+    <string name="tv_empty">暂无内容</string>
 
     <string name="toast_network_unavailable">网络不可用</string>
     <string name="toast_copy_link">已复制链接</string>
@@ -20,6 +20,7 @@
     <string name="toast_add_collection_fail">添加收藏失败</string>
     <string name="toast_remove_collection_success">取消收藏成功</string>
     <string name="toast_remove_collection_fail">取消收藏失败</string>
+    <string name="toast_searching">正在搜索%1$s</string>
 
     <string name="tb_detail">文章详情</string>
     <string name="tb_search">请输入文章名搜索</string>

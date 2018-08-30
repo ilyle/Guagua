@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.tb_article_menu -> {
-                startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+                SearchActivity.startActivity(this@MainActivity, "")
             }
         }
         return true

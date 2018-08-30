@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Category
+import com.xiaoqi.guagua.mvp.vp.search.SearchActivity
 import com.xiaoqi.guagua.util.ToastUtil
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
@@ -49,16 +51,21 @@ class CategoryRecyclerViewAdapter(context: Context?, categoryList: MutableList<C
             mTvCategory.text = category.name
             mTflCategory.adapter = object : TagAdapter<Category>(categoryList) {
                 override fun getView(parent: FlowLayout?, position: Int, t: Category?): View? {
-                    val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_fl_category, mTflCategory, false) as TextView
+                    val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_tfl_category, mTflCategory, false) as TextView
                     if (t == null) {
                         return null
                     } else {
                         view.text = t.name
                     }
+                    mTflCategory.setOnTagClickListener { _, position, _ -> onTagClickListener(position, categoryList) }
                     return view
                 }
             }
         }
 
+        private fun onTagClickListener(position: Int, categoryList: MutableList<Category>?): Boolean {
+            SearchActivity.startActivity(mContext!!, categoryList!![position].name.toString())
+            return true
+        }
     }
 }

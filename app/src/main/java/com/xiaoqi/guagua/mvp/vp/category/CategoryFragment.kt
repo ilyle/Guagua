@@ -19,7 +19,7 @@ class CategoryFragment: BaseFragment(), CategoryView {
 
     private lateinit var mSrlCategory: SwipeRefreshLayout
     private lateinit var mRvCategory: RecyclerView
-    private lateinit var mTvCategory: TextView
+    private lateinit var mTvCategoryEmpty: TextView
 
     private lateinit var mAdapter: CategoryRecyclerViewAdapter
 
@@ -50,7 +50,7 @@ class CategoryFragment: BaseFragment(), CategoryView {
             mPresenter.listCategory()
         }
         mRvCategory = view.findViewById(R.id.rv_category)
-        mTvCategory = view.findViewById(R.id.tv_category_nothing)
+        mTvCategoryEmpty = view.findViewById(R.id.tv_category_empty)
         mAdapter = CategoryRecyclerViewAdapter(context, mutableListOf())
         mRvCategory.layoutManager = LinearLayoutManager(context)
         mRvCategory.adapter = mAdapter
@@ -82,7 +82,7 @@ class CategoryFragment: BaseFragment(), CategoryView {
     }
 
     override fun showEmpty(toShow: Boolean) {
-        mTvCategory.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
+        mTvCategoryEmpty.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
         mRvCategory.visibility = if (toShow) View.INVISIBLE else View.VISIBLE
     }
 }

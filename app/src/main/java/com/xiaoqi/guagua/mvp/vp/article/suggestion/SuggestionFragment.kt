@@ -22,7 +22,7 @@ class SuggestionFragment : BaseFragment(), SuggestionView {
     private lateinit var mSrlSuggestion: SwipeRefreshLayout
     private lateinit var mNsvSuggestion: NestedScrollView
     private lateinit var mRvSuggestion: RecyclerView
-    private lateinit var mTvSuggestionNothing: AppCompatTextView
+    private lateinit var mTvSuggestionEmpty: AppCompatTextView
 
     private lateinit var mAdapter: ArticleRecyclerViewAdapter
 
@@ -45,7 +45,7 @@ class SuggestionFragment : BaseFragment(), SuggestionView {
         mAdapter = ArticleRecyclerViewAdapter(context, mutableListOf())
         mRvSuggestion.adapter = mAdapter
         mRvSuggestion.layoutManager = LinearLayoutManager(context)
-        mTvSuggestionNothing = view.findViewById(R.id.tv_suggestion_nothing)
+        mTvSuggestionEmpty = view.findViewById(R.id.tv_suggestion_empty)
         mSrlSuggestion.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.color_primary))
         mSrlSuggestion.setOnRefreshListener { curPage = 0; mPresenter.listArticle(0, true, true) }
         mNsvSuggestion.setOnScrollChangeListener { nestScrollView: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
@@ -83,7 +83,7 @@ class SuggestionFragment : BaseFragment(), SuggestionView {
     }
 
     override fun showEmpty(toShow: Boolean) {
-        mTvSuggestionNothing.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
+        mTvSuggestionEmpty.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
         mNsvSuggestion.visibility = if (toShow) View.INVISIBLE else View.VISIBLE
     }
 

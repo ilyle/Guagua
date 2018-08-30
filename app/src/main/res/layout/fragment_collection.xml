@@ -10,12 +10,12 @@
         android:layout_height="match_parent" />
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_collection_nothing"
+        android:id="@+id/tv_collection_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="16dp"
-        android:drawableTop="@drawable/ic_nothing"
-        android:text="@string/tv_nothing"
+        android:drawableTop="@drawable/ic_empty"
+        android:text="@string/tv_empty"
         android:textColor="@color/color_a5a5a5"
         android:textSize="16sp"
         android:visibility="gone"

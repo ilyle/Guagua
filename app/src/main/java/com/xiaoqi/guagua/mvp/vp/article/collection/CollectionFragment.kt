@@ -14,7 +14,7 @@ class CollectionFragment: BaseFragment(), CollectionView {
     private lateinit var mPresenter: CollectionPresenter
 
     private lateinit var mRvCollection: RecyclerView
-    private lateinit var mTvCollectionNothing: AppCompatTextView
+    private lateinit var mTvCollectionEmpty: AppCompatTextView
 
     private lateinit var mAdapter: ArticleRecyclerViewAdapter
 
@@ -33,7 +33,7 @@ class CollectionFragment: BaseFragment(), CollectionView {
         mRvCollection.layoutManager = LinearLayoutManager(context)
         mAdapter = ArticleRecyclerViewAdapter(context, mutableListOf())
         mRvCollection.adapter = mAdapter
-        mTvCollectionNothing = view.findViewById(R.id.tv_collection_nothing)
+        mTvCollectionEmpty = view.findViewById(R.id.tv_collection_empty)
     }
 
     override fun onResume() {
@@ -51,7 +51,7 @@ class CollectionFragment: BaseFragment(), CollectionView {
     }
 
     override fun showEmptyView(toShow: Boolean) {
-        mTvCollectionNothing.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
+        mTvCollectionEmpty.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
         mRvCollection.visibility = if (toShow) View.INVISIBLE else View.VISIBLE
     }
 

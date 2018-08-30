@@ -1,10 +1,12 @@
 package com.xiaoqi.guagua.mvp.vp.search
 
+import android.os.Bundle
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.text.TextUtils
 import android.view.View
 import com.codingending.library.FairySearchView
 import com.xiaoqi.guagua.BaseFragment
@@ -22,7 +24,7 @@ class SearchFragment : BaseFragment(), SearchView {
     private lateinit var mFsvSearch: FairySearchView
     private lateinit var mNsvSearch: NestedScrollView
     private lateinit var mRvSearch: RecyclerView
-    private lateinit var mTvSearchNothing: AppCompatTextView
+    private lateinit var mTvSearchEmpty: AppCompatTextView
 
     private lateinit var mAdapter: ArticleRecyclerViewAdapter
 
@@ -48,9 +50,22 @@ class SearchFragment : BaseFragment(), SearchView {
         mRvSearch.layoutManager = LinearLayoutManager(context)
         mAdapter = ArticleRecyclerViewAdapter(context, mutableListOf())
         mRvSearch.adapter = mAdapter
-        mTvSearchNothing = view.findViewById(R.id.tv_search_nothing)
+        mTvSearchEmpty = view.findViewById(R.id.tv_search_empty)
+
+        /*
+        TODO: 类别点击跳转搜索，逻辑有待修改
+         */
+        val intent = activity!!.intent
+        val query = intent.getStringExtra(SearchActivity.QUERY)
+        if (!TextUtils.isEmpty(query)) {
+            mFsvSearch.searchText = query
+            queryArticle(query)
+        }
     }
 
+    /**
+     * 查询文章
+     */
     private fun queryArticle(query: String) {
         mPresenter.queryArticle(0, query, true, true)
         // ToastUtil.showMsg(query)
@@ -69,7 +84,7 @@ class SearchFragment : BaseFragment(), SearchView {
     }
 
     override fun showEmpty(toShow: Boolean) {
-        mTvSearchNothing.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
+        mTvSearchEmpty.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
         mNsvSearch.visibility = if (toShow) View.INVISIBLE else View.VISIBLE
     }
 }

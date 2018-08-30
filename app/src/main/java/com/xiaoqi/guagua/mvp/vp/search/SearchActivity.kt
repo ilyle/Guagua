@@ -1,5 +1,7 @@
 package com.xiaoqi.guagua.mvp.vp.search
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.xiaoqi.guagua.R
@@ -13,6 +15,17 @@ import com.xiaoqi.guagua.mvp.model.source.remote.ArticleDataSourceRemote
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var mSearchFragment: SearchFragment
+
+    companion object {
+
+        const val QUERY = "query"
+
+        fun startActivity(context: Context, search: String) {
+            val intent = Intent(context, SearchActivity::class.java)
+            intent.putExtra(QUERY, search)
+            context.startActivity(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
