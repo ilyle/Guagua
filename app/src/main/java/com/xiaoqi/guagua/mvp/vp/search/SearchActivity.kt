@@ -19,11 +19,17 @@ class SearchActivity : AppCompatActivity() {
     companion object {
 
         const val QUERY = "query"
+        const val CATEGORY_ID = "categoryId"
 
-        fun startActivity(context: Context, search: String) {
+        fun startActivity(context: Context, search: String, categoryId: Int) {
             val intent = Intent(context, SearchActivity::class.java)
             intent.putExtra(QUERY, search)
+            intent.putExtra(CATEGORY_ID, categoryId)
             context.startActivity(intent)
+        }
+
+        fun startActivity(context: Context) {
+            startActivity(context, "", 0)
         }
     }
 

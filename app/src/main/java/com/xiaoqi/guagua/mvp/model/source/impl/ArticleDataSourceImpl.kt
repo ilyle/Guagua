@@ -60,6 +60,10 @@ class ArticleDataSourceImpl(remote: ArticleDataSourceRemote) : ArticleDataSource
         return mRemote.queryArticle(0, query, forceUpdate, clearCache)
     }
 
+    override fun categoryArticle(page: Int, categoryId: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<Article>> {
+        return mRemote.categoryArticle(page, categoryId, forceUpdate, clearCache)
+    }
+
     /**
      * 刷新文章缓存
      */

@@ -15,4 +15,9 @@ interface ArticleDataSource {
      * 查询文章
      */
     fun queryArticle(@NonNull page: Int, @NonNull query: String, @NonNull forceUpdate: Boolean, @NonNull clearCache: Boolean): Observable<MutableList<Article>>
+
+    /**
+     * 根据分类获取文章
+     */
+    fun categoryArticle(@NonNull page: Int, @NonNull categoryId: Int, @NonNull forceUpdate: Boolean, @NonNull clearCache: Boolean): Observable<MutableList<Article>>
 }

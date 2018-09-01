@@ -58,4 +58,29 @@ class SearchPresenterImpl private constructor(view: SearchView, model: ArticleDa
         mDisposable.add(disposable)
     }
 
+    override fun categoryArticle(page: Int, categoryId: Int, forceUpdate: Boolean, cleanCache: Boolean) {
+        val disposable = mModel.categoryArticle(page, categoryId, forceUpdate, cleanCache)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableObserver<MutableList<Article>>() {
+                    override fun onComplete() {
+
+                    }
+
+                    override fun onNext(t: MutableList<Article>) {
+                        if (mView.isActive()) {
+                            mView.showEmpty(false)
+                            mView.showArticle(t)
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        if (mView.isActive()) {
+                            mView.showEmpty(true)
+                        }
+                    }
+
+                })
+        mDisposable.add(disposable)
+    }
 }

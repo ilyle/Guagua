@@ -38,4 +38,12 @@ class ArticleDataSourceRemote private constructor() : ArticleDataSource {
                 .filter { it.errorCode != -1 }
                 .flatMap { Observable.fromIterable(it.data?.datas).toSortedList { a1, a2 -> SortDescendUtil.sortArticle(a1, a2) }.toObservable() }
     }
+
+    override fun categoryArticle(page: Int, categoryId: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<Article>> {
+        return RetrofitClient.getInstance()
+                .create(RetrofitService::class.java)
+                .categoryArticle(page, categoryId)
+                .filter { it.errorCode != -1 }
+                .flatMap { Observable.fromIterable(it.data?.datas).toSortedList { a1, a2 -> SortDescendUtil.sortArticle(a1, a2) }.toObservable() }
+    }
 }

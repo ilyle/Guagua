@@ -19,4 +19,7 @@ interface RetrofitService {
 
     @GET(Api.CATEGORY_LIST)
     fun listCategory(): Observable<CategoryData>
+
+    @GET(Api.ARTICLE_LIST + "{page}/json")
+    fun categoryArticle(@Path("page") page: Int, @Query("cid") categoryId: Int): Observable<ArticleData>
 }

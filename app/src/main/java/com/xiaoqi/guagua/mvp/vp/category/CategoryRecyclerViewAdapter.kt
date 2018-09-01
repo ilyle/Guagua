@@ -64,7 +64,7 @@ class CategoryRecyclerViewAdapter(context: Context?, categoryList: MutableList<C
         }
 
         private fun onTagClickListener(position: Int, categoryList: MutableList<Category>?): Boolean {
-            SearchActivity.startActivity(mContext!!, categoryList!![position].name.toString())
+            SearchActivity.startActivity(mContext!!, categoryList!![position].name.toString(), categoryList[position].id)
             return true
         }
     }
