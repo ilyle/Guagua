@@ -5,7 +5,7 @@ import android.view.View
 import com.xiaoqi.guagua.util.AppUtil
 import com.xiaoqi.liteitemview.LiteItemView
 
-class AboutFragment : BaseFragment(), LiteItemView.OnLiteItemViewClick {
+class AboutFragment : BaseFragment() {
 
     private lateinit var mTvApp: AppCompatTextView
     private lateinit var mLivUpdate: LiteItemView
@@ -28,7 +28,4 @@ class AboutFragment : BaseFragment(), LiteItemView.OnLiteItemViewClick {
         mLivUpdate.rightText = AppUtil.getVersionCode()
     }
 
-    override fun onClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }

@@ -34,4 +34,12 @@
         app:leftText="@string/tv_about_appreciate"
         app:rightIcon="@drawable/ic_forward" />
 
+    <com.xiaoqi.liteitemview.LiteItemView
+        android:id="@+id/liv_about_license"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftIcon="@drawable/ic_license"
+        app:leftText="@string/tv_about_license"
+        app:rightIcon="@drawable/ic_forward" />
+
 </LinearLayout>

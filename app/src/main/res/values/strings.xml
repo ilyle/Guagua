@@ -34,5 +34,6 @@
 
     <string name="tv_about_update">更新</string>
     <string name="tv_about_appreciate">致谢</string>
+    <string name="tv_about_license">授权</string>
 
 </resources>
