@@ -31,4 +31,7 @@
     <string name="tv_detail_link">复制链接</string>
     <string name="tv_detail_browser">系统浏览器打开</string>
 
+    <string name="tv_about_update">更新</string>
+    <string name="tv_about_appreciate">致谢</string>
+
 </resources>

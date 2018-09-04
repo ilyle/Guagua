@@ -1,13 +1,15 @@
 package com.xiaoqi.guagua
 
-import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.view.LayoutInflater
+import android.support.v7.widget.AppCompatTextView
 import android.view.View
-import android.view.ViewGroup
+import com.xiaoqi.guagua.util.AppUtil
+import com.xiaoqi.liteitemview.LiteItemView
 
-class AboutFragment: BaseFragment() {
+class AboutFragment : BaseFragment(), LiteItemView.OnLiteItemViewClick {
 
+    private lateinit var mTvApp: AppCompatTextView
+    private lateinit var mLivUpdate: LiteItemView
+    private lateinit var mLivAppreciate: LiteItemView
 
     companion object {
         fun newInstance(): AboutFragment {
@@ -20,5 +22,13 @@ class AboutFragment: BaseFragment() {
     }
 
     override fun initView(view: View) {
+        mTvApp = view.findViewById(R.id.tv_about_app)
+        mLivUpdate = view.findViewById(R.id.liv_about_update)
+        mLivAppreciate = view.findViewById(R.id.liv_about_appreciate)
+        mLivUpdate.rightText = AppUtil.getVersionCode()
+    }
+
+    override fun onClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
