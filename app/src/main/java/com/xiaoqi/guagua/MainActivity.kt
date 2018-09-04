@@ -1,6 +1,5 @@
 package com.xiaoqi.guagua
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener
@@ -15,8 +14,11 @@ import android.view.MenuItem
 import com.xiaoqi.guagua.mvp.vp.article.ArticleFragment
 import com.xiaoqi.guagua.mvp.vp.category.CategoryFragment
 import com.xiaoqi.guagua.mvp.vp.search.SearchActivity
+import com.xiaoqi.guagua.util.ToastUtil
 
 class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
+
+    private var mBackPressTimeStamp: Long = 0
 
     private lateinit var mArticleFragment: ArticleFragment
     private lateinit var mCategoryFragment: CategoryFragment
@@ -113,6 +115,20 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
                 fragmentManager.beginTransaction().show(mAboutFragment).hide(mArticleFragment).hide(mCategoryFragment).commit()
                 supportActionBar?.setTitle(R.string.nav_bottom_main_about)
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        doubleClickToExit()
+    }
+
+    private fun doubleClickToExit() {
+        ToastUtil.showMsg(getString(R.string.toast_press_more) + getString(R.string.app_name))
+        val ts = mBackPressTimeStamp
+        mBackPressTimeStamp = System.currentTimeMillis()
+        if (mBackPressTimeStamp - ts < 800) {
+            finish()
+            System.exit(0)
         }
     }
 }
