@@ -16,7 +16,7 @@
         android:gravity="center_vertical"
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:text="@string/tv_detail_collect"
+        android:text="@string/detail_collect"
         android:textSize="16sp" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -29,7 +29,7 @@
         android:gravity="center_vertical"
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:text="@string/tv_detail_share"
+        android:text="@string/detail_share"
         android:textSize="16sp" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -42,7 +42,7 @@
         android:gravity="center_vertical"
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:text="@string/tv_detail_link"
+        android:text="@string/detail_link"
         android:textSize="16sp" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -55,7 +55,7 @@
         android:gravity="center_vertical"
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:text="@string/tv_detail_browser"
+        android:text="@string/detail_browser"
         android:textSize="16sp" />
 
 </LinearLayout>

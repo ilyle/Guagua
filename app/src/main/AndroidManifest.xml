@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".mvp.vp.detail.DetailActivity" />
         <activity android:name=".mvp.vp.search.SearchActivity" />
+        <activity android:name=".LicenseActivity" />
     </application>
 
 </manifest>

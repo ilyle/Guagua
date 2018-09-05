@@ -17,6 +17,7 @@ import com.xiaoqi.base.dialog.BaseDialog
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Article
+import com.xiaoqi.guagua.util.AppUtil
 import com.xiaoqi.guagua.util.ToastUtil
 
 class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
@@ -98,7 +99,7 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
                 ToastUtil.showMsg(resources.getString(R.string.toast_copy_link))
             }
             R.id.tv_detail_browser -> {
-                openInBrowser()
+                AppUtil.openInBrowser(context, mArticle.link!!)
             }
         }
     }
@@ -134,9 +135,9 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
                 .addViewOnClick(R.id.tv_detail_browser, this)
                 .build()
         mMenuDetail.getContentView().findViewById<AppCompatTextView>(R.id.tv_detail_collect).text = if (isCollected) {
-            resources.getString(R.string.tv_detail_not_collect)
+            resources.getString(R.string.detail_not_collect)
         } else {
-            resources.getString(R.string.tv_detail_collect)
+            resources.getString(R.string.detail_collect)
         }
         mMenuDetail.show()
     }
@@ -163,15 +164,6 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
             ClipData.newPlainText("link", Html.fromHtml(url))
         }
         manager.primaryClip = clipData
-    }
-
-    private fun openInBrowser() {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(mArticle.link!!))
-            startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            ToastUtil.showMsg(e.toString())
-        }
     }
 
     override fun addToCollectionSuccess() {

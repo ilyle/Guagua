@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftIcon="@drawable/ic_update"
-        app:leftText="@string/tv_about_update"
+        app:leftText="@string/about_update"
         app:rightIcon="@drawable/ic_forward" />
 
     <com.xiaoqi.liteitemview.LiteItemView
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftIcon="@drawable/ic_appreciate"
-        app:leftText="@string/tv_about_appreciate"
+        app:leftText="@string/about_appreciate"
         app:rightIcon="@drawable/ic_forward" />
 
     <com.xiaoqi.liteitemview.LiteItemView
@@ -39,7 +39,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftIcon="@drawable/ic_license"
-        app:leftText="@string/tv_about_license"
+        app:leftText="@string/about_license"
+        app:rightIcon="@drawable/ic_forward" />
+
+    <com.xiaoqi.liteitemview.LiteItemView
+        android:id="@+id/liv_about_support"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftIcon="@drawable/ic_support"
+        app:leftText="@string/about_support"
         app:rightIcon="@drawable/ic_forward" />
 
 </LinearLayout>
