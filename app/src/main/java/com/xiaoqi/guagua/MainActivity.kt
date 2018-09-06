@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         ToastUtil.showMsg(getString(R.string.toast_press_more) + getString(R.string.app_name))
         val ts = mBackPressTimeStamp
         mBackPressTimeStamp = System.currentTimeMillis()
-        if (mBackPressTimeStamp - ts < 800) {
+        if (mBackPressTimeStamp - ts < 2000) {
             finish()
             System.exit(0)
         }
