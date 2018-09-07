@@ -50,9 +50,9 @@ class CollectionFragment: BaseFragment(), CollectionView {
         mRvCollection.adapter = mAdapter
     }
 
-    override fun showEmptyView(toShow: Boolean) {
-        mTvCollectionEmpty.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
-        mRvCollection.visibility = if (toShow) View.INVISIBLE else View.VISIBLE
+    override fun showEmpty(isEmpty: Boolean) {
+        mTvCollectionEmpty.visibility = if (isEmpty) View.VISIBLE else View.INVISIBLE
+        mRvCollection.visibility = if (isEmpty) View.INVISIBLE else View.VISIBLE
     }
 
     override fun setPresenter(presenter: CollectionPresenter) {

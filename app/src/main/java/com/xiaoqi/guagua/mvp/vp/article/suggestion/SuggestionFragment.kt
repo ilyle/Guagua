@@ -82,9 +82,9 @@ class SuggestionFragment : BaseFragment(), SuggestionView {
         mAdapter.update(articleList)
     }
 
-    override fun showEmpty(toShow: Boolean) {
-        mTvSuggestionEmpty.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
-        mNsvSuggestion.visibility = if (toShow) View.INVISIBLE else View.VISIBLE
+    override fun showEmpty(isEmpty: Boolean) {
+        mTvSuggestionEmpty.visibility = if (isEmpty) View.VISIBLE else View.INVISIBLE
+        mNsvSuggestion.visibility = if (isEmpty) View.INVISIBLE else View.VISIBLE
     }
 
     override fun setPresenter(presenter: SuggestionPresenter) {

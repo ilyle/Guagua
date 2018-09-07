@@ -14,5 +14,5 @@ interface CategoryView : BaseView<CategoryPresenter> {
 
     fun showCategory(categoryList: MutableList<Category>)
 
-    fun showEmpty(toShow: Boolean)
+    fun showEmpty(isEmpty: Boolean)
 }

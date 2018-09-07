@@ -21,7 +21,7 @@ class SearchPresenterImpl private constructor(view: SearchView, model: ArticleDa
     }
 
     companion object {
-        fun build(view: SearchView, model: ArticleDataSource) : SearchPresenterImpl {
+        fun build(view: SearchView, model: ArticleDataSource): SearchPresenterImpl {
             return SearchPresenterImpl(view, model)
         }
     }
@@ -44,8 +44,12 @@ class SearchPresenterImpl private constructor(view: SearchView, model: ArticleDa
 
                     override fun onNext(t: List<Article>) {
                         if (mView.isActive()) {
-                            mView.showEmpty(false)
-                            mView.showArticle(t)
+                            if (t.isEmpty()) {
+                                mView.showEmpty(true)
+                            } else {
+                                mView.showEmpty(false)
+                                mView.showArticle(t)
+                            }
                         }
                     }
 

@@ -12,5 +12,5 @@ interface SearchView : BaseView<SearchPresenter> {
 
     fun showArticle(articleList: List<Article>)
 
-    fun showEmpty(toShow: Boolean)
+    fun showEmpty(isEmpty: Boolean)
 }

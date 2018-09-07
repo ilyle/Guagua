@@ -81,8 +81,8 @@ class CategoryFragment: BaseFragment(), CategoryView {
         mAdapter.update(categoryList)
     }
 
-    override fun showEmpty(toShow: Boolean) {
-        mTvCategoryEmpty.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
-        mRvCategory.visibility = if (toShow) View.INVISIBLE else View.VISIBLE
+    override fun showEmpty(isEmpty: Boolean) {
+        mTvCategoryEmpty.visibility = if (isEmpty) View.VISIBLE else View.INVISIBLE
+        mRvCategory.visibility = if (isEmpty) View.INVISIBLE else View.VISIBLE
     }
 }

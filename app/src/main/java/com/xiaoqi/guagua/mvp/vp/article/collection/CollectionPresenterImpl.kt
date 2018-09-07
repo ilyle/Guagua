@@ -36,8 +36,12 @@ class CollectionPresenterImpl private constructor(view: CollectionFragment, mode
                 .subscribeWith(object : DisposableObserver<MutableList<Article>>() {
                     override fun onNext(t: MutableList<Article>) {
                         if (mView.isActive()) {
-                            mView.showEmptyView(false)
-                            mView.showCollection(t)
+                            if (t.isEmpty()) {
+                                mView.showEmpty(true)
+                            } else {
+                                mView.showEmpty(false)
+                                mView.showCollection(t)
+                            }
                         }
                     }
 
@@ -46,7 +50,7 @@ class CollectionPresenterImpl private constructor(view: CollectionFragment, mode
 
                     override fun onError(e: Throwable) {
                         if (mView.isActive()) {
-                            mView.showEmptyView(true)
+                            mView.showEmpty(true)
                         }
                     }
                 })

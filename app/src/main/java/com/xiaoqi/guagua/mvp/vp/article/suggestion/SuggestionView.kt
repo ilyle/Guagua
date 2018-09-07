@@ -14,5 +14,5 @@ interface SuggestionView : BaseView<SuggestionPresenter> {
 
     fun showArticle(articleList: List<Article>)
 
-    fun showEmpty(toShow: Boolean)
+    fun showEmpty(isEmpty: Boolean)
 }

@@ -127,9 +127,9 @@ class SearchFragment : BaseFragment(), SearchView {
         mAdapter.update(articleList)
     }
 
-    override fun showEmpty(toShow: Boolean) {
-        mTvSearchEmpty.visibility = if (toShow) View.VISIBLE else View.INVISIBLE
-        mNsvSearch.visibility = if (toShow) View.INVISIBLE else View.VISIBLE
+    override fun showEmpty(isEmpty: Boolean) {
+        mTvSearchEmpty.visibility = if (isEmpty) View.VISIBLE else View.INVISIBLE
+        mNsvSearch.visibility = if (isEmpty) View.INVISIBLE else View.VISIBLE
     }
 
     private fun loadQueryArticleMore(page: Int, query: String) {
