@@ -2,7 +2,6 @@ package com.xiaoqi.guagua.mvp.vp.article
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView

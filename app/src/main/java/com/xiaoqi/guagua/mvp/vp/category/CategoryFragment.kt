@@ -1,35 +1,25 @@
 package com.xiaoqi.guagua.mvp.vp.category
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Category
 import com.xiaoqi.guagua.mvp.model.source.impl.CategoryDataSourceImpl
 import com.xiaoqi.guagua.mvp.model.source.remote.CategoryDataSourceRemote
 
-class CategoryFragment: BaseFragment(), CategoryView {
+class CategoryFragment : BaseFragment(), CategoryView {
 
     private var mIsFirstLoad: Boolean = true
-
-    private lateinit var mSrlCategory: SwipeRefreshLayout
+    private lateinit var mSrlCategory: SmartRefreshLayout
     private lateinit var mRvCategory: RecyclerView
     private lateinit var mTvCategoryEmpty: TextView
-
     private lateinit var mAdapter: CategoryRecyclerViewAdapter
-
     private lateinit var mPresenter: CategoryPresenter
-
-    companion object {
-        fun newInstance(): CategoryFragment {
-            return CategoryFragment()
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +35,6 @@ class CategoryFragment: BaseFragment(), CategoryView {
 
     override fun initView(view: View) {
         mSrlCategory = view.findViewById(R.id.srl_category)
-        mSrlCategory.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.color_primary))
         mSrlCategory.setOnRefreshListener {
             mPresenter.listCategory()
         }
@@ -74,7 +63,7 @@ class CategoryFragment: BaseFragment(), CategoryView {
     }
 
     override fun setLoadingIndicator(isRefreshing: Boolean) {
-        mSrlCategory.isRefreshing = isRefreshing
+        mSrlCategory.finishRefresh()
     }
 
     override fun showCategory(categoryList: MutableList<Category>) {
@@ -84,5 +73,11 @@ class CategoryFragment: BaseFragment(), CategoryView {
     override fun showEmpty(isEmpty: Boolean) {
         mTvCategoryEmpty.visibility = if (isEmpty) View.VISIBLE else View.INVISIBLE
         mRvCategory.visibility = if (isEmpty) View.INVISIBLE else View.VISIBLE
+    }
+
+    companion object {
+        fun newInstance(): CategoryFragment {
+            return CategoryFragment()
+        }
     }
 }
