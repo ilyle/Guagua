@@ -1,5 +1,7 @@
 package com.xiaoqi.guagua.mvp.vp.search
 
+import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutManager
@@ -10,10 +12,13 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import com.codingending.library.FairySearchView
+import com.tencent.mmkv.MMKV
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
+import com.xiaoqi.guagua.constant.Constant
 import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.vp.article.ArticleRecyclerViewAdapter
+import com.xiaoqi.guagua.util.MmkvUtil
 import com.xiaoqi.guagua.util.NetWorkUtil
 
 /**
@@ -27,24 +32,14 @@ class SearchFragment : BaseFragment(), SearchView {
     private lateinit var mRvSearch: RecyclerView
     private lateinit var mTvSearchEmpty: AppCompatTextView
     private lateinit var mAdapter: ArticleRecyclerViewAdapter
-
     private lateinit var mPresenter: SearchPresenter
+    private lateinit var mClSearchHistory: ConstraintLayout
+    private lateinit var mRvSearchHistory: RecyclerView
 
     private var mSearchCurPage: Int = 0 // 查询文章当前页
     private var mCategoryCurPage: Int = 0 // 根据类别获取文章当前页
     private var mMode = MODE_SEARCH
-
     private var mCategoryId: Int? = null
-
-    companion object {
-
-        private const val MODE_SEARCH = 0
-        private const val MODE_CATEGORY = 1
-
-        fun newInstance(): SearchFragment {
-            return SearchFragment()
-        }
-    }
 
     override fun getResource(): Int {
         return R.layout.fragment_search
@@ -58,6 +53,11 @@ class SearchFragment : BaseFragment(), SearchView {
             mMode = MODE_SEARCH // 搜索模式
             mSearchCurPage = 0
             queryArticle(mSearchCurPage, mFsvSearch.searchText)
+            /*
+            保存搜索历史
+             */
+            MmkvUtil.setSearchHistory(mFsvSearch.searchText)
+
         }
 
         /*
@@ -87,6 +87,14 @@ class SearchFragment : BaseFragment(), SearchView {
         mTvSearchEmpty = view.findViewById(R.id.tv_search_empty)
 
         /*
+        搜索历史
+         */
+        mClSearchHistory = view.findViewById(R.id.cl_search_history)
+        mRvSearchHistory = view.findViewById(R.id.rv_search_history)
+
+
+
+        /*
         根据CategoryFragment传进的分类id展示问斩
          */
         val intent = activity?.intent
@@ -99,6 +107,19 @@ class SearchFragment : BaseFragment(), SearchView {
             et.setSelection(mFsvSearch.searchText.length) // 设置光标位置
             categoryArticle(mCategoryCurPage, mCategoryId!!)
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initSearchHistoryData()
+    }
+
+    /**
+     * 初始化搜索历史相关
+     */
+    private fun initSearchHistoryData() {
+        val searchHistorySet = MmkvUtil.getSearchHistory()
+        mRvSearchHistory.layoutManager = LinearLayoutManager(context)
     }
 
     /**
@@ -145,6 +166,16 @@ class SearchFragment : BaseFragment(), SearchView {
             mPresenter.categoryArticle(page, categoryId, true, false)
         } else {
             Toast.makeText(context!!, R.string.toast_network_unavailable, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    companion object {
+
+        private const val MODE_SEARCH = 0
+        private const val MODE_CATEGORY = 1
+
+        fun newInstance(): SearchFragment {
+            return SearchFragment()
         }
     }
 }
