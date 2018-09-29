@@ -2,6 +2,7 @@ package com.xiaoqi.guagua
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import com.tencent.mmkv.MMKV
 // import com.facebook.stetho.Stetho
 import org.litepal.LitePal

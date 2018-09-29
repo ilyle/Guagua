@@ -2,39 +2,44 @@ package com.xiaoqi.guagua.mvp.vp.search
 
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.codingending.library.FairySearchView
-import com.tencent.mmkv.MMKV
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.constant.Constant
 import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.vp.article.ArticleRecyclerViewAdapter
 import com.xiaoqi.guagua.util.MmkvUtil
 import com.xiaoqi.guagua.util.NetWorkUtil
 
 /**
-* Created by xujie on 2018/8/20.
-*/
+ * Created by xujie on 2018/8/20.
+ */
 class SearchFragment : BaseFragment(), SearchView {
 
-    private lateinit var mTbSearch: Toolbar
+    private lateinit var mClSearch: ConstraintLayout
     private lateinit var mFsvSearch: FairySearchView
-    private lateinit var mNsvSearch: NestedScrollView
+    private lateinit var mEtSearch: EditText
+    private lateinit var mSrlSearch: SmartRefreshLayout
     private lateinit var mRvSearch: RecyclerView
     private lateinit var mTvSearchEmpty: AppCompatTextView
-    private lateinit var mAdapter: ArticleRecyclerViewAdapter
-    private lateinit var mPresenter: SearchPresenter
     private lateinit var mClSearchHistory: ConstraintLayout
     private lateinit var mRvSearchHistory: RecyclerView
+    private lateinit var mTvSearchHistoryClean: TextView
+
+    private lateinit var mArticleAdapter: ArticleRecyclerViewAdapter
+    private lateinit var mSearchHistoryAdapter: SearchHistoryAdapter
+    private lateinit var mSearchHistoryClickListener: SearchHistoryAdapter.SearchHistoryClickListener
+    private lateinit var mPresenter: SearchPresenter
 
     private var mSearchCurPage: Int = 0 // 查询文章当前页
     private var mCategoryCurPage: Int = 0 // 根据类别获取文章当前页
@@ -46,54 +51,21 @@ class SearchFragment : BaseFragment(), SearchView {
     }
 
     override fun initView(view: View) {
-        mTbSearch = view.findViewById(R.id.tb_search)
+        mClSearch = view.findViewById(R.id.cl_search)
         mFsvSearch = view.findViewById(R.id.fsv_search)
-        mFsvSearch.setOnBackClickListener { activity?.onBackPressed() }
-        mFsvSearch.setOnEnterClickListener {
-            mMode = MODE_SEARCH // 搜索模式
-            mSearchCurPage = 0
-            queryArticle(mSearchCurPage, mFsvSearch.searchText)
-            /*
-            保存搜索历史
-             */
-            MmkvUtil.setSearchHistory(mFsvSearch.searchText)
-
-        }
-
         /*
         反射获取private成员searchEditText
          */
         val field = FairySearchView::class.java.getDeclaredField("searchEditText")
         field.isAccessible = true
-        val et =  field.get(mFsvSearch) as EditText
+        mEtSearch = field.get(mFsvSearch) as EditText
 
-        mNsvSearch = view.findViewById(R.id.nsv_search)
-        mNsvSearch.setOnScrollChangeListener { nestScrollView: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
-            /*
-            nestScrollView只有一个子View，nestScrollView.getChildAt(0)获取的是RecyclerView，根据布局R.layout.fragment_suggestion定义
-             */
-            if (scrollY == (nestScrollView.getChildAt(0).measuredHeight - mNsvSearch.measuredHeight)) {
-                if (mMode == MODE_SEARCH) {
-                    loadQueryArticleMore(++mSearchCurPage, mFsvSearch.searchText)
-                } else if (mMode == MODE_CATEGORY) {
-                    loadCategoryArticleMore(++mCategoryCurPage, mCategoryId!!)
-                }
-            }
-        }
+        mSrlSearch = view.findViewById(R.id.srl_search)
         mRvSearch = view.findViewById(R.id.rv_search)
-        mRvSearch.layoutManager = LinearLayoutManager(context)
-        mAdapter = ArticleRecyclerViewAdapter(context, mutableListOf())
-        mRvSearch.adapter = mAdapter
         mTvSearchEmpty = view.findViewById(R.id.tv_search_empty)
-
-        /*
-        搜索历史
-         */
         mClSearchHistory = view.findViewById(R.id.cl_search_history)
         mRvSearchHistory = view.findViewById(R.id.rv_search_history)
-
-
-
+        mTvSearchHistoryClean = view.findViewById(R.id.tv_search_history_clean)
         /*
         根据CategoryFragment传进的分类id展示问斩
          */
@@ -104,22 +76,104 @@ class SearchFragment : BaseFragment(), SearchView {
             mMode = MODE_CATEGORY // 类别获取文章模式
             mCategoryCurPage = 0
             mFsvSearch.searchText = query
-            et.setSelection(mFsvSearch.searchText.length) // 设置光标位置
+            mEtSearch.setSelection(mFsvSearch.searchText.length) // 设置光标位置
             categoryArticle(mCategoryCurPage, mCategoryId!!)
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initSearchHistoryData()
+        setupUI()
     }
 
     /**
-     * 初始化搜索历史相关
+     * 控件设置
      */
-    private fun initSearchHistoryData() {
-        val searchHistorySet = MmkvUtil.getSearchHistory()
-        mRvSearchHistory.layoutManager = LinearLayoutManager(context)
+    private fun setupUI() {
+        mSearchHistoryClickListener = object : SearchHistoryAdapter.SearchHistoryClickListener {
+            override fun onSearchHistoryClickListener(search: String) {
+                onSearchEnterClick(search)
+            }
+        }
+        mArticleAdapter = ArticleRecyclerViewAdapter(context, mutableListOf())
+        mSearchHistoryAdapter = SearchHistoryAdapter(context!!, mutableListOf(), mSearchHistoryClickListener)
+        /*
+         * 搜索历史相关
+         */
+        if (mMode == MODE_SEARCH) {
+            mClSearch.visibility = View.GONE
+            mClSearchHistory.visibility = View.VISIBLE
+            val searchHistoryList = MmkvUtil.getSearchHistory()
+            mTvSearchHistoryClean.visibility = if (searchHistoryList.isEmpty()) View.GONE else View.VISIBLE
+            mRvSearchHistory.layoutManager = LinearLayoutManager(context)
+            mSearchHistoryAdapter.updateData(searchHistoryList)
+            mRvSearchHistory.adapter = mSearchHistoryAdapter
+        }
+        /*
+        清除历史
+         */
+        mTvSearchHistoryClean.setOnClickListener {
+            MmkvUtil.cleanSearchHistory()
+            mSearchHistoryAdapter.updateData(MmkvUtil.getSearchHistory())
+            mTvSearchHistoryClean.visibility = View.GONE
+        }
+
+        /*
+         * 搜索框相关
+         */
+        mFsvSearch.setOnBackClickListener { activity?.onBackPressed() }
+        mFsvSearch.setOnEnterClickListener { onSearchEnterClick(it) }
+
+        mEtSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                /*
+                搜索框为空的时候
+                 */
+                if (s.toString().isEmpty()) {
+                    val searchHistoryList = MmkvUtil.getSearchHistory()
+                    mSearchHistoryAdapter.updateData(searchHistoryList)
+                    mTvSearchHistoryClean.visibility = if (searchHistoryList.isEmpty()) View.GONE else View.VISIBLE
+                    mClSearch.visibility = View.GONE
+                    mClSearchHistory.visibility = View.VISIBLE
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+        /*
+        加载更多相关
+         */
+        mSrlSearch.setOnLoadmoreListener {
+            if (mMode == MODE_SEARCH) {
+                loadQueryArticleMore(++mSearchCurPage, mFsvSearch.searchText)
+            } else if (mMode == MODE_CATEGORY) {
+                loadCategoryArticleMore(++mCategoryCurPage, mCategoryId!!)
+            }
+        }
+
+        mRvSearch.layoutManager = LinearLayoutManager(context)
+        mRvSearch.adapter = mArticleAdapter
+
+
+    }
+
+    /**
+     * 搜索
+     */
+    private fun onSearchEnterClick(search: String) {
+        mMode = MODE_SEARCH // 搜索模式
+        mClSearch.visibility = View.VISIBLE
+        mClSearchHistory.visibility = View.GONE
+        mEtSearch.setText(search)
+        mEtSearch.setSelection(mEtSearch.text.length)
+        mSearchCurPage = 0
+        queryArticle(mSearchCurPage, search)
+        MmkvUtil.setSearchHistory(search) // 保存搜索历史
     }
 
     /**
@@ -133,7 +187,7 @@ class SearchFragment : BaseFragment(), SearchView {
      * 根据类别获取文章
      */
     private fun categoryArticle(page: Int, categoryId: Int) {
-        mPresenter.categoryArticle(page, categoryId,true, true)
+        mPresenter.categoryArticle(page, categoryId, true, true)
     }
 
     override fun setPresenter(presenter: SearchPresenter) {
@@ -145,12 +199,13 @@ class SearchFragment : BaseFragment(), SearchView {
     }
 
     override fun showArticle(articleList: List<Article>) {
-        mAdapter.update(articleList)
+        mSrlSearch.finishLoadmore() // 停在加载动画
+        mArticleAdapter.update(articleList)
     }
 
     override fun showEmpty(isEmpty: Boolean) {
-        mTvSearchEmpty.visibility = if (isEmpty) View.VISIBLE else View.INVISIBLE
-        mNsvSearch.visibility = if (isEmpty) View.INVISIBLE else View.VISIBLE
+        mTvSearchEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        mRvSearch.visibility = if (isEmpty) View.GONE else View.VISIBLE
     }
 
     private fun loadQueryArticleMore(page: Int, query: String) {
