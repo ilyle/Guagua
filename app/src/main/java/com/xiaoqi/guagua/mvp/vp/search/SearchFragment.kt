@@ -1,5 +1,7 @@
 package com.xiaoqi.guagua.mvp.vp.search
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.AppCompatTextView
@@ -8,12 +10,18 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import com.codingending.library.FairySearchView
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.tencent.mmkv.MMKV
+import com.wanglu.lib.WPopup
+import com.wanglu.lib.WPopupModel
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Article
@@ -23,6 +31,7 @@ import com.xiaoqi.guagua.util.NetWorkUtil
 
 /**
  * Created by xujie on 2018/8/20.
+ * 搜索
  */
 class SearchFragment : BaseFragment(), SearchView {
 
@@ -35,10 +44,12 @@ class SearchFragment : BaseFragment(), SearchView {
     private lateinit var mClSearchHistory: ConstraintLayout
     private lateinit var mRvSearchHistory: RecyclerView
     private lateinit var mTvSearchHistoryClean: TextView
+    private lateinit var mPopupWindow: WPopup
 
     private lateinit var mArticleAdapter: ArticleRecyclerViewAdapter
     private lateinit var mSearchHistoryAdapter: SearchHistoryAdapter
     private lateinit var mSearchHistoryClickListener: SearchHistoryAdapter.SearchHistoryClickListener
+    private lateinit var mSearchHistoryLongClickListener: SearchHistoryAdapter.SearchHistoryLongClickListener
     private lateinit var mPresenter: SearchPresenter
 
     private var mSearchCurPage: Int = 0 // 查询文章当前页
@@ -90,13 +101,36 @@ class SearchFragment : BaseFragment(), SearchView {
      * 控件设置
      */
     private fun setupUI() {
+        /*
+        设置WPopup
+         */
+        mPopupWindow = WPopup.Builder(activity!!)
+                .setData(listOf(WPopupModel(getString(R.string.tv_delete))))
+                .setPopupOrientation(WPopup.Builder.VERTICAL)
+                .setClickView(mRvSearchHistory) // 点击的View，如果是RV/LV，则只需要传入RV/LV
+                .setOnItemClickListener(object : WPopup.Builder.OnItemClickListener {
+                    override fun onItemClick(view: View, position: Int) {
+                        // TODO: 删除选中
+
+                    }
+                })
+                .create()
+
         mSearchHistoryClickListener = object : SearchHistoryAdapter.SearchHistoryClickListener {
             override fun onSearchHistoryClickListener(search: String) {
                 onSearchEnterClick(search)
             }
         }
+
+        mSearchHistoryLongClickListener = object : SearchHistoryAdapter.SearchHistoryLongClickListener {
+            override fun onSearchHistoryLongClickListener(view: View, search: String, position: Int): Boolean {
+                showDeleteWindow()
+                return true
+            }
+        }
+
         mArticleAdapter = ArticleRecyclerViewAdapter(context, mutableListOf())
-        mSearchHistoryAdapter = SearchHistoryAdapter(context!!, mutableListOf(), mSearchHistoryClickListener)
+        mSearchHistoryAdapter = SearchHistoryAdapter(context!!, mutableListOf(), mSearchHistoryClickListener, mSearchHistoryLongClickListener)
         /*
          * 搜索历史相关
          */
@@ -160,6 +194,10 @@ class SearchFragment : BaseFragment(), SearchView {
         mRvSearch.adapter = mArticleAdapter
 
 
+    }
+
+    private fun showDeleteWindow() {
+        mPopupWindow.showAtFingerLocation()
     }
 
     /**

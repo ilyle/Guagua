@@ -15,11 +15,7 @@ object MmkvUtil {
     fun setSearchHistory(str: String) {
         val historyList = getSearchHistory()
         val builder = StringBuilder(str)
-        for (history in historyList) {
-            if (history != str) {
-                builder.append(",$history")
-            }
-        }
+        historyList.filter { it != str }.forEach { builder.append(",$it") }
         mmkv.encode(Constant.SEARCH_HISTORY, builder.toString())
     }
 

@@ -12,7 +12,10 @@ import com.xiaoqi.guagua.R
  * Created by xujie on 2018/9/28.
  * 搜索历史RecyclerView适配器
  */
-class SearchHistoryAdapter(private val mContext: Context, private var mSearchHistoryList: List<String>, private val mListener: SearchHistoryClickListener) : RecyclerView.Adapter<SearchHistoryAdapter.SearchHistoryHolder>() {
+class SearchHistoryAdapter(private val mContext: Context,
+                           private var mSearchHistoryList: List<String>,
+                           private val mClickListener: SearchHistoryClickListener,
+                           private val mLongClickListener: SearchHistoryLongClickListener) : RecyclerView.Adapter<SearchHistoryAdapter.SearchHistoryHolder>() {
 
     override fun getItemCount(): Int {
         return mSearchHistoryList.size
@@ -37,11 +40,16 @@ class SearchHistoryAdapter(private val mContext: Context, private var mSearchHis
         fun setData(position: Int) {
             val searchHistory = mSearchHistoryList[position]
             mTvSearchHistory.text = searchHistory
-            mTvSearchHistory.setOnClickListener { mListener.onSearchHistoryClickListener(searchHistory) }
+            mTvSearchHistory.setOnClickListener { mClickListener.onSearchHistoryClickListener(searchHistory) }
+            mTvSearchHistory.setOnLongClickListener { mLongClickListener.onSearchHistoryLongClickListener(mTvSearchHistory, searchHistory, position) }
         }
     }
 
-    interface SearchHistoryClickListener{
+    interface SearchHistoryClickListener {
         fun onSearchHistoryClickListener(search: String)
+    }
+
+    interface SearchHistoryLongClickListener {
+        fun onSearchHistoryLongClickListener(view: View, search: String, position: Int) : Boolean
     }
 }
