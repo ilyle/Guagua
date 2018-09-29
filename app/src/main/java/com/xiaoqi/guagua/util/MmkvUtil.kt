@@ -10,6 +10,8 @@ import java.lang.StringBuilder
  */
 object MmkvUtil {
 
+    private val mmkv = MMKV.defaultMMKV()
+
     fun setSearchHistory(str: String) {
         val historyList = getSearchHistory()
         val builder = StringBuilder(str)
@@ -18,11 +20,11 @@ object MmkvUtil {
                 builder.append(",$history")
             }
         }
-        MMKV.defaultMMKV().encode(Constant.SEARCH_HISTORY, builder.toString())
+        mmkv.encode(Constant.SEARCH_HISTORY, builder.toString())
     }
 
     fun getSearchHistory(): List<String> {
-        val tempStr = MMKV.defaultMMKV().decodeString(Constant.SEARCH_HISTORY, "")
+        val tempStr = mmkv.decodeString(Constant.SEARCH_HISTORY, "")
         var ret = listOf<String>()
         if (!tempStr.isEmpty()) {
             ret = tempStr.split(",")
@@ -31,6 +33,6 @@ object MmkvUtil {
     }
 
     fun cleanSearchHistory() {
-        MMKV.defaultMMKV().clear()
+        mmkv.clear()
     }
 }
