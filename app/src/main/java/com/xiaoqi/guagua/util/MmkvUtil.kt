@@ -19,13 +19,22 @@ object MmkvUtil {
         mmkv.encode(Constant.SEARCH_HISTORY, builder.toString())
     }
 
-    fun getSearchHistory(): List<String> {
+    fun getSearchHistory(): MutableList<String> {
         val tempStr = mmkv.decodeString(Constant.SEARCH_HISTORY, "")
-        var ret = listOf<String>()
+        var ret = mutableListOf<String>()
         if (!tempStr.isEmpty()) {
-            ret = tempStr.split(",")
+            ret = tempStr.split(",").toMutableList()
         }
         return ret
+    }
+
+    fun cleanSearchHistory(str: String) {
+        val historyList: MutableList<String> = getSearchHistory()
+        historyList.remove(str)
+        val builder = StringBuilder()
+        historyList.forEach { builder.append("$it,") }
+        builder.deleteCharAt(builder.length - 1)
+        mmkv.encode(Constant.SEARCH_HISTORY, builder.toString())
     }
 
     fun cleanSearchHistory() {

@@ -1,7 +1,5 @@
 package com.xiaoqi.guagua.mvp.vp.search
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.AppCompatTextView
@@ -10,16 +8,12 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
-import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import com.codingending.library.FairySearchView
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
-import com.tencent.mmkv.MMKV
 import com.wanglu.lib.WPopup
 import com.wanglu.lib.WPopupModel
 import com.xiaoqi.guagua.BaseFragment
@@ -44,7 +38,6 @@ class SearchFragment : BaseFragment(), SearchView {
     private lateinit var mClSearchHistory: ConstraintLayout
     private lateinit var mRvSearchHistory: RecyclerView
     private lateinit var mTvSearchHistoryClean: TextView
-    private lateinit var mPopupWindow: WPopup
 
     private lateinit var mArticleAdapter: ArticleRecyclerViewAdapter
     private lateinit var mSearchHistoryAdapter: SearchHistoryAdapter
@@ -101,20 +94,6 @@ class SearchFragment : BaseFragment(), SearchView {
      * 控件设置
      */
     private fun setupUI() {
-        /*
-        设置WPopup
-         */
-        mPopupWindow = WPopup.Builder(activity!!)
-                .setData(listOf(WPopupModel(getString(R.string.tv_delete))))
-                .setPopupOrientation(WPopup.Builder.VERTICAL)
-                .setClickView(mRvSearchHistory) // 点击的View，如果是RV/LV，则只需要传入RV/LV
-                .setOnItemClickListener(object : WPopup.Builder.OnItemClickListener {
-                    override fun onItemClick(view: View, position: Int) {
-                        // TODO: 删除选中
-
-                    }
-                })
-                .create()
 
         mSearchHistoryClickListener = object : SearchHistoryAdapter.SearchHistoryClickListener {
             override fun onSearchHistoryClickListener(search: String) {
@@ -124,7 +103,7 @@ class SearchFragment : BaseFragment(), SearchView {
 
         mSearchHistoryLongClickListener = object : SearchHistoryAdapter.SearchHistoryLongClickListener {
             override fun onSearchHistoryLongClickListener(view: View, search: String, position: Int): Boolean {
-                showDeleteWindow()
+                showDeleteWindow(view, search, position)
                 return true
             }
         }
@@ -196,8 +175,22 @@ class SearchFragment : BaseFragment(), SearchView {
 
     }
 
-    private fun showDeleteWindow() {
-        mPopupWindow.showAtFingerLocation()
+    private fun showDeleteWindow(view: View, search: String, position: Int) {
+        /*
+        设置WPopup
+         */
+        val wPopup = WPopup.Builder(activity!!)
+                .setData(listOf(WPopupModel(getString(R.string.tv_delete))))
+                .setPopupOrientation(WPopup.Builder.VERTICAL)
+                .setCancelable(true)
+                .setClickView(mRvSearchHistory) // 点击的View，如果是RV/LV，则只需要传入RV/LV
+                .setOnItemClickListener(object : WPopup.Builder.OnItemClickListener {
+                    override fun onItemClick(view: View, position: Int) {
+                        MmkvUtil.cleanSearchHistory(search)
+                        mSearchHistoryAdapter.updateData(MmkvUtil.getSearchHistory())
+                    }
+                }).create()
+        wPopup.showAtView(view)
     }
 
     /**
