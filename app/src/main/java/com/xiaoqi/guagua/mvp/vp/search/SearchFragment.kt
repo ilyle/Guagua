@@ -42,7 +42,8 @@ class SearchFragment : BaseFragment(), SearchView {
     private lateinit var mArticleAdapter: ArticleRecyclerViewAdapter
     private lateinit var mSearchHistoryAdapter: SearchHistoryAdapter
     private lateinit var mSearchHistoryClickListener: SearchHistoryAdapter.SearchHistoryClickListener
-    private lateinit var mSearchHistoryLongClickListener: SearchHistoryAdapter.SearchHistoryLongClickListener
+    private lateinit var mSearchHistoryCleanClickListener: SearchHistoryAdapter.SearchHistoryCleanClickListener
+    private lateinit var mSearchHistoryLongClickListener: SearchHistoryAdapter.SearchHistoryLongClickListener // 长按监听，暂时未使用
     private lateinit var mPresenter: SearchPresenter
 
     private var mSearchCurPage: Int = 0 // 查询文章当前页
@@ -101,15 +102,23 @@ class SearchFragment : BaseFragment(), SearchView {
             }
         }
 
+        mSearchHistoryCleanClickListener = object : SearchHistoryAdapter.SearchHistoryCleanClickListener {
+            override fun onSearchHistoryCleanClickListener(search: String) {
+                MmkvUtil.cleanSearchHistory(search)
+                updateSearchHistory()
+            }
+        }
+
+
         mSearchHistoryLongClickListener = object : SearchHistoryAdapter.SearchHistoryLongClickListener {
             override fun onSearchHistoryLongClickListener(view: View, search: String, position: Int): Boolean {
                 showDeleteWindow(view, search, position)
-                return true
+                return true // 拦截监听事件，不触发OnClickListener
             }
         }
 
         mArticleAdapter = ArticleRecyclerViewAdapter(context, mutableListOf())
-        mSearchHistoryAdapter = SearchHistoryAdapter(context!!, mutableListOf(), mSearchHistoryClickListener, mSearchHistoryLongClickListener)
+        mSearchHistoryAdapter = SearchHistoryAdapter(context!!, mutableListOf(), mSearchHistoryClickListener, mSearchHistoryCleanClickListener)
         /*
          * 搜索历史相关
          */
@@ -127,8 +136,7 @@ class SearchFragment : BaseFragment(), SearchView {
          */
         mTvSearchHistoryClean.setOnClickListener {
             MmkvUtil.cleanSearchHistory()
-            mSearchHistoryAdapter.updateData(MmkvUtil.getSearchHistory())
-            mTvSearchHistoryClean.visibility = View.GONE
+            updateSearchHistory()
         }
 
         /*
@@ -143,9 +151,7 @@ class SearchFragment : BaseFragment(), SearchView {
                 搜索框为空的时候
                  */
                 if (s.toString().isEmpty()) {
-                    val searchHistoryList = MmkvUtil.getSearchHistory()
-                    mSearchHistoryAdapter.updateData(searchHistoryList)
-                    mTvSearchHistoryClean.visibility = if (searchHistoryList.isEmpty()) View.GONE else View.VISIBLE
+                    updateSearchHistory()
                     mClSearch.visibility = View.GONE
                     mClSearchHistory.visibility = View.VISIBLE
                 }
@@ -191,6 +197,12 @@ class SearchFragment : BaseFragment(), SearchView {
                     }
                 }).create()
         wPopup.showAtView(view)
+    }
+
+    private fun updateSearchHistory() {
+        val searchHistoryList = MmkvUtil.getSearchHistory()
+        mSearchHistoryAdapter.updateData(searchHistoryList)
+        mTvSearchHistoryClean.visibility = if (searchHistoryList.isEmpty()) View.GONE else View.VISIBLE
     }
 
     /**

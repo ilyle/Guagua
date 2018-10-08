@@ -5,5 +5,5 @@ package com.xiaoqi.guagua.constant
  * 常量
  */
 object Constant {
-    val SEARCH_HISTORY = "search_history"
+    const val SEARCH_HISTORY = "search_history"
 }

@@ -32,8 +32,10 @@ object MmkvUtil {
         val historyList: MutableList<String> = getSearchHistory()
         historyList.remove(str)
         val builder = StringBuilder()
-        historyList.forEach { builder.append("$it,") }
-        builder.deleteCharAt(builder.length - 1)
+        if (!historyList.isEmpty()) {
+            historyList.forEach { builder.append("$it,") }
+            builder.deleteCharAt(builder.length - 1)
+        }
         mmkv.encode(Constant.SEARCH_HISTORY, builder.toString())
     }
 
