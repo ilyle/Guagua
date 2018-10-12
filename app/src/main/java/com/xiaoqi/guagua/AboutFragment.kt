@@ -40,8 +40,8 @@ class AboutFragment : BaseFragment(), LiteItemView.OnLiteItemViewClick {
     }
 
     private fun setupView() {
-        mTvApp.text = StringBuilder(resources.getString(R.string.app_name)).append(AppUtil.getVersionCode())
-        mLivUpdate.rightText = AppUtil.getVersionCode()
+        mTvApp.text = StringBuilder(resources.getString(R.string.app_name)).append(AppUtil.getVersionName())
+        mLivUpdate.rightText = AppUtil.getVersionName()
         mLivUpdate.setOnLiteItemViewClick(this)
         mLivAppreciate.setOnLiteItemViewClick(this)
         mLivLicense.setOnLiteItemViewClick(this)
