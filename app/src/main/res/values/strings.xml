@@ -26,6 +26,7 @@
     <string name="toast_searching">正在搜索%1$s</string>
     <string name="toast_press_more">再按一次退出</string>
 
+    <string name="tb_article">文章</string>
     <string name="tb_detail">文章详情</string>
     <string name="tb_search">请输入文章名搜索</string>
 

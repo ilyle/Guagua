@@ -3,23 +3,32 @@ package com.xiaoqi.guagua.mvp.vp.article
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
-import android.view.View
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.*
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.model.source.impl.CollectionDataSourceImpl
 import com.xiaoqi.guagua.mvp.model.source.impl.ArticleDataSourceImpl
+import com.xiaoqi.guagua.mvp.model.source.impl.CollectionDataSourceImpl
 import com.xiaoqi.guagua.mvp.model.source.local.CollectionDataSourceLocal
 import com.xiaoqi.guagua.mvp.model.source.remote.ArticleDataSourceRemote
-import com.xiaoqi.guagua.mvp.vp.article.collection.CollectionPresenterImpl
-import com.xiaoqi.guagua.mvp.vp.article.suggestion.SuggestionPresenterImpl
 import com.xiaoqi.guagua.mvp.vp.article.collection.CollectionFragment
+import com.xiaoqi.guagua.mvp.vp.article.collection.CollectionPresenterImpl
 import com.xiaoqi.guagua.mvp.vp.article.suggestion.SuggestionFragment
+import com.xiaoqi.guagua.mvp.vp.article.suggestion.SuggestionPresenterImpl
+import com.xiaoqi.guagua.mvp.vp.search.SearchActivity
 
-class ArticleFragment: BaseFragment() {
+class ArticleFragment : BaseFragment() {
 
     private lateinit var mSuggestionFragment: SuggestionFragment
     private lateinit var mCollectionFragment: CollectionFragment
 
+    private lateinit var mTbArticle: Toolbar
+    private lateinit var mIvArticle: ImageView
     private lateinit var mTlArticle: TabLayout
     private lateinit var mVpArticle: ViewPager
 
@@ -47,17 +56,27 @@ class ArticleFragment: BaseFragment() {
         CollectionPresenterImpl.build(mCollectionFragment, CollectionDataSourceImpl.getInstance(CollectionDataSourceLocal.getInstance()))
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun getResource(): Int {
         return R.layout.fragment_article
     }
 
     override fun initView(view: View) {
+        mTbArticle = view.findViewById(R.id.tb_article)
+        mIvArticle = view.findViewById(R.id.iv_article)
         mTlArticle = view.findViewById(R.id.tl_article)
         mVpArticle = view.findViewById(R.id.vp_article)
+        mTbArticle.inflateMenu(R.menu.toolbar_main_menu)
+        (activity as AppCompatActivity).setSupportActionBar(mTbArticle)
+        Glide.with(context!!).load(R.drawable.banner_article).apply(RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)).into(mIvArticle) // 加载Banner
         mVpArticle.adapter = ArticleFragmentPagerAdapter(childFragmentManager, context, mSuggestionFragment, mCollectionFragment)
         mVpArticle.offscreenPageLimit = 2
         mTlArticle.setupWithViewPager(mVpArticle)
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -71,4 +90,17 @@ class ArticleFragment: BaseFragment() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.toolbar_main_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.tb_article_menu -> {
+                SearchActivity.startActivity(activity!!)
+            }
+        }
+        return true
+    }
 }

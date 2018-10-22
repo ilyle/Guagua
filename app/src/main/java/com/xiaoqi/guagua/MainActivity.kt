@@ -6,23 +6,21 @@ import android.support.design.widget.BottomNavigationView.OnNavigationItemSelect
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-import android.view.Menu
 import android.view.MenuItem
 import com.xiaoqi.guagua.mvp.vp.article.ArticleFragment
 import com.xiaoqi.guagua.mvp.vp.category.CategoryFragment
-import com.xiaoqi.guagua.mvp.vp.search.SearchActivity
 import com.xiaoqi.guagua.util.ToastUtil
 
 class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
     private var mBackPressTimeStamp: Long = 0
-
     private lateinit var mArticleFragment: ArticleFragment
     private lateinit var mCategoryFragment: CategoryFragment
     private lateinit var mAboutFragment: AboutFragment
+    private lateinit var mDlMain: DrawerLayout
+    private lateinit var mNvMain: NavigationView
+    private lateinit var mBnvMain: BottomNavigationView
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when (p0.itemId) {
@@ -39,25 +37,6 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         return true
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.tb_article_menu -> {
-                SearchActivity.startActivity(this@MainActivity)
-            }
-        }
-        return true
-    }
-
-    private lateinit var mDlMain: DrawerLayout
-    private lateinit var mTbMain: Toolbar
-    private lateinit var mNvMain: NavigationView
-    private lateinit var mBnvMain: BottomNavigationView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -67,13 +46,8 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
     private fun initView() {
         mDlMain = findViewById(R.id.dl_main)
-        mTbMain = findViewById(R.id.tb_main)
         mNvMain = findViewById(R.id.nv_main)
         mBnvMain = findViewById(R.id.bnv_main)
-        setSupportActionBar(mTbMain)
-        val toggle = ActionBarDrawerToggle(this, mDlMain, mTbMain, R.string.nav_open, R.string.nav_close)
-        mDlMain.addDrawerListener(toggle)
-        toggle.syncState()
         mBnvMain.setOnNavigationItemSelectedListener(this)
     }
 
