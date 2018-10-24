@@ -19,9 +19,13 @@ import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.model.bean.Banner
 import com.xiaoqi.guagua.util.AppUtil
 import com.xiaoqi.guagua.util.ToastUtil
+import android.webkit.WebSettings
+
+
 
 class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
 
+    private var mType: Int = 0
     private var mArticle: Article? = null
     private var mBanner: Banner? = null
 
@@ -45,9 +49,20 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val intent = activity?.intent!!
-        mArticle = intent.getParcelableExtra(DetailActivity.ARTICLE)
-        mArticle?.timestamp = System.currentTimeMillis()
+        val intent = activity?.intent
+        intent?.let {
+            mType = it.getIntExtra(DetailActivity.TYPE, DetailActivity.TYPE_ARTICLE)
+            when (mType) {
+                DetailActivity.TYPE_ARTICLE -> {
+                    mArticle = it.getParcelableExtra(DetailActivity.OBJ)
+                    mArticle?.timestamp = System.currentTimeMillis()
+                }
+                DetailActivity.TYPE_BANNER -> {
+                    mBanner = it.getParcelableExtra(DetailActivity.OBJ)
+                }
+            }
+        }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,8 +86,13 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
 
     override fun onResume() {
         super.onResume()
-        load(mArticle?.link!!)
-        mPresenter.checkIsCollection(USER_ID_DEFAULT, mArticle!!)
+        if (mType == DetailActivity.TYPE_ARTICLE) {
+            load(mArticle?.link!!)
+            mPresenter.checkIsCollection(USER_ID_DEFAULT, mArticle!!)
+        } else if (mType == DetailActivity.TYPE_BANNER) {
+            load(mBanner?.url!!)
+        }
+
     }
 
     override fun onPause() {
@@ -96,11 +116,16 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
             R.id.tv_detail_share -> {
             }
             R.id.tv_detail_link -> {
-                copyLink(mArticle?.link!!)
-                ToastUtil.showMsg(resources.getString(R.string.toast_copy_link))
+                when(mType) {
+                    DetailActivity.TYPE_ARTICLE -> copyLink(mArticle?.link!!)
+                    DetailActivity.TYPE_BANNER -> copyLink(mBanner?.url!!)
+                }
             }
             R.id.tv_detail_browser -> {
-                AppUtil.openInBrowser(context, mArticle?.link!!)
+                when(mType) {
+                    DetailActivity.TYPE_ARTICLE -> AppUtil.openInBrowser(context, mArticle?.link)
+                    DetailActivity.TYPE_BANNER -> AppUtil.openInBrowser(context, mBanner?.url)
+                }
             }
         }
     }
@@ -112,6 +137,14 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
                 .createAgentWeb()
                 .ready()
                 .go(url)
+        val webView = mAgentWeb.webCreator.webView
+        val settings = webView.settings
+        settings.setSupportZoom(true)
+        settings.builtInZoomControls = true
+        settings.displayZoomControls = false
+        settings.useWideViewPort = true
+        settings.loadsImagesAutomatically = true
+        settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
     }
 
 
@@ -140,6 +173,11 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
         } else {
             resources.getString(R.string.detail_collect)
         }
+        mMenuDetail.getContentView().findViewById<AppCompatTextView>(R.id.tv_detail_collect).visibility = when (mType) {
+            DetailActivity.TYPE_ARTICLE -> View.VISIBLE
+            DetailActivity.TYPE_BANNER -> View.GONE
+            else -> View.GONE
+        }
         mMenuDetail.show()
     }
 
@@ -165,6 +203,7 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
             ClipData.newPlainText("link", Html.fromHtml(url))
         }
         manager.primaryClip = clipData
+        ToastUtil.showMsg(resources.getString(R.string.toast_copy_link))
     }
 
     override fun addToCollectionSuccess() {

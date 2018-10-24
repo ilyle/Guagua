@@ -2,6 +2,7 @@ package com.xiaoqi.guagua.mvp.model.bean
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import org.litepal.crud.LitePalSupport
 
 data class ArticleData(
@@ -33,7 +34,8 @@ data class Article(
         var desc: String?,
         var envelopePic: String?,
         var fresh: Boolean,
-        var id: Int,
+        @SerializedName("id")
+        var articleId: Int,
         var link: String?,
         var niceDate: String?,
         var origin: String?,
@@ -86,7 +88,7 @@ data class Article(
         parcel.writeString(desc)
         parcel.writeString(envelopePic)
         parcel.writeByte(if (fresh) 1 else 0)
-        parcel.writeInt(id)
+        parcel.writeInt(articleId)
         parcel.writeString(link)
         parcel.writeString(niceDate)
         parcel.writeString(origin)

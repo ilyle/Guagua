@@ -70,7 +70,7 @@ class ArticleRecyclerViewAdapter(context: Context?, articleList: MutableList<Art
              */
                 R.id.cv_item_article -> {
                     val article = mArticleList[adapterPosition]
-                    DetailActivity.startAction(mContext!!, article)
+                    DetailActivity.startAction(mContext!!, article, DetailActivity.TYPE_ARTICLE)
                 }
             }
         }

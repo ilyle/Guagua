@@ -10,6 +10,7 @@ import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.source.impl.BannerDataSourceImpl
 import com.xiaoqi.guagua.mvp.model.source.remote.BannerDataSourceRemote
+import com.xiaoqi.guagua.mvp.vp.detail.DetailActivity
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
@@ -62,13 +63,13 @@ class BannerFragment : BaseFragment(), BannerView {
         mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR)
         mBanner.setBannerAnimation(Transformer.ZoomOutSlide)
         mBanner.setDelayTime(5000)
-        mBanner.setImageLoader(object : ImageLoader(){
+        mBanner.setImageLoader(object : ImageLoader() {
             override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
                 Glide.with(context!!).load(path).into(imageView!!)
             }
         })
-        mBanner.setOnBannerListener {
-
+        mBanner.setOnBannerListener { position ->
+            DetailActivity.startAction(context!!, bannerList[position], DetailActivity.TYPE_BANNER)
         }
         mBanner.start()
     }

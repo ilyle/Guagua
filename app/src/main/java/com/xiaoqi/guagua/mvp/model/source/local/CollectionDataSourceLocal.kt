@@ -18,13 +18,13 @@ class CollectionDataSourceLocal : CollectionDataSource {
     }
 
     override fun removeCollection(userId: Int, article: Article): Boolean {
-        val ret = LitePal.deleteAll(Article::class.java, "userId = ? and articleId = ?", userId.toString(), article.id.toString())
+        val ret = LitePal.deleteAll(Article::class.java, "userId = ? and articleId = ?", userId.toString(), article.articleId.toString())
         return ret != -1
     }
 
     override fun isExist(userId: Int, article: Article): Boolean {
         val articleList = LitePal
-                .where("userId = ? and articleId = ?", userId.toString(), article.id.toString())
+                .where("userId = ? and articleId = ?", userId.toString(), article.articleId.toString())
                 .find(Article::class.java)
         return !articleList.isEmpty()
     }

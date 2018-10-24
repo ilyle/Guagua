@@ -20,12 +20,14 @@ object AppUtil {
         return manager.getPackageInfo(context.packageName, 0).versionCode
     }
 
-    fun openInBrowser(context: Context?, url: String) {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            context?.startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            ToastUtil.showMsg(e.toString())
+    fun openInBrowser(context: Context?, url: String?) {
+        url?.let {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                context?.startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                ToastUtil.showMsg(e.toString())
+            }
         }
     }
 }

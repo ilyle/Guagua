@@ -3,6 +3,8 @@ package com.xiaoqi.guagua.mvp.vp.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Article
@@ -14,23 +16,22 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var mDetailFragment: DetailFragment
 
     companion object {
-        fun startAction(context: Context, article: Article) {
+        /**
+         * 启动DetailActivity
+         * @param obj 继承Parcelable的类实例，目前由Article和Banner
+         * @param type 0：article，1：banner
+         */
+        fun startAction(context: Context, obj: Parcelable, type: Int) {
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra(DetailActivity.ARTICLE, article) // Article实现Parcelable接口，可以在Activity间传输
-            intent.putExtra(DetailActivity.IS_FROM_ARTICLE, true)
+            intent.putExtra(DetailActivity.OBJ, obj) // Article实现Parcelable接口，可以在Activity间传输
+            intent.putExtra(DetailActivity.TYPE, type)
             context.startActivity(intent)
         }
 
-        fun startAction(context: Context, url: String, isFromArticle: Boolean) {
-            val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra(DetailActivity.URL, url)
-            intent.putExtra(DetailActivity.IS_FROM_ARTICLE, isFromArticle)
-            context.startActivity(intent)
-        }
-
-        const val ARTICLE: String = "ARTICLE"
-        const val URL: String = "URL"
-        const val IS_FROM_ARTICLE = "IS_FROM_ARTICLE"
+        const val OBJ = "obj"
+        const val TYPE = "type"
+        const val TYPE_ARTICLE = 0
+        const val TYPE_BANNER = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
