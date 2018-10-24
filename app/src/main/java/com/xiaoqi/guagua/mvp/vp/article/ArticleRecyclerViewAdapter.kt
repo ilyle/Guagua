@@ -70,10 +70,8 @@ class ArticleRecyclerViewAdapter(context: Context?, articleList: MutableList<Art
              * 点击CardView跳转WebView
              */
                 R.id.cv_item_article -> {
-                    val intent = Intent(mContext, DetailActivity::class.java)
                     val article = mArticleList[adapterPosition]
-                    intent.putExtra(DetailActivity.ARTICLE, article) // Article实现Parcelable接口，可以在Activity间传输
-                    mContext?.startActivity(intent)
+                    DetailActivity.startAction(mContext!!, article)
                 }
             }
         }

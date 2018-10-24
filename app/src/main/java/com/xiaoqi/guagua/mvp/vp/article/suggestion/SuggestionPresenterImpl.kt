@@ -22,7 +22,7 @@ class SuggestionPresenterImpl private constructor(view: SuggestionView, model: A
 
     companion object {
         /**
-         * 对外构造函数
+         * 对外构造函数，presenter的初始化在init中
          */
         fun build(view: SuggestionView, model: ArticleDataSource) {
             SuggestionPresenterImpl(view, model)

@@ -1,6 +1,7 @@
 package com.xiaoqi.guagua.retrofit
 
 import com.xiaoqi.guagua.mvp.model.bean.ArticleData
+import com.xiaoqi.guagua.mvp.model.bean.BannerData
 import com.xiaoqi.guagua.mvp.model.bean.Category
 import com.xiaoqi.guagua.mvp.model.bean.CategoryData
 import io.reactivex.Observable
@@ -22,4 +23,7 @@ interface RetrofitService {
 
     @GET(Api.ARTICLE_LIST + "{page}/json")
     fun categoryArticle(@Path("page") page: Int, @Query("cid") categoryId: Int): Observable<ArticleData>
+
+    @GET(Api.BANNER)
+    fun getBanner(): Observable<BannerData>
 }

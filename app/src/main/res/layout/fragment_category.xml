@@ -11,19 +11,43 @@
         app:srlAccentColor="@color/white"
         app:srlPrimaryColor="@color/color_primary">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_category"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
+            <android.support.design.widget.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_layout_background">
+
+                <android.support.design.widget.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+                    <fragment
+                        android:id="@+id/banner_category"
+                        android:name="com.xiaoqi.guagua.mvp.vp.banner.BannerFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_collapseMode="parallax" />
+                </android.support.design.widget.CollapsingToolbarLayout>
+            </android.support.design.widget.AppBarLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_category"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </android.support.design.widget.CoordinatorLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_category_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawablePadding="16dp"
         android:drawableTop="@drawable/ic_empty"
+        android:drawablePadding="16dp"
         android:text="@string/tv_empty"
         android:textColor="@color/color_a5a5a5"
         android:textSize="16sp"

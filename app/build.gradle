@@ -63,6 +63,9 @@ dependencies {
     implementation 'com.tencent:mmkv:1.0.10'
     // WPopup
     implementation 'com.github.wanglu1209:WPopup:0.21'
+    // Banner
+    compile group: 'com.youth.banner', name: 'banner', version: '1.4.10'
+
 
     implementation project(':base')
 }
