@@ -103,7 +103,7 @@ class ArticleDataSourceImpl(remote: ArticleDataSourceRemote) : ArticleDataSource
             mSuggestionCache?.clear()
         }
         for (article in articleList) {
-            mSuggestionCache?.put(article.articleId, article)
+            mSuggestionCache?.put(article.id, article)
         }
     }
 
@@ -115,7 +115,7 @@ class ArticleDataSourceImpl(remote: ArticleDataSourceRemote) : ArticleDataSource
             mSearchCache?.clear()
         }
         for (article in articleList) {
-            mSearchCache?.put(article.articleId, article)
+            mSearchCache?.put(article.id, article)
         }
     }
 
@@ -127,7 +127,7 @@ class ArticleDataSourceImpl(remote: ArticleDataSourceRemote) : ArticleDataSource
             mCategoryCache?.clear()
         }
         for (article in articleList) {
-            mCategoryCache?.put(article.articleId, article)
+            mCategoryCache?.put(article.id, article)
         }
     }
 }

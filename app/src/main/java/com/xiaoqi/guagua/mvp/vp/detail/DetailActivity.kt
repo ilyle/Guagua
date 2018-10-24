@@ -15,11 +15,22 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         fun startAction(context: Context, article: Article) {
-            val intent = Intent(context, this::class.java)
+            val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra(DetailActivity.ARTICLE, article) // Article实现Parcelable接口，可以在Activity间传输
+            intent.putExtra(DetailActivity.IS_FROM_ARTICLE, true)
             context.startActivity(intent)
         }
-        const val ARTICLE: String = "Article"
+
+        fun startAction(context: Context, url: String, isFromArticle: Boolean) {
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.URL, url)
+            intent.putExtra(DetailActivity.IS_FROM_ARTICLE, isFromArticle)
+            context.startActivity(intent)
+        }
+
+        const val ARTICLE: String = "ARTICLE"
+        const val URL: String = "URL"
+        const val IS_FROM_ARTICLE = "IS_FROM_ARTICLE"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

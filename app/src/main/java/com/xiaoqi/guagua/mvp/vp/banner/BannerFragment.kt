@@ -56,7 +56,7 @@ class BannerFragment : BaseFragment(), BannerView {
     override fun showBanner(bannerList: List<com.xiaoqi.guagua.mvp.model.bean.Banner>) {
         val imageUrlList = mutableListOf<String>()
         for (banner in bannerList) {
-            imageUrlList.add(banner.imagePath)
+            banner.imagePath?.let { imageUrlList.add(it) }
         }
         mBanner.setImages(imageUrlList)
         mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR)

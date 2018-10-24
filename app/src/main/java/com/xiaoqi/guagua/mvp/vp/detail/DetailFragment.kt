@@ -1,7 +1,6 @@
 package com.xiaoqi.guagua.mvp.vp.detail
 
 import android.content.*
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.AppCompatTextView
@@ -17,12 +16,14 @@ import com.xiaoqi.base.dialog.BaseDialog
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Article
+import com.xiaoqi.guagua.mvp.model.bean.Banner
 import com.xiaoqi.guagua.util.AppUtil
 import com.xiaoqi.guagua.util.ToastUtil
 
 class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
 
-    private lateinit var mArticle: Article
+    private var mArticle: Article? = null
+    private var mBanner: Banner? = null
 
     private lateinit var mTbDetail: Toolbar
     private lateinit var mFlDetail: FrameLayout
@@ -46,7 +47,7 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
         super.onCreate(savedInstanceState)
         val intent = activity?.intent!!
         mArticle = intent.getParcelableExtra(DetailActivity.ARTICLE)
-        mArticle.timestamp = System.currentTimeMillis()
+        mArticle?.timestamp = System.currentTimeMillis()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -70,8 +71,8 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
 
     override fun onResume() {
         super.onResume()
-        load(mArticle.link!!)
-        mPresenter.checkIsCollection(USER_ID_DEFAULT, mArticle)
+        load(mArticle?.link!!)
+        mPresenter.checkIsCollection(USER_ID_DEFAULT, mArticle!!)
     }
 
     override fun onPause() {
@@ -95,11 +96,11 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
             R.id.tv_detail_share -> {
             }
             R.id.tv_detail_link -> {
-                copyLink(mArticle.link!!)
+                copyLink(mArticle?.link!!)
                 ToastUtil.showMsg(resources.getString(R.string.toast_copy_link))
             }
             R.id.tv_detail_browser -> {
-                AppUtil.openInBrowser(context, mArticle.link!!)
+                AppUtil.openInBrowser(context, mArticle?.link!!)
             }
         }
     }
@@ -145,11 +146,11 @@ class DetailFragment : BaseFragment(), View.OnClickListener, DetailView {
 
     private fun collect() {
         if (isCollected) {
-            mPresenter.removeCollection(USER_ID_DEFAULT, mArticle)
+            mPresenter.removeCollection(USER_ID_DEFAULT, mArticle!!)
         } else {
-            mPresenter.insertCollection(USER_ID_DEFAULT, mArticle)
+            mPresenter.insertCollection(USER_ID_DEFAULT, mArticle!!)
         }
-        mPresenter.checkIsCollection(USER_ID_DEFAULT, mArticle)
+        mPresenter.checkIsCollection(USER_ID_DEFAULT, mArticle!!)
     }
 
     private fun share() {
