@@ -2,13 +2,18 @@ package com.xiaoqi.guagua.mvp.model.bean
 
 import com.google.gson.annotations.SerializedName
 
-class CategoryData {
+data class CategoryData(
+        var errorCode: Int,
+        var errorMsg: String?,
+        var data: List<Category>?
+)
 
-    @SerializedName("errorCode")
-    var errorCode: Int = 0
-    @SerializedName("errorMsg")
-    var errorMsg: String? = null
-    @SerializedName("data")
-    var data: List<Category>? = null
-
-}
+data class Category(
+        var courseId: Int,
+        var id: Int,
+        var name: String?,
+        var order: Int,
+        var parentChapterId: Int,
+        var visible: Int,
+        var children: MutableList<Category>?
+)
