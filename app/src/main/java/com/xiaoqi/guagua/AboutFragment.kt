@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.v7.widget.AppCompatTextView
 import android.view.View
 import com.xiaoqi.guagua.util.AppUtil
+import com.xiaoqi.guagua.util.AppVersion
+import com.xiaoqi.guagua.util.PhoneInformation
 import com.xiaoqi.guagua.util.ToastUtil
 import com.xiaoqi.liteitemview.LiteItemView
 
@@ -40,8 +42,8 @@ class AboutFragment : BaseFragment(), LiteItemView.OnLiteItemViewClick {
     }
 
     private fun setupView() {
-        mTvApp.text = StringBuilder(resources.getString(R.string.app_name)).append(AppUtil.getVersionName())
-        mLivUpdate.rightText = AppUtil.getVersionName()
+        mTvApp.text = StringBuilder(resources.getString(R.string.app_name)).append(AppVersion.versionName)
+        mLivUpdate.rightText = PhoneInformation.deviceName
         mLivUpdate.setOnLiteItemViewClick(this)
         mLivAppreciate.setOnLiteItemViewClick(this)
         mLivLicense.setOnLiteItemViewClick(this)

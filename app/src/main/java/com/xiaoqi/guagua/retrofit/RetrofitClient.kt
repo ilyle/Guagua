@@ -9,15 +9,26 @@ object RetrofitClient {
 
     private var okHttpClient: OkHttpClient = OkHttpClient.Builder().build()
 
-    private var retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(Api.API_BASE)
+    private var wanAndroidRetrofit: Retrofit = Retrofit.Builder()
+            .baseUrl(Api.API_WAN_ANDROID)
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    fun getInstance(): Retrofit {
-        return retrofit
+    private var guaGuaRetrofit: Retrofit = Retrofit.Builder()
+            .baseUrl(Api.API_GUA_GUA)
+            .client(okHttpClient)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+    fun getWanAndroidInstance(): Retrofit {
+        return wanAndroidRetrofit
+    }
+
+    fun getGuaGuaInstance(): Retrofit {
+        return guaGuaRetrofit
     }
 
 }

@@ -8,18 +8,6 @@ import com.xiaoqi.guagua.MainApplication
 
 object AppUtil {
 
-    fun getVersionName(): String {
-        val context = MainApplication.getContext()
-        val manager = context.packageManager
-        return manager.getPackageInfo(context.packageName, 0).versionName
-    }
-
-    fun getVersionCode(): Int {
-        val context = MainApplication.getContext()
-        val manager = context.packageManager
-        return manager.getPackageInfo(context.packageName, 0).versionCode
-    }
-
     fun openInBrowser(context: Context?, url: String?) {
         url?.let {
             try {

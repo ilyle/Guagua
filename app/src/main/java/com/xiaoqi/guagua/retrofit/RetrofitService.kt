@@ -1,9 +1,6 @@
 package com.xiaoqi.guagua.retrofit
 
-import com.xiaoqi.guagua.mvp.model.bean.ArticleData
-import com.xiaoqi.guagua.mvp.model.bean.BannerData
-import com.xiaoqi.guagua.mvp.model.bean.Category
-import com.xiaoqi.guagua.mvp.model.bean.CategoryData
+import com.xiaoqi.guagua.mvp.model.bean.*
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -26,4 +23,10 @@ interface RetrofitService {
 
     @GET(Api.BANNER)
     fun getBanner(): Observable<BannerData>
+
+    @POST(Api.LOGIN)
+    fun login(@Query("username") username: String, @Query("password") password: String): Observable<UserData>
+
+    @POST(Api.LOGOUT)
+    fun logout(@Query("id") id: Int): Observable<UserData>
 }

@@ -24,7 +24,7 @@ class ArticleDataSourceRemote private constructor() : ArticleDataSource {
     }
 
     override fun listArticle(page: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<Article>> {
-        return RetrofitClient.getInstance()
+        return RetrofitClient.getWanAndroidInstance()
                 .create(RetrofitService::class.java)
                 .listArticle(page)
                 .filter { it.errorCode != -1 }
@@ -32,7 +32,7 @@ class ArticleDataSourceRemote private constructor() : ArticleDataSource {
     }
 
     override fun queryArticle(page: Int, query: String, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<Article>> {
-        return RetrofitClient.getInstance()
+        return RetrofitClient.getWanAndroidInstance()
                 .create(RetrofitService::class.java)
                 .queryArticle(page, query)
                 .filter { it.errorCode != -1 }
@@ -40,7 +40,7 @@ class ArticleDataSourceRemote private constructor() : ArticleDataSource {
     }
 
     override fun categoryArticle(page: Int, categoryId: Int, forceUpdate: Boolean, clearCache: Boolean): Observable<MutableList<Article>> {
-        return RetrofitClient.getInstance()
+        return RetrofitClient.getWanAndroidInstance()
                 .create(RetrofitService::class.java)
                 .categoryArticle(page, categoryId)
                 .filter { it.errorCode != -1 }

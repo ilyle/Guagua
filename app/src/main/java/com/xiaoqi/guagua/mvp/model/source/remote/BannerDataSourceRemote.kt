@@ -20,7 +20,7 @@ class BannerDataSourceRemote : BannerDataSource {
     }
 
     override fun getBanner(): Observable<List<Banner>> {
-        return RetrofitClient.getInstance()
+        return RetrofitClient.getWanAndroidInstance()
                 .create(RetrofitService::class.java)
                 .getBanner()
                 .filter { it.errorCode != -1 }

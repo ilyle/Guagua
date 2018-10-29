@@ -23,7 +23,7 @@ class CategoryDataSourceRemote : CategoryDataSource {
     }
 
     override fun listCategory(): Observable<MutableList<Category>> {
-        return RetrofitClient.getInstance()
+        return RetrofitClient.getWanAndroidInstance()
                 .create(RetrofitService::class.java)
                 .listCategory()
                 .filter { it.errorCode != -1 }

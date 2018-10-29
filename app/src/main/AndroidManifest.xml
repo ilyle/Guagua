@@ -11,6 +11,11 @@
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
@@ -24,12 +29,16 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".mvp.vp.detail.DetailActivity" />
         <activity android:name=".mvp.vp.search.SearchActivity" />
         <activity android:name=".LicenseActivity" />
+        <activity
+            android:name=".mvp.vp.login.LoginActivity"/>
+        <activity android:name=".MineActivity" />
     </application>
 
 </manifest>
