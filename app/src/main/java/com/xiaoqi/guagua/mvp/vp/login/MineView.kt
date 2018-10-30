@@ -4,7 +4,7 @@ import com.xiaoqi.guagua.mvp.model.bean.User
 import com.xiaoqi.guagua.mvp.model.bean.UserData
 import com.xiaoqi.guagua.mvp.vp.BaseView
 
-interface LogoutView : BaseView<UserPresenter> {
+interface MineView : BaseView<UserPresenter> {
 
     fun isActive(): Boolean
 

@@ -16,6 +16,9 @@ data class User(
 )
 
 object UserInfo {
+    /*
+    user不为空，若无用户登录，则id = -1
+     */
     var user: User = User(-1, "", "", "")
         get() {
             val id = MmkvUtil.getUserId()

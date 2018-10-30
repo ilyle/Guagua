@@ -42,7 +42,7 @@ class LoginFragment : BaseFragment(), View.OnClickListener, LoginView {
     }
 
     private fun navigate2Main() {
-        MainActivity.startAction(context!!)
+        activity?.onBackPressed()
     }
 
     override fun showLoginFail(errorMsg: String) {

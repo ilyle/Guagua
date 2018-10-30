@@ -10,14 +10,14 @@ import com.xiaoqi.guagua.mvp.model.bean.UserInfo
 import com.xiaoqi.guagua.util.MmkvUtil
 import com.xiaoqi.guagua.util.ToastUtil
 
-class LogoutFragment : BaseFragment(), LogoutView, View.OnClickListener {
+class MineFragment : BaseFragment(), MineView, View.OnClickListener {
 
     private lateinit var mPresenter: UserPresenter
     private lateinit var mBtnLogout: Button
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_mine_logout -> {
-                UserInfo.user?.let { mPresenter.logout(it.id) }
+                UserInfo.user.let { mPresenter.logout(it.id) }
             }
         }
     }
@@ -40,7 +40,7 @@ class LogoutFragment : BaseFragment(), LogoutView, View.OnClickListener {
     }
 
     private fun navigate2Main() {
-        MainActivity.startAction(context!!)
+        activity?.onBackPressed()
     }
 
     override fun showLogoutFail(errorMsg: String) {
@@ -56,7 +56,7 @@ class LogoutFragment : BaseFragment(), LogoutView, View.OnClickListener {
     }
 
     override fun getResource(): Int {
-        return R.layout.fragment_logout
+        return R.layout.fragment_mine
     }
 
     override fun initView(view: View) {
@@ -65,8 +65,8 @@ class LogoutFragment : BaseFragment(), LogoutView, View.OnClickListener {
     }
 
     companion object {
-        fun newInstance(): LogoutFragment {
-            return LogoutFragment()
+        fun newInstance(): MineFragment {
+            return MineFragment()
         }
     }
 }

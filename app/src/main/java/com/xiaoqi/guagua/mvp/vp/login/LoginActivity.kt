@@ -11,7 +11,7 @@ import com.xiaoqi.guagua.mvp.model.source.remote.UserDataSourceRemote
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var mLoginFragment: LoginFragment
-    private lateinit var mLogoutFragment: LogoutFragment
+    private lateinit var mMineFragment: MineFragment
     private lateinit var mRegisterFragment: RegisterFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,19 +19,19 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_common)
         savedInstanceState?.let {
             mLoginFragment = supportFragmentManager.getFragment(it, LoginFragment::class.java.simpleName) as LoginFragment
-            mLogoutFragment = supportFragmentManager.getFragment(it, LogoutFragment::class.java.simpleName) as LogoutFragment
+            mMineFragment = supportFragmentManager.getFragment(it, MineFragment::class.java.simpleName) as MineFragment
             mRegisterFragment = supportFragmentManager.getFragment(it, RegisterFragment::class.java.simpleName) as RegisterFragment
         }
         if (savedInstanceState == null) {
             mLoginFragment = LoginFragment.newInstance()
-            mLogoutFragment = LogoutFragment.newInstance()
+            mMineFragment = MineFragment.newInstance()
             mRegisterFragment = RegisterFragment.newInstance()
         }
         if (!mLoginFragment.isAdded) {
             supportFragmentManager.beginTransaction().add(R.id.fl_activity_common, mLoginFragment, LoginFragment::class.java.simpleName).commit()
         }
-        if (!mLogoutFragment.isAdded) {
-            supportFragmentManager.beginTransaction().add(R.id.fl_activity_common, mLogoutFragment, LogoutFragment::class.java.simpleName).commit()
+        if (!mMineFragment.isAdded) {
+            supportFragmentManager.beginTransaction().add(R.id.fl_activity_common, mMineFragment, MineFragment::class.java.simpleName).commit()
         }
         if (!mRegisterFragment.isAdded) {
             supportFragmentManager.beginTransaction().add(R.id.fl_activity_common, mRegisterFragment, RegisterFragment::class.java.simpleName).commit()
@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
         /*
         构建BannerPresenter实例，拥有view和model对象，同时在BannerPresenterImpl的init函数中，将BannerPresenter实例传给view（BannerFragment）
          */
-        UserPresenterImpl.build(mLoginFragment, mLogoutFragment, UserDataSourceImpl.getInstance(UserDataSourceRemote.getInstance()))
+        UserPresenterImpl.build(mLoginFragment, mMineFragment, UserDataSourceImpl.getInstance(UserDataSourceRemote.getInstance()))
         intent?.let {
             val loginType = it.getIntExtra(LoginActivity.TYPE, LoginActivity.TYPE_LOGIN)
             when (loginType) {
@@ -47,22 +47,22 @@ class LoginActivity : AppCompatActivity() {
                     showLoginFragment()
                 }
                 LoginActivity.TYPE_LOGOUT -> {
-                    showLogoutFragment()
+                    showMineFragment()
                 }
             }
         }
     }
 
     fun showLoginFragment() {
-        supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.right_in, R.anim.right_out).show(mLoginFragment).hide(mLogoutFragment).hide(mRegisterFragment).commit()
+        supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.right_in, R.anim.right_out).show(mLoginFragment).hide(mMineFragment).hide(mRegisterFragment).commit()
     }
 
-    fun showLogoutFragment() {
-        supportFragmentManager.beginTransaction().show(mLogoutFragment).hide(mLoginFragment).hide(mRegisterFragment).commit()
+    fun showMineFragment() {
+        supportFragmentManager.beginTransaction().show(mMineFragment).hide(mLoginFragment).hide(mRegisterFragment).commit()
     }
 
     fun showRegisterFragment() {
-        supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.left_in, R.anim.left_out).show(mRegisterFragment).hide(mLoginFragment).hide(mLogoutFragment).commit()
+        supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.left_in, R.anim.left_out).show(mRegisterFragment).hide(mLoginFragment).hide(mMineFragment).commit()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
                 supportFragmentManager.putFragment(it, LoginFragment::class.java.simpleName, mLoginFragment)
             }
             if (mLoginFragment.isAdded) {
-                supportFragmentManager.putFragment(it, LogoutFragment::class.java.simpleName, mLogoutFragment)
+                supportFragmentManager.putFragment(it, MineFragment::class.java.simpleName, mMineFragment)
             }
             if (mRegisterFragment.isAdded) {
                 supportFragmentManager.putFragment(it, RegisterFragment::class.java.simpleName, mRegisterFragment)

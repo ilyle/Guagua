@@ -87,9 +87,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnNavigationItem
         mTvUserNickname = mNvMain.getHeaderView(0).findViewById(R.id.tv_nav_header_nickname)
         mIvUserAvatar.setOnClickListener(this)
         mBnvMain.setOnNavigationItemSelectedListener(this)
-
-
-
     }
 
     private fun initFragment(savedInstanceState: Bundle?) {

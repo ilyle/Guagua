@@ -7,13 +7,13 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 
-class UserPresenterImpl(private val mLoginView: LoginView, private val mLogoutView: LogoutView, private val mModel: UserDataSource) : UserPresenter {
+class UserPresenterImpl(private val mLoginView: LoginView, private val mMineView: MineView, private val mModel: UserDataSource) : UserPresenter {
 
     private val mDisposable: CompositeDisposable = CompositeDisposable()
 
     init {
         mLoginView.setPresenter(this)
-        mLogoutView.setPresenter(this)
+        mMineView.setPresenter(this)
     }
 
     override fun login(username: String, password: String) {
@@ -53,18 +53,18 @@ class UserPresenterImpl(private val mLoginView: LoginView, private val mLogoutVi
                     }
 
                     override fun onNext(t: UserData) {
-                        if (mLogoutView.isActive()) {
+                        if (mMineView.isActive()) {
                             if (t.errorCode == -1) {
-                                t.errorMsg?.let { mLogoutView.showLogoutFail(it) }
+                                t.errorMsg?.let { mMineView.showLogoutFail(it) }
                             } else {
-                                t.data?.let { mLogoutView.logoutSuccess(it) }
+                                t.data?.let { mMineView.logoutSuccess(it) }
                             }
                         }
                     }
 
                     override fun onError(e: Throwable) {
-                        if (mLogoutView.isActive()) {
-                            mLogoutView.showNetworkError(e.toString())
+                        if (mMineView.isActive()) {
+                            mMineView.showNetworkError(e.toString())
                         }
                     }
                 })
@@ -72,8 +72,8 @@ class UserPresenterImpl(private val mLoginView: LoginView, private val mLogoutVi
     }
 
     companion object {
-        fun build(loginView: LoginView, logoutView: LogoutView, model: UserDataSource) {
-            UserPresenterImpl(loginView, logoutView, model)
+        fun build(loginView: LoginView, mineView: MineView, model: UserDataSource) {
+            UserPresenterImpl(loginView, mineView, model)
         }
     }
 }
