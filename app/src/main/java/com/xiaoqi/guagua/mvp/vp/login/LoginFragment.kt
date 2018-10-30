@@ -1,5 +1,6 @@
 package com.xiaoqi.guagua.mvp.vp.login
 
+import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -72,7 +73,13 @@ class LoginFragment : BaseFragment(), View.OnClickListener, LoginView {
             R.id.btn_login -> {
                 val username = mEtUsername.text.trim().toString()
                 val password = mEtPassword.text.trim().toString()
-                mPresenter.login(username, password)
+                if (TextUtils.isEmpty(username)) {
+                    ToastUtil.showMsg(getString(R.string.login_no_username))
+                } else if (TextUtils.isEmpty(password)) {
+                    ToastUtil.showMsg(getString(R.string.login_no_password))
+                } else {
+                    mPresenter.login(username, password)
+                }
             }
             R.id.tv_login_to_register -> {
                 (activity as LoginActivity).showRegisterFragment()
