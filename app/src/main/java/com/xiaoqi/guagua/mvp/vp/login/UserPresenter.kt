@@ -5,4 +5,6 @@ interface UserPresenter {
     fun login(username: String, password: String)
 
     fun logout(userId: Int)
+
+    fun register(username: String, password: String)
 }

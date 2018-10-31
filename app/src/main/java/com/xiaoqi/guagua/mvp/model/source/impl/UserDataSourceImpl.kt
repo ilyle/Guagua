@@ -26,4 +26,7 @@ class UserDataSourceImpl(private val mRemote: UserDataSourceRemote) : UserDataSo
         return mRemote.logout(userId)
     }
 
+    override fun register(username: String, password: String): Observable<UserData> {
+        return mRemote.register(username, password)
+    }
 }

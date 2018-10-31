@@ -7,12 +7,13 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 
-class UserPresenterImpl(private val mLoginView: LoginView, private val mMineView: MineView, private val mModel: UserDataSource) : UserPresenter {
+class UserPresenterImpl(private val mLoginView: LoginView, private val mRegisterView: RegisterView, private val mMineView: MineView, private val mModel: UserDataSource) : UserPresenter {
 
     private val mDisposable: CompositeDisposable = CompositeDisposable()
 
     init {
         mLoginView.setPresenter(this)
+        mRegisterView.setPresenter(this)
         mMineView.setPresenter(this)
     }
 
@@ -71,9 +72,36 @@ class UserPresenterImpl(private val mLoginView: LoginView, private val mMineView
         mDisposable.add(disposable)
     }
 
+    override fun register(username: String, password: String) {
+        val disposable = mModel.register(username, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableObserver<UserData>() {
+                    override fun onComplete() {
+                    }
+
+                    override fun onNext(t: UserData) {
+                        if (mRegisterView.isActive()) {
+                            if (t.errorCode == -1) {
+                                t.errorMsg?.let { mRegisterView.showRegisterFail(it) }
+                            } else {
+                                t.data?.let { mRegisterView.registerSuccess(it) }
+                            }
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        if (mRegisterView.isActive()) {
+                            mRegisterView.showNetworkError(e.toString())
+                        }
+                    }
+                })
+        mDisposable.add(disposable)
+    }
+
     companion object {
-        fun build(loginView: LoginView, mineView: MineView, model: UserDataSource) {
-            UserPresenterImpl(loginView, mineView, model)
+        fun build(loginView: LoginView, registerView: RegisterView, mineView: MineView, model: UserDataSource) {
+            UserPresenterImpl(loginView, registerView, mineView, model)
         }
     }
 }

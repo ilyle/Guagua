@@ -31,4 +31,10 @@ class UserDataSourceRemote : UserDataSource {
                 .create(RetrofitService::class.java)
                 .logout(userId)
     }
+
+    override fun register(username: String, password: String): Observable<UserData> {
+        return RetrofitClient.getGuaGuaInstance()
+                .create(RetrofitService::class.java)
+                .register(username, password)
+    }
 }
