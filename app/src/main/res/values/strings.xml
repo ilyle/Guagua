@@ -10,6 +10,7 @@
     <string name="nav_sign_out">退出</string>
 
     <!--登录-->
+    <string name="login_click_to_login">点击登录</string>
     <string name="login_username_hint">请输入用户名</string>
     <string name="login_password_hint">请输入密码</string>
     <string name="login_password_again_hint">请再次输入密码</string>
@@ -20,10 +21,10 @@
     <string name="register_success">注册成功</string>
     <string name="login_no_username">请输入用户名</string>
     <string name="login_no_password">请输入密码</string>
+    <string name="login_password_visible">密码可见</string>
     <string name="register_username_invalidate">请正确输入用户名：字母或下划线开头，4–16个字符</string>
     <string name="register_password_invalidate">请正确输入密码：大写字母，小写字母，数字，特殊符号必须四选三，长度至少6位</string>
     <string name="register_password_different">两次输入密码不一致</string>
-    <string name="login_password_visible">密码可见</string>
     <string name="login">登录</string>
     <string name="logout">退出</string>
     <string name="register">注册</string>

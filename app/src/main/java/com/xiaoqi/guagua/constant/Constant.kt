@@ -10,17 +10,22 @@ object Constant {
 
     const val BUGLY_APP_KEY = "7d3612c8-855d-49d1-a25a-7a883bd92ffa"
 
-    object MMKV {
-
-        const val SEARCH_HISTORY = "search_history"
+    object SP {
 
         const val USER_ID = "user_id"
 
-        const val USER_NAME = "user_name"
+        const val USER_UID = "user_uid"
 
-        const val USER_PW = "user_pw"
+        const val USER_USERNAME = "user_username"
+
+        const val USER_PASSWORD = "user_password"
+
+        const val USER_TOKEN = "user_token"
 
         const val USER_IS_LOGIN = "user_is_login"
     }
 
+    object MMKV {
+        const val SEARCH_HISTORY = "search_history"
+    }
 }

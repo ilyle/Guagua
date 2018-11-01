@@ -1,6 +1,7 @@
 package com.xiaoqi.guagua.mvp.model.bean
 
 import com.xiaoqi.guagua.util.MmkvUtil
+import com.xiaoqi.guagua.util.PreferenceUtil
 
 data class UserData(
         var data: User?,
@@ -8,23 +9,18 @@ data class UserData(
         var errorMsg: String?
 )
 
-data class User(
-        var id: Int, // -1：未登录
-        var username: String,
-        var password: String,
-        var token: String
-)
+class User {
+    var id: Int = 0 // 0：未登录
+    var uid: String? = null // 服务器生成的
+    var username: String? = null
+    var password: String? = null
+    var token: String? = null
+}
 
 object UserInfo {
-    /*
-    user不为空，若无用户登录，则id = -1
-     */
-    var user: User = User(-1, "", "", "")
+
+    var user: User? = null
         get() {
-            val id = MmkvUtil.getUserId()
-            val username = MmkvUtil.getUserName()
-            val password = MmkvUtil.getUserPw()
-            field = User(id, username, password, "")
-            return field
+            return PreferenceUtil.getUser()
         }
 }

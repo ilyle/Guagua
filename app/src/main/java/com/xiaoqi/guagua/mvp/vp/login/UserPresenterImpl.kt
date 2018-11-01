@@ -45,8 +45,8 @@ class UserPresenterImpl(private val mLoginView: LoginView, private val mRegister
         mDisposable.add(disposable)
     }
 
-    override fun logout(userId: Int) {
-        val disposable = mModel.logout(userId)
+    override fun logout(uid: String) {
+        val disposable = mModel.logout(uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableObserver<UserData>(){

@@ -7,7 +7,7 @@ interface UserDataSource {
 
     fun login(username: String, password: String): Observable<UserData>
 
-    fun logout(userId: Int): Observable<UserData>
+    fun logout(uid: String): Observable<UserData>
 
     fun register(username: String, password: String): Observable<UserData>
 }

@@ -51,9 +51,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnNavigationItem
     override fun onClick(v: View) {
         when (v.id) {
             R.id.civ_nav_header_avatar -> {
-                if (UserInfo.user.id == -1) {
+                if (UserInfo.user == null) { // 未登录
                     LoginActivity.startAction(this@MainActivity, LoginActivity.TYPE_LOGIN)
-                } else {
+                } else { // 已登录
                     LoginActivity.startAction(this@MainActivity, LoginActivity.TYPE_LOGOUT)
                 }
             }
@@ -69,12 +69,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnNavigationItem
 
     override fun onResume() {
         super.onResume()
-        if (UserInfo.user.id == -1) {
+        val user = UserInfo.user
+        if (user == null) {
             mTvUserAvatar.text = ""
-            mTvUserNickname.text = ""
-        } else {
-            mTvUserAvatar.text = UserInfo.user.username.substring(0, 1)
-            mTvUserNickname.text = UserInfo.user.username
+            mTvUserNickname.text = getString(R.string.login_click_to_login)
+        }
+        user?.let {
+            mTvUserAvatar.text = it.username?.substring(0, 1)
+            mTvUserNickname.text = it.username
         }
     }
 

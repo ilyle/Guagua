@@ -9,7 +9,9 @@ import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.MainActivity
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.User
+import com.xiaoqi.guagua.util.Md5Util
 import com.xiaoqi.guagua.util.MmkvUtil
+import com.xiaoqi.guagua.util.PreferenceUtil
 import com.xiaoqi.guagua.util.ToastUtil
 
 class LoginFragment : BaseFragment(), View.OnClickListener, LoginView {
@@ -31,14 +33,7 @@ class LoginFragment : BaseFragment(), View.OnClickListener, LoginView {
 
     override fun loginSuccess(user: User) {
         ToastUtil.showMsg(getString(R.string.login_success))
-        saveUser(user)
-    }
-
-    private fun saveUser(user: User) {
-        MmkvUtil.setUserId(user.id)
-        MmkvUtil.setUserName(user.username)
-        MmkvUtil.setUserPw(user.password)
-        MmkvUtil.setUserIsLogin(true)
+        PreferenceUtil.setUser(user)
         navigate2Main()
     }
 
@@ -78,7 +73,7 @@ class LoginFragment : BaseFragment(), View.OnClickListener, LoginView {
                 } else if (TextUtils.isEmpty(password)) {
                     ToastUtil.showMsg(getString(R.string.login_no_password))
                 } else {
-                    mPresenter.login(username, password)
+                    mPresenter.login(username, Md5Util.encode(password))
                 }
             }
             R.id.tv_login_to_register -> {

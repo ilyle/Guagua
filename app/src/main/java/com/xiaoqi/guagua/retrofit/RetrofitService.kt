@@ -28,7 +28,7 @@ interface RetrofitService {
     fun login(@Query("username") username: String, @Query("password") password: String): Observable<UserData>
 
     @POST(Api.LOGOUT)
-    fun logout(@Query("id") id: Int): Observable<UserData>
+    fun logout(@Query("uid") id: String): Observable<UserData>
 
     @POST(Api.REGISTER)
     fun register(@Query("username") username: String, @Query("password") password: String): Observable<UserData>

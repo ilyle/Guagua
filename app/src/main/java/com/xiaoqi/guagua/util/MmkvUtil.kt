@@ -49,35 +49,4 @@ object MmkvUtil {
         mmkv.encode(Constant.MMKV.SEARCH_HISTORY, "")
     }
 
-    fun setUserId(userId: Int) {
-        mmkv.encode(Constant.MMKV.USER_ID, userId)
-    }
-
-    fun getUserId(): Int {
-        return mmkv.decodeInt(Constant.MMKV.USER_ID, -1)
-    }
-
-    fun setUserName(username: String) {
-        mmkv.encode(Constant.MMKV.USER_NAME, username)
-    }
-
-    fun getUserName(): String {
-        return mmkv.decodeString(Constant.MMKV.USER_NAME, "")
-    }
-
-    fun setUserPw(password: String) {
-        mmkv.encode(Constant.MMKV.USER_PW, password)
-    }
-
-    fun getUserPw(): String {
-        return mmkv.decodeString(Constant.MMKV.USER_PW, "")
-    }
-
-    fun setUserIsLogin(userIsLogin: Boolean) {
-        mmkv.encode(Constant.MMKV.USER_IS_LOGIN, userIsLogin)
-    }
-
-    fun getUserIsLogin(): Boolean {
-        return mmkv.decodeBool(Constant.MMKV.USER_IS_LOGIN, false)
-    }
 }
