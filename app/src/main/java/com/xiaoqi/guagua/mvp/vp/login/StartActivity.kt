@@ -65,6 +65,12 @@ class StartActivity : AppCompatActivity(), LoginView {
         mTvSkip = findViewById(R.id.tv_start_skip)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mTask?.cancel()
+        mTask = null
+    }
+
     private fun setupTask() {
         mTask?.cancel()
         mTask = taskLaunch {
@@ -80,6 +86,7 @@ class StartActivity : AppCompatActivity(), LoginView {
             }
         }
     }
+
     /**
      * 跳转到MainActivity
      */
