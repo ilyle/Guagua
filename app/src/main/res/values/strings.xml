@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">呱呱安卓</string>
 
+    <string name="start_skip">跳过</string>
+
     <string name="nav_bottom_main_article">文章</string>
     <string name="nav_bottom_main_category">类别</string>
     <string name="nav_bottom_main_about">关于</string>

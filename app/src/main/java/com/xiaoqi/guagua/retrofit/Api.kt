@@ -16,6 +16,8 @@ object Api {
 
     const val LOGIN = API_GUA_GUA + "login"
 
+    const val LOGIN_TOKEN = "$LOGIN/token"
+
     const val LOGOUT = API_GUA_GUA + "logout"
 
     const val REGISTER = API_GUA_GUA + "register"

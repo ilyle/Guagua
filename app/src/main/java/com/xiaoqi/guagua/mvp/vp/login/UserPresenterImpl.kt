@@ -7,15 +7,20 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 
-class UserPresenterImpl(private val mLoginView: LoginView, private val mRegisterView: RegisterView, private val mMineView: MineView, private val mModel: UserDataSource) : UserPresenter {
+class UserPresenterImpl(private val mLoginView: LoginView,
+                        private val mRegisterView: RegisterView?,
+                        private val mMineView: MineView?,
+                        private val mModel: UserDataSource) : UserPresenter {
 
     private val mDisposable: CompositeDisposable = CompositeDisposable()
 
     init {
         mLoginView.setPresenter(this)
-        mRegisterView.setPresenter(this)
-        mMineView.setPresenter(this)
+        mRegisterView?.setPresenter(this)
+        mMineView?.setPresenter(this)
     }
+
+    constructor(loginView: LoginView, model: UserDataSource) : this(loginView, null, null, model)
 
     override fun login(username: String, password: String) {
         val disposable = mModel.login(username, password)
@@ -45,27 +50,55 @@ class UserPresenterImpl(private val mLoginView: LoginView, private val mRegister
         mDisposable.add(disposable)
     }
 
-    override fun logout(uid: String) {
-        val disposable = mModel.logout(uid)
+    override fun login(token: String) {
+        val disposable = mModel.login(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : DisposableObserver<UserData>(){
+                .subscribeWith(object : DisposableObserver<UserData>() {
                     override fun onComplete() {
                     }
 
                     override fun onNext(t: UserData) {
-                        if (mMineView.isActive()) {
-                            if (t.errorCode == -1) {
-                                t.errorMsg?.let { mMineView.showLogoutFail(it) }
-                            } else {
-                                t.data?.let { mMineView.logoutSuccess(it) }
+                        if (t.errorCode == -1) {
+                            t.errorMsg?.let { mLoginView.showLoginFail(it) }
+                        } else {
+                            t.data?.let { mLoginView.loginSuccess(it) }
+                        }
+                    }
+
+                    override fun onError(e: Throwable) {
+                        mLoginView.showNetworkError(e.toString())
+                    }
+
+                })
+        mDisposable.add(disposable)
+    }
+
+    override fun logout(uid: String) {
+        val disposable = mModel.logout(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableObserver<UserData>() {
+                    override fun onComplete() {
+                    }
+
+                    override fun onNext(t: UserData) {
+                        mMineView?.let { view ->
+                            if (view.isActive()) {
+                                if (t.errorCode == -1) {
+                                    t.errorMsg?.let { view.showLogoutFail(it) }
+                                } else {
+                                    t.data?.let { view.logoutSuccess(it) }
+                                }
                             }
                         }
                     }
 
                     override fun onError(e: Throwable) {
-                        if (mMineView.isActive()) {
-                            mMineView.showNetworkError(e.toString())
+                        mMineView?.let {
+                            if (it.isActive()) {
+                                it.showNetworkError(e.toString())
+                            }
                         }
                     }
                 })
@@ -81,18 +114,22 @@ class UserPresenterImpl(private val mLoginView: LoginView, private val mRegister
                     }
 
                     override fun onNext(t: UserData) {
-                        if (mRegisterView.isActive()) {
-                            if (t.errorCode == -1) {
-                                t.errorMsg?.let { mRegisterView.showRegisterFail(it) }
-                            } else {
-                                t.data?.let { mRegisterView.registerSuccess(it) }
+                        mRegisterView?.let { view ->
+                            if (view.isActive()) {
+                                if (t.errorCode == -1) {
+                                    t.errorMsg?.let { view.showRegisterFail(it) }
+                                } else {
+                                    t.data?.let { view.registerSuccess(it) }
+                                }
                             }
                         }
                     }
 
                     override fun onError(e: Throwable) {
-                        if (mRegisterView.isActive()) {
-                            mRegisterView.showNetworkError(e.toString())
+                        mRegisterView?.let {
+                            if (it.isActive()) {
+                                it.showNetworkError(e.toString())
+                            }
                         }
                     }
                 })
@@ -102,6 +139,10 @@ class UserPresenterImpl(private val mLoginView: LoginView, private val mRegister
     companion object {
         fun build(loginView: LoginView, registerView: RegisterView, mineView: MineView, model: UserDataSource) {
             UserPresenterImpl(loginView, registerView, mineView, model)
+        }
+
+        fun build(loginView: LoginView, model: UserDataSource) {
+            UserPresenterImpl(loginView, model)
         }
     }
 }
