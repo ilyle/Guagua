@@ -11,6 +11,8 @@ import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Category
 import com.xiaoqi.guagua.mvp.model.source.impl.CategoryDataSourceImpl
 import com.xiaoqi.guagua.mvp.model.source.remote.CategoryDataSourceRemote
+import com.xiaoqi.guagua.mvp.vp.banner.BannerFragment
+import org.greenrobot.eventbus.EventBus
 
 class CategoryFragment : BaseFragment(), CategoryView {
 
@@ -36,6 +38,7 @@ class CategoryFragment : BaseFragment(), CategoryView {
     override fun initView(view: View) {
         mSrlCategory = view.findViewById(R.id.srl_category)
         mSrlCategory.setOnRefreshListener {
+            EventBus.getDefault().post(BannerFragment.EVENT_GET_BANNER);
             mPresenter.listCategory()
         }
         mRvCategory = view.findViewById(R.id.rv_category)

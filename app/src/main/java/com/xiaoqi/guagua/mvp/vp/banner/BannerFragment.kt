@@ -15,6 +15,9 @@ import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
 import com.youth.banner.loader.ImageLoader
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class BannerFragment : BaseFragment(), BannerView {
 
@@ -29,7 +32,13 @@ class BannerFragment : BaseFragment(), BannerView {
         构建BannerPresenter实例，拥有view和model对象，同时在BannerPresenterImpl的init函数中，将BannerPresenter实例传给view（BannerFragment）
          */
         BannerPresenterImpl.build(this, BannerDataSourceImpl.getInstance(BannerDataSourceRemote.getInstance()))
+        /*
+        注册EventBus
+         */
+        EventBus.getDefault().register(this@BannerFragment)
     }
+
+
 
     override fun getResource(): Int {
         return R.layout.fragment_banner
@@ -54,13 +63,30 @@ class BannerFragment : BaseFragment(), BannerView {
         mBanner.stopAutoPlay()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this)
+        }
+    }
+
+    /**
+     * 接收EventBus事件
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun handleEvent(string: String) {
+        if (string == EVENT_GET_BANNER) {
+            mPresenter.getBanner()
+        }
+    }
+
     override fun showBanner(bannerList: List<com.xiaoqi.guagua.mvp.model.bean.Banner>) {
         val imageUrlList = mutableListOf<String>()
         for (banner in bannerList) {
             banner.imagePath?.let { imageUrlList.add(it) }
         }
         mBanner.setImages(imageUrlList)
-        mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR)
+        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
         mBanner.setBannerAnimation(Transformer.ZoomOutSlide)
         mBanner.setDelayTime(5000)
         mBanner.setImageLoader(object : ImageLoader() {
@@ -84,5 +110,6 @@ class BannerFragment : BaseFragment(), BannerView {
 
     companion object {
         const val TAG = "BannerFragment"
+        const val EVENT_GET_BANNER = "EVENT_GET_BANNER"
     }
 }
