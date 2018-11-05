@@ -1,6 +1,7 @@
 package com.xiaoqi.guagua.mvp.vp.login
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import com.dinuscxj.progressbar.CircleProgressBar
@@ -12,10 +13,6 @@ import com.xiaoqi.guagua.mvp.model.source.impl.UserDataSourceImpl
 import com.xiaoqi.guagua.mvp.model.source.remote.UserDataSourceRemote
 import com.xiaoqi.guagua.util.PreferenceUtil
 import com.xiaoqi.guagua.util.ToastUtil
-import com.xiaoqi.guagua.util.coroutines.taskHeartbeat
-import com.xiaoqi.guagua.util.coroutines.taskLaunch
-import com.xiaoqi.guagua.util.coroutines.taskRunOnUiThread
-import kotlinx.coroutines.experimental.Job
 
 /**
  * Created by Xujie on 2018/11/2
@@ -25,7 +22,6 @@ class StartActivity : AppCompatActivity(), LoginView {
 
     private lateinit var mPbSkip: CircleProgressBar
     private lateinit var mTvSkip: TextView
-    private var mTask: Job? = null
     private var mCount: Int = 3
 
     private lateinit var mPresenter: UserPresenter
@@ -57,7 +53,7 @@ class StartActivity : AppCompatActivity(), LoginView {
         setContentView(R.layout.activity_start)
         init()
         UserPresenterImpl.build(this, UserDataSourceImpl.getInstance(UserDataSourceRemote.getInstance()))
-        setupTask()
+        setupTask(mCount)
     }
 
     private fun init() {
@@ -65,26 +61,20 @@ class StartActivity : AppCompatActivity(), LoginView {
         mTvSkip = findViewById(R.id.tv_start_skip)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mTask?.cancel()
-        mTask = null
-    }
-
-    private fun setupTask() {
-        mTask?.cancel()
-        mTask = taskLaunch {
-            taskHeartbeat(mCount, 1_000) {
-                taskRunOnUiThread {
-                    mTvSkip.text = mCount.toString()
-                    mPbSkip.progress = (100 * (3 - mCount) / 3.0f).toInt()
-                    mCount--
-                    if (mCount == 0) {
-                        nav2Main()
-                    }
-                }
+    private fun setupTask(second: Int) {
+        val timer = object : CountDownTimer(second * 1000L, 20L) {
+            override fun onFinish() {
+                mTvSkip.text = "0"
+                nav2Main()
             }
+
+            override fun onTick(millisUntilFinished: Long) {
+                mTvSkip.text = Math.ceil((millisUntilFinished / 1000.0f).toDouble()).toInt().toString()
+                mPbSkip.progress = (100 * (3.0f - millisUntilFinished) / 3000.0f).toInt()
+            }
+
         }
+        timer.start()
     }
 
     /**
@@ -93,7 +83,10 @@ class StartActivity : AppCompatActivity(), LoginView {
     private fun nav2Main() {
         val user = UserInfo.user
         user?.token?.let {
-            mPresenter.login(it) // 尝试自动登录
+            // TODO: 服务器未上线，先不自动登录
+            // mPresenter.login(it) // 尝试自动登录
+            MainActivity.startAction(this)
+            finish()
         }
         if (user?.token == null) {
             MainActivity.startAction(this)
