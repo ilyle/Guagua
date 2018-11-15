@@ -9,7 +9,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.Category
-import com.xiaoqi.guagua.mvp.model.source.impl.CategoryDataSourceImpl
+import com.xiaoqi.guagua.mvp.model.source.repository.CategoryDataRepository
 import com.xiaoqi.guagua.mvp.model.source.remote.CategoryDataSourceRemote
 import com.xiaoqi.guagua.mvp.vp.banner.BannerFragment
 import org.greenrobot.eventbus.EventBus
@@ -28,7 +28,7 @@ class CategoryFragment : BaseFragment(), CategoryView {
         /*
         构建CategoryPresenter，用有view和model实例
          */
-        CategoryPresenterImpl.build(this, CategoryDataSourceImpl.getInstance(CategoryDataSourceRemote.getInstance()))
+        CategoryPresenterImpl.build(this, CategoryDataRepository.getInstance(CategoryDataSourceRemote.getInstance()))
     }
 
     override fun getResource(): Int {

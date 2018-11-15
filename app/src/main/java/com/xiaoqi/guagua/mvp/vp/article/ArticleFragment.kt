@@ -15,8 +15,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.model.source.impl.ArticleDataSourceImpl
-import com.xiaoqi.guagua.mvp.model.source.impl.CollectionDataSourceImpl
+import com.xiaoqi.guagua.mvp.model.source.repository.ArticleDataRepository
+import com.xiaoqi.guagua.mvp.model.source.repository.CollectionDataRepository
 import com.xiaoqi.guagua.mvp.model.source.local.CollectionDataSourceLocal
 import com.xiaoqi.guagua.mvp.model.source.remote.ArticleDataSourceRemote
 import com.xiaoqi.guagua.mvp.vp.article.collection.CollectionFragment
@@ -59,8 +59,8 @@ class ArticleFragment : BaseFragment(), AppBarLayout.OnOffsetChangedListener {
         /*
         Presenter拥有View和Model实例
          */
-        SuggestionPresenterImpl.build(mSuggestionFragment, ArticleDataSourceImpl.getInstance(ArticleDataSourceRemote.getInstance()))
-        CollectionPresenterImpl.build(mCollectionFragment, CollectionDataSourceImpl.getInstance(CollectionDataSourceLocal.getInstance()))
+        SuggestionPresenterImpl.build(mSuggestionFragment, ArticleDataRepository.getInstance(ArticleDataSourceRemote.getInstance()))
+        CollectionPresenterImpl.build(mCollectionFragment, CollectionDataRepository.getInstance(CollectionDataSourceLocal.getInstance()))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

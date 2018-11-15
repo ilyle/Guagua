@@ -1,18 +1,17 @@
-package com.xiaoqi.guagua.mvp.model.source.impl
+package com.xiaoqi.guagua.mvp.model.source.repository
 
 import io.reactivex.Observable
-import com.xiaoqi.guagua.mvp.model.bean.User
 import com.xiaoqi.guagua.mvp.model.bean.UserData
 import com.xiaoqi.guagua.mvp.model.source.UserDataSource
 import com.xiaoqi.guagua.mvp.model.source.remote.UserDataSourceRemote
 
-class UserDataSourceImpl(private val mRemote: UserDataSourceRemote) : UserDataSource {
+class UserDataRepository(private val mRemote: UserDataSourceRemote) : UserDataSource {
 
     companion object {
-        private var mInstance: UserDataSourceImpl? = null
-        fun getInstance(remote: UserDataSourceRemote): UserDataSourceImpl {
+        private var mInstance: UserDataRepository? = null
+        fun getInstance(remote: UserDataSourceRemote): UserDataRepository {
             if (mInstance == null) {
-                mInstance = UserDataSourceImpl(remote)
+                mInstance = UserDataRepository(remote)
             }
             return mInstance!!
         }

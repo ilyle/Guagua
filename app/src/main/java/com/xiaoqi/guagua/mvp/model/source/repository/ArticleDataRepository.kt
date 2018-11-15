@@ -1,4 +1,4 @@
-package com.xiaoqi.guagua.mvp.model.source.impl
+package com.xiaoqi.guagua.mvp.model.source.repository
 
 import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.model.source.ArticleDataSource
@@ -6,17 +6,17 @@ import com.xiaoqi.guagua.mvp.model.source.remote.ArticleDataSourceRemote
 import com.xiaoqi.guagua.util.SortDescendUtil
 import io.reactivex.Observable
 
-class ArticleDataSourceImpl(remote: ArticleDataSourceRemote) : ArticleDataSource {
+class ArticleDataRepository(remote: ArticleDataSourceRemote) : ArticleDataSource {
 
     private var mRemote = remote
 
     companion object {
 
-        private var mInstance: ArticleDataSourceImpl? = null
+        private var mInstance: ArticleDataRepository? = null
 
-        fun getInstance(remote: ArticleDataSourceRemote): ArticleDataSourceImpl {
+        fun getInstance(remote: ArticleDataSourceRemote): ArticleDataRepository {
             if (mInstance == null) {
-                mInstance = ArticleDataSourceImpl(remote)
+                mInstance = ArticleDataRepository(remote)
             }
             return mInstance!!
         }

@@ -1,11 +1,11 @@
-package com.xiaoqi.guagua.mvp.model.source.impl
+package com.xiaoqi.guagua.mvp.model.source.repository
 
 import com.xiaoqi.guagua.mvp.model.bean.Article
 import com.xiaoqi.guagua.mvp.model.source.CollectionDataSource
 import com.xiaoqi.guagua.mvp.model.source.local.CollectionDataSourceLocal
 import io.reactivex.Observable
 
-class CollectionDataSourceImpl(collectionDataSourceLocal: CollectionDataSourceLocal) : CollectionDataSource {
+class CollectionDataRepository(collectionDataSourceLocal: CollectionDataSourceLocal) : CollectionDataSource {
     override fun getCollection(userId: Int): Observable<MutableList<Article>> {
         return mCollectionDataSourceLocal.getCollection(userId)
     }
@@ -28,11 +28,11 @@ class CollectionDataSourceImpl(collectionDataSourceLocal: CollectionDataSourceLo
 
     companion object {
 
-        private var mInstance: CollectionDataSourceImpl? = null
+        private var mInstance: CollectionDataRepository? = null
 
-        fun getInstance(collectionDataSourceLocal: CollectionDataSourceLocal): CollectionDataSourceImpl {
+        fun getInstance(collectionDataSourceLocal: CollectionDataSourceLocal): CollectionDataRepository {
             if (mInstance == null) {
-                mInstance = CollectionDataSourceImpl(collectionDataSourceLocal)
+                mInstance = CollectionDataRepository(collectionDataSourceLocal)
             }
             return mInstance!!
         }

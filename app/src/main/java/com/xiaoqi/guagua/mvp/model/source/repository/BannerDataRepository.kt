@@ -1,17 +1,17 @@
-package com.xiaoqi.guagua.mvp.model.source.impl
+package com.xiaoqi.guagua.mvp.model.source.repository
 
 import com.xiaoqi.guagua.mvp.model.bean.Banner
 import com.xiaoqi.guagua.mvp.model.source.BannerDataSource
 import com.xiaoqi.guagua.mvp.model.source.remote.BannerDataSourceRemote
 import io.reactivex.Observable
 
-class BannerDataSourceImpl(private val mRemote: BannerDataSourceRemote) : BannerDataSource {
+class BannerDataRepository(private val mRemote: BannerDataSourceRemote) : BannerDataSource {
 
     companion object {
-        private var mInstance: BannerDataSourceImpl? = null
-        fun getInstance(remote: BannerDataSourceRemote): BannerDataSourceImpl {
+        private var mInstance: BannerDataRepository? = null
+        fun getInstance(remote: BannerDataSourceRemote): BannerDataRepository {
             if (mInstance == null) {
-                mInstance = BannerDataSourceImpl(remote)
+                mInstance = BannerDataRepository(remote)
             }
             return mInstance!!
         }

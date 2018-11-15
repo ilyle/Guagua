@@ -9,7 +9,7 @@ import com.xiaoqi.guagua.MainActivity
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.User
 import com.xiaoqi.guagua.mvp.model.bean.UserInfo
-import com.xiaoqi.guagua.mvp.model.source.impl.UserDataSourceImpl
+import com.xiaoqi.guagua.mvp.model.source.repository.UserDataRepository
 import com.xiaoqi.guagua.mvp.model.source.remote.UserDataSourceRemote
 import com.xiaoqi.guagua.util.PreferenceUtil
 import com.xiaoqi.guagua.util.ToastUtil
@@ -52,7 +52,7 @@ class StartActivity : AppCompatActivity(), LoginView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
         init()
-        UserPresenterImpl.build(this, UserDataSourceImpl.getInstance(UserDataSourceRemote.getInstance()))
+        UserPresenterImpl.build(this, UserDataRepository.getInstance(UserDataSourceRemote.getInstance()))
         setupTask(mCount)
     }
 

@@ -1,20 +1,20 @@
-package com.xiaoqi.guagua.mvp.model.source.impl
+package com.xiaoqi.guagua.mvp.model.source.repository
 
 import com.xiaoqi.guagua.mvp.model.bean.Category
 import com.xiaoqi.guagua.mvp.model.source.CategoryDataSource
 import com.xiaoqi.guagua.mvp.model.source.remote.CategoryDataSourceRemote
 import io.reactivex.Observable
 
-class CategoryDataSourceImpl(remote: CategoryDataSourceRemote) : CategoryDataSource {
+class CategoryDataRepository(remote: CategoryDataSourceRemote) : CategoryDataSource {
 
     private val mRemote = remote
 
     companion object {
-        private var mInstance: CategoryDataSourceImpl? = null
+        private var mInstance: CategoryDataRepository? = null
 
-        fun getInstance(remote: CategoryDataSourceRemote): CategoryDataSourceImpl {
+        fun getInstance(remote: CategoryDataSourceRemote): CategoryDataRepository {
             if (mInstance == null) {
-                mInstance = CategoryDataSourceImpl(remote)
+                mInstance = CategoryDataRepository(remote)
             }
             return mInstance!!
         }

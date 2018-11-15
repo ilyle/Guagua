@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.model.source.impl.UserDataSourceImpl
+import com.xiaoqi.guagua.mvp.model.source.repository.UserDataRepository
 import com.xiaoqi.guagua.mvp.model.source.remote.UserDataSourceRemote
 
 
@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
         /*
         构建BannerPresenter实例，拥有view和model对象，同时在BannerPresenterImpl的init函数中，将BannerPresenter实例传给view（BannerFragment）
          */
-        UserPresenterImpl.build(mLoginFragment, mRegisterFragment, mMineFragment, UserDataSourceImpl.getInstance(UserDataSourceRemote.getInstance()))
+        UserPresenterImpl.build(mLoginFragment, mRegisterFragment, mMineFragment, UserDataRepository.getInstance(UserDataSourceRemote.getInstance()))
         intent?.let {
             val loginType = it.getIntExtra(LoginActivity.TYPE, LoginActivity.TYPE_LOGIN)
             when (loginType) {

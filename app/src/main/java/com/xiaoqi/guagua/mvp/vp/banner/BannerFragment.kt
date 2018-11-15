@@ -8,7 +8,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
-import com.xiaoqi.guagua.mvp.model.source.impl.BannerDataSourceImpl
+import com.xiaoqi.guagua.mvp.model.source.repository.BannerDataRepository
 import com.xiaoqi.guagua.mvp.model.source.remote.BannerDataSourceRemote
 import com.xiaoqi.guagua.mvp.vp.detail.DetailActivity
 import com.youth.banner.Banner
@@ -31,7 +31,7 @@ class BannerFragment : BaseFragment(), BannerView {
         /*
         构建BannerPresenter实例，拥有view和model对象，同时在BannerPresenterImpl的init函数中，将BannerPresenter实例传给view（BannerFragment）
          */
-        BannerPresenterImpl.build(this, BannerDataSourceImpl.getInstance(BannerDataSourceRemote.getInstance()))
+        BannerPresenterImpl.build(this, BannerDataRepository.getInstance(BannerDataSourceRemote.getInstance()))
         /*
         注册EventBus
          */
