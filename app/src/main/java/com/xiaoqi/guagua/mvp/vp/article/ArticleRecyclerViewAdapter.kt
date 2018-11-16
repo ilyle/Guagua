@@ -58,7 +58,9 @@ class ArticleRecyclerViewAdapter(context: Context?, articleList: MutableList<Art
             mTvArticleAuthor.text = article.author
             mTvArticleDate.text = article.niceDate
             if (!TextUtils.isEmpty(article.envelopePic)) {
-                Glide.with(mContext!!).load(article.envelopePic).into(mIvArticlePic)
+                mContext?.let { Glide.with(it).load(article.envelopePic).into(mIvArticlePic)}
+            } else {
+                mContext?.let { Glide.with(it).load(R.drawable.ic_android).into(mIvArticlePic) }
             }
             mCvArticle.setOnClickListener(this)
         }
