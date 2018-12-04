@@ -54,6 +54,11 @@ class SuggestionFragment : BaseFragment(), SuggestionView {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.unSubscribe()
+    }
+
     override fun isActive(): Boolean {
         return isAdded && isResumed
     }

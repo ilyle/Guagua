@@ -62,7 +62,7 @@ class SuggestionPresenterImpl private constructor(view: SuggestionView, model: A
     }
 
     override fun unSubscribe() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mDisposable.clear() // 切断管道，使得下游的Observe接受不到上游Observable发送的事件，避免View被回收而出现异常
     }
 
 }
