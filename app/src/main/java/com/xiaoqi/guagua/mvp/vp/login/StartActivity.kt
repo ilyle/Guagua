@@ -31,7 +31,7 @@ class StartActivity : AppCompatActivity(), LoginView {
     }
 
     override fun loginSuccess(user: User) {
-        PreferenceUtil.setUser(user) // 保存User对象，此时服务器会刷新token过期时间
+        PreferenceUtil.setUser(user) // 自动登录成功，保存User对象，此时服务器会刷新token过期时间
         MainActivity.startAction(this)
         finish()
     }
@@ -83,8 +83,7 @@ class StartActivity : AppCompatActivity(), LoginView {
     private fun nav2Main() {
         val user = UserInfo.user
         user?.token?.let {
-            // TODO: 服务器未上线，先不自动登录
-            // mPresenter.login(it) // 尝试自动登录
+            mPresenter.login(it) // 尝试自动登录
             MainActivity.startAction(this)
             finish()
         }

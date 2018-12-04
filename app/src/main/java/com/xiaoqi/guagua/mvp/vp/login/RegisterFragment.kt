@@ -57,10 +57,10 @@ class RegisterFragment : BaseFragment(), RegisterView, View.OnClickListener {
         when (v?.id) {
             R.id.iv_register_password -> {
                 isPasswordVisible = !isPasswordVisible
-                if (!isPasswordVisible) {
+                if (!isPasswordVisible) { // 密码不可见
                     mIvPassword.setColorFilter(Color.parseColor("#536DFD"))
                     mEtPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                } else {
+                } else { // 密码可见
                     mIvPassword.setColorFilter(Color.parseColor("#A5A5A5"))
                     mEtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
                 }

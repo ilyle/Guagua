@@ -12,7 +12,7 @@ object Api {
 
     const val BANNER = API_WAN_ANDROID + "banner/json"
 
-    const val API_GUA_GUA = "http://10.7.66.86:8080/GuaguaWeb/"
+    const val API_GUA_GUA = "http://106.12.130.178:8080/GuaguaWeb/"
 
     const val LOGIN = API_GUA_GUA + "login"
 
