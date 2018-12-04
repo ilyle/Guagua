@@ -57,6 +57,11 @@ class CategoryFragment : BaseFragment(), CategoryView {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.unSubscribe()
+    }
+
     override fun setPresenter(presenter: CategoryPresenter) {
         mPresenter = presenter
     }

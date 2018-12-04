@@ -31,7 +31,7 @@ class SearchPresenterImpl private constructor(view: SearchView, model: ArticleDa
     }
 
     override fun unSubscribe() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mDisposable.clear()
     }
 
     override fun queryArticle(page: Int, query: String, forceUpdate: Boolean, cleanCache: Boolean) {

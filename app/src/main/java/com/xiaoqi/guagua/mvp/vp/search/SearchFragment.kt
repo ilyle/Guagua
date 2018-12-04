@@ -91,6 +91,11 @@ class SearchFragment : BaseFragment(), SearchView {
         setupUI()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.unSubscribe()
+    }
+
     /**
      * 控件设置
      */

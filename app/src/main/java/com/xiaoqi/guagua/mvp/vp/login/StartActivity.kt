@@ -56,6 +56,11 @@ class StartActivity : AppCompatActivity(), LoginView {
         setupTask(mCount)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.unSubscribe()
+    }
+
     private fun init() {
         mPbSkip = findViewById(R.id.pb_start_skip)
         mTvSkip = findViewById(R.id.tv_start_skip)
@@ -82,12 +87,10 @@ class StartActivity : AppCompatActivity(), LoginView {
      */
     private fun nav2Main() {
         val user = UserInfo.user
-        user?.token?.let {
-            mPresenter.login(it) // 尝试自动登录
-            MainActivity.startAction(this)
-            finish()
+        user?.token?.let { // 有token尝试自动登录
+            mPresenter.login(it)
         }
-        if (user?.token == null) {
+        if (user?.token == null) { // 无token直接进入首页
             MainActivity.startAction(this)
             finish()
         }

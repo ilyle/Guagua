@@ -1,6 +1,8 @@
 package com.xiaoqi.guagua.mvp.vp.login
 
-interface UserPresenter {
+import com.xiaoqi.guagua.mvp.vp.BasePresenter
+
+interface UserPresenter : BasePresenter{
 
     fun login(username: String, password: String)
 

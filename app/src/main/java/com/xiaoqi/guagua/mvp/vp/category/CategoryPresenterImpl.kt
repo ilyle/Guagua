@@ -59,6 +59,6 @@ class CategoryPresenterImpl private constructor(view: CategoryView, model: Categ
     }
 
     override fun unSubscribe() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mDisposable.clear()
     }
 }

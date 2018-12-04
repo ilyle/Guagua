@@ -16,10 +16,12 @@ class BannerPresenterImpl private constructor(private val mView: BannerView, pri
         mView.setPresenter(this)
     }
 
-    companion object {
-        fun build(view: BannerView, model: BannerDataSource){
-            BannerPresenterImpl(view, model)
-        }
+    override fun subscribe() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun unSubscribe() {
+        mDisposable.clear()
     }
 
     override fun getBanner() {
@@ -40,5 +42,11 @@ class BannerPresenterImpl private constructor(private val mView: BannerView, pri
 
                 })
         mDisposable.add(disposable)
+    }
+
+    companion object {
+        fun build(view: BannerView, model: BannerDataSource){
+            BannerPresenterImpl(view, model)
+        }
     }
 }

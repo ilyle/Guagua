@@ -41,6 +41,11 @@ class CollectionFragment: BaseFragment(), CollectionView {
         mPresenter.getCollection(-1)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.unSubscribe()
+    }
+
     override fun isActive(): Boolean {
         return isAdded && isResumed
     }

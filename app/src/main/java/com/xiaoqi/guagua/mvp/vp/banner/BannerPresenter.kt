@@ -1,5 +1,7 @@
 package com.xiaoqi.guagua.mvp.vp.banner
 
-interface BannerPresenter {
+import com.xiaoqi.guagua.mvp.vp.BasePresenter
+
+interface BannerPresenter : BasePresenter{
     fun getBanner()
 }

@@ -68,6 +68,7 @@ class BannerFragment : BaseFragment(), BannerView {
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }
+        mPresenter.unSubscribe()
     }
 
     /**

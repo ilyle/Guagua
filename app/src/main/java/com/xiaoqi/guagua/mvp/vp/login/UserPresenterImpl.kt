@@ -22,6 +22,13 @@ class UserPresenterImpl(private val mLoginView: LoginView,
 
     constructor(loginView: LoginView, model: UserDataSource) : this(loginView, null, null, model)
 
+    override fun subscribe() {
+    }
+
+    override fun unSubscribe() {
+        mDisposable.clear()
+    }
+
     override fun login(username: String, password: String) {
         val disposable = mModel.login(username, password)
                 .subscribeOn(Schedulers.io())
