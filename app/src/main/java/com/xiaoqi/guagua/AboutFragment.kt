@@ -4,6 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.AppCompatTextView
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
+import com.hx.curtain.drawer.CurtainContentLayout
 import com.xiaoqi.guagua.util.AppUtil
 import com.xiaoqi.guagua.util.AppVersion
 import com.xiaoqi.guagua.util.PhoneInformation
@@ -17,6 +20,10 @@ class AboutFragment : BaseFragment(), LiteItemView.OnLiteItemViewClick {
     private lateinit var mLivAppreciate: LiteItemView
     private lateinit var mLivLicense: LiteItemView
     private lateinit var mLivSupport: LiteItemView
+
+    private lateinit var mCclAbout: CurtainContentLayout // 可滑动窗帘布局
+    private lateinit var mLlConcat: LinearLayout
+    private lateinit var mIvConcat: ImageView
 
     companion object {
         fun newInstance(): AboutFragment {
@@ -34,6 +41,16 @@ class AboutFragment : BaseFragment(), LiteItemView.OnLiteItemViewClick {
         mLivAppreciate = view.findViewById(R.id.liv_about_appreciate)
         mLivLicense = view.findViewById(R.id.liv_about_license)
         mLivSupport = view.findViewById(R.id.liv_about_support)
+
+        mCclAbout = view.findViewById(R.id.ccl_about)
+        mIvConcat = view.findViewById(R.id.iv_concat)
+        mLlConcat = view.findViewById(R.id.ll_concat)
+        mCclAbout.setCurtainLayoutListener { curtainLayout, slideOffset ->
+            mIvConcat.rotation = 360 * slideOffset
+            mLlConcat.scaleX = slideOffset
+            mLlConcat.scaleY = slideOffset
+            mLlConcat.translationY = - mLlConcat.left * slideOffset
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

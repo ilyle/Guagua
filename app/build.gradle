@@ -78,6 +78,7 @@ dependencies {
 
 
     implementation project(':base')
+    implementation project(':curtaindrawer')
 }
 kotlin {
     experimental {
