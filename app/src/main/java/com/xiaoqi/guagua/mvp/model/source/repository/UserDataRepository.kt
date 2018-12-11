@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import com.xiaoqi.guagua.mvp.model.bean.UserData
 import com.xiaoqi.guagua.mvp.model.source.UserDataSource
 import com.xiaoqi.guagua.mvp.model.source.remote.UserDataSourceRemote
+import okhttp3.MultipartBody
 
 class UserDataRepository(private val mRemote: UserDataSourceRemote) : UserDataSource {
 
@@ -31,5 +32,9 @@ class UserDataRepository(private val mRemote: UserDataSourceRemote) : UserDataSo
 
     override fun register(username: String, password: String): Observable<UserData> {
         return mRemote.register(username, password)
+    }
+
+    override fun updateAvatar(uid: String, username: String, avatar: MultipartBody.Part): Observable<UserData> {
+        return mRemote.updateAvatar(uid, username, avatar)
     }
 }

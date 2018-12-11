@@ -21,6 +21,7 @@ object PreferenceUtil {
                 .putString(Constant.SP.USER_USERNAME, user.username)
                 .putString(Constant.SP.USER_PASSWORD, user.password)
                 .putString(Constant.SP.USER_TOKEN, user.token)
+                .putString(Constant.SP.USER_AVATAR, user.avatar)
                 .putBoolean(Constant.SP.USER_IS_LOGIN, true)
                 .apply()
     }
@@ -34,6 +35,7 @@ object PreferenceUtil {
         user.token = sp.getString(Constant.SP.USER_TOKEN, null) ?: return null // token为null，返回null
         user.username = sp.getString(Constant.SP.USER_USERNAME, null)
         user.password = sp.getString(Constant.SP.USER_PASSWORD, null)
+        user.avatar = sp.getString(Constant.SP.USER_AVATAR, null)
         return user
     }
 

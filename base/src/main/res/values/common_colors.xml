@@ -45,7 +45,8 @@
     <color name="black_10">#1a000000</color>
     <color name="black_5">#0d000000</color>
 
-    <color name="red">#D70500</color>
+    <color name="red">#ff0000</color>
+    <color name="blue">#0000ff</color>
     <color name="gray">#787878</color>
 
     <color name="common_a0a0ab">#a0a0ab</color>

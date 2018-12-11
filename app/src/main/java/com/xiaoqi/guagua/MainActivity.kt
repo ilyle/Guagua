@@ -2,6 +2,9 @@ package com.xiaoqi.guagua
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener
@@ -13,11 +16,15 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.xiaoqi.guagua.mvp.model.bean.UserInfo
 import com.xiaoqi.guagua.mvp.vp.article.ArticleFragment
 import com.xiaoqi.guagua.mvp.vp.category.CategoryFragment
 import com.xiaoqi.guagua.mvp.vp.login.LoginActivity
+import com.xiaoqi.guagua.retrofit.Api
 import com.xiaoqi.guagua.util.ToastUtil
+import java.net.URI
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, OnNavigationItemSelectedListener {
 
@@ -30,7 +37,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnNavigationItem
     private lateinit var mBnvMain: BottomNavigationView
 
     private lateinit var mIvUserAvatar: ImageView
-    private lateinit var mTvUserAvatar: TextView
     private lateinit var mTvUserNickname: TextView
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
@@ -71,11 +77,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnNavigationItem
         super.onResume()
         val user = UserInfo.user
         if (user == null) {
-            mTvUserAvatar.text = ""
+            Glide.with(this@MainActivity).load(ColorDrawable(Color.WHITE)).into(mIvUserAvatar) // 空白头像
             mTvUserNickname.text = getString(R.string.login_click_to_login)
         }
         user?.let {
-            mTvUserAvatar.text = it.username?.substring(0, 1)
+            it.avatar?.let {
+                val avatarUri = Uri.parse(Api.API_GUA_GUA + it)
+                val requestOptions = RequestOptions()
+                        .placeholder(ColorDrawable(Color.WHITE))
+                        .error(ColorDrawable(Color.WHITE))
+                        .fallback(ColorDrawable(Color.WHITE));
+                Glide.with(this@MainActivity).load(avatarUri).apply(requestOptions).into(mIvUserAvatar) // 自定义头像
+            }
+            if (it.avatar == null) {
+                Glide.with(this@MainActivity).load(R.drawable.ic_avatar_default).into(mIvUserAvatar) // 默认头像
+            }
+
             mTvUserNickname.text = it.username
         }
     }
@@ -85,7 +102,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnNavigationItem
         mNvMain = findViewById(R.id.nv_main)
         mBnvMain = findViewById(R.id.bnv_main)
         mIvUserAvatar = mNvMain.getHeaderView(0).findViewById(R.id.civ_nav_header_avatar)
-        mTvUserAvatar = mNvMain.getHeaderView(0).findViewById(R.id.tv_nav_header_avatar)
         mTvUserNickname = mNvMain.getHeaderView(0).findViewById(R.id.tv_nav_header_nickname)
         mIvUserAvatar.setOnClickListener(this)
         mBnvMain.setOnNavigationItemSelectedListener(this)

@@ -3,8 +3,10 @@ package com.xiaoqi.guagua.mvp.vp.login
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.TextView
 import com.dinuscxj.progressbar.CircleProgressBar
+import com.xiaoqi.base.dialog.ConfirmDialog
 import com.xiaoqi.guagua.MainActivity
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.mvp.model.bean.User
@@ -16,7 +18,7 @@ import com.xiaoqi.guagua.util.ToastUtil
 
 /**
  * Created by Xujie on 2018/11/2
- * mail: jiexu215936@sohu-inc.com
+ * mail: 617314917@qq.com
  */
 class StartActivity : AppCompatActivity(), LoginView {
 
@@ -38,6 +40,16 @@ class StartActivity : AppCompatActivity(), LoginView {
 
     override fun showLoginFail(errorMsg: String) {
         ToastUtil.showMsg(errorMsg)
+        // 弹出对话框提示token已经过期，点击确定之后进入MainActivity，并且清除User信息
+        val dialog = ConfirmDialog(this)
+        dialog.setContent(errorMsg)
+                .setSingleBtn(getString(R.string.sure), View.OnClickListener {
+                    dialog.dismiss()
+                    PreferenceUtil.cleanUser()
+                    MainActivity.startAction(this)
+                    finish()
+                })
+        dialog.show()
     }
 
     override fun showNetworkError(errorMsg: String) {
@@ -87,7 +99,8 @@ class StartActivity : AppCompatActivity(), LoginView {
      */
     private fun nav2Main() {
         val user = UserInfo.user
-        user?.token?.let { // 有token尝试自动登录
+        user?.token?.let {
+            // 有token尝试自动登录
             mPresenter.login(it)
         }
         if (user?.token == null) { // 无token直接进入首页

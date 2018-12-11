@@ -12,7 +12,8 @@ object Api {
 
     const val BANNER = API_WAN_ANDROID + "banner/json"
 
-    const val API_GUA_GUA = "http://106.12.130.178:8080/GuaguaWeb/"
+    // const val API_GUA_GUA = "http://106.12.130.178:8080/GuaguaWeb/"
+    const val API_GUA_GUA = "http://192.168.43.66:8080/GuaguaWeb/"
 
     const val LOGIN = API_GUA_GUA + "login"
 
@@ -21,4 +22,6 @@ object Api {
     const val LOGOUT = API_GUA_GUA + "logout"
 
     const val REGISTER = API_GUA_GUA + "register"
+
+    const val UPDATE_AVATAR = API_GUA_GUA + "user/avatar"
 }

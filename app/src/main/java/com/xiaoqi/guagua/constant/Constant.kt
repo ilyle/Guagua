@@ -23,9 +23,19 @@ object Constant {
         const val USER_TOKEN = "user_token"
 
         const val USER_IS_LOGIN = "user_is_login"
+
+        const val USER_AVATAR = "user_avatar"
     }
 
     object MMKV {
         const val SEARCH_HISTORY = "search_history"
+    }
+
+    object PATH {
+        private const val BASE = "/Guagua"
+
+        const val PIC = BASE + "/pic/"
+
+        const val LOG = BASE + "/log/"
     }
 }

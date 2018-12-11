@@ -15,6 +15,7 @@ class User {
     var username: String? = null
     var password: String? = null
     var token: String? = null
+    var avatar: String? = null // 头像路径，服务器路径
 }
 
 object UserInfo {

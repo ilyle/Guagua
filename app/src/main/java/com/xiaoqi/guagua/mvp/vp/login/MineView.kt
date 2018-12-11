@@ -13,4 +13,14 @@ interface MineView : BaseView<UserPresenter> {
     fun showLogoutFail(errorMsg: String)
 
     fun showNetworkError(errorMsg: String)
+
+    /**
+     * 更换头像成功
+     */
+    fun showUpdateAvatarSuccess(user: User)
+
+    /**
+     * 更换头像失败
+     */
+    fun showUpdateAvatarFail(errorMsg: String)
 }
