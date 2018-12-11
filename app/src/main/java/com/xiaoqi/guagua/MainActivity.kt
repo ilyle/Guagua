@@ -17,6 +17,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.xiaoqi.guagua.mvp.model.bean.UserInfo
 import com.xiaoqi.guagua.mvp.vp.article.ArticleFragment
@@ -84,6 +85,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnNavigationItem
             it.avatar?.let {
                 val avatarUri = Uri.parse(Api.API_GUA_GUA + it)
                 val requestOptions = RequestOptions()
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .placeholder(ColorDrawable(Color.WHITE))
                         .error(ColorDrawable(Color.WHITE))
                         .fallback(ColorDrawable(Color.WHITE));

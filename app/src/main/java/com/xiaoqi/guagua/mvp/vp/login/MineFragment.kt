@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.xiaoqi.base.dialog.BaseDialog
 import com.xiaoqi.guagua.BaseFragment
@@ -101,6 +102,8 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
         user.avatar?.let {
             val avatarUri = Uri.parse(Api.API_GUA_GUA + it)
             val requestOptions = RequestOptions()
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .placeholder(ColorDrawable(Color.WHITE))
                     .error(ColorDrawable(Color.WHITE))
                     .fallback(ColorDrawable(Color.WHITE));
@@ -138,6 +141,8 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
         UserInfo.user?.avatar?.let {
             val avatarUri = Uri.parse(Api.API_GUA_GUA + it)
             val requestOptions = RequestOptions()
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .placeholder(ColorDrawable(Color.WHITE))
                     .error(ColorDrawable(Color.WHITE))
                     .fallback(ColorDrawable(Color.WHITE));
