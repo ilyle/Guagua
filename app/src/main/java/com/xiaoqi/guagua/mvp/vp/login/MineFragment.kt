@@ -2,6 +2,7 @@ package com.xiaoqi.guagua.mvp.vp.login
 
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
+import android.content.ContentUris
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -9,6 +10,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
@@ -17,8 +19,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.xiaoqi.base.dialog.BaseDialog
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
@@ -26,6 +26,7 @@ import com.xiaoqi.guagua.constant.Constant
 import com.xiaoqi.guagua.mvp.model.bean.User
 import com.xiaoqi.guagua.mvp.model.bean.UserInfo
 import com.xiaoqi.guagua.retrofit.Api
+import com.xiaoqi.guagua.util.GlideUtil
 import com.xiaoqi.guagua.util.PreferenceUtil
 import com.xiaoqi.guagua.util.ToastUtil
 import com.xiaoqi.liteitemview.LiteItemView
@@ -47,6 +48,8 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
     private lateinit var mBtnLogout: Button
 
     private lateinit var mDialog: BaseDialog // 头像选择对话框
+
+    private lateinit var mCropImageFile: File
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_mine_logout -> {
@@ -101,13 +104,7 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
 
         user.avatar?.let {
             val avatarUri = Uri.parse(Api.API_GUA_GUA + it)
-            val requestOptions = RequestOptions()
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .placeholder(ColorDrawable(Color.WHITE))
-                    .error(ColorDrawable(Color.WHITE))
-                    .fallback(ColorDrawable(Color.WHITE));
-            Glide.with(this).load(avatarUri).apply(requestOptions).into(mIvMine) // 自定义头像
+            Glide.with(this).load(avatarUri).apply(GlideUtil.requestOptions).into(mIvMine) // 自定义头像
         }
         if (user.avatar == null) {
             Glide.with(this).load(R.drawable.ic_avatar_default).into(mIvMine) // 默认头像
@@ -140,13 +137,7 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
 
         UserInfo.user?.avatar?.let {
             val avatarUri = Uri.parse(Api.API_GUA_GUA + it)
-            val requestOptions = RequestOptions()
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .placeholder(ColorDrawable(Color.WHITE))
-                    .error(ColorDrawable(Color.WHITE))
-                    .fallback(ColorDrawable(Color.WHITE));
-            Glide.with(this).load(avatarUri).apply(requestOptions).into(mIvMine) // 自定义头像
+            Glide.with(this).load(avatarUri).apply(GlideUtil.requestOptions).into(mIvMine) // 自定义头像
         }
         if (UserInfo.user?.avatar == null) {
             Glide.with(this).load(R.drawable.ic_avatar_default).into(mIvMine) // 默认头像
@@ -172,9 +163,7 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
                     data?.let { cropAvatar(it.data) }
                 }
                 REQUEST_CODE_CROP -> {
-                    data?.let {
-                        setAvatar(it)
-                    }
+                    updateAvatar(mCropImageFile)
                 }
             }
 
@@ -234,6 +223,8 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
      */
     private fun cropAvatar(uri: Uri) {
         val intent = Intent("com.android.camera.action.CROP")
+        mCropImageFile = getCropImageFile() // 裁剪图片File
+
         intent.setDataAndType(uri, "image/*")
         // 设置裁剪
         intent.putExtra("crop", "true")
@@ -241,24 +232,19 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
         intent.putExtra("aspectX", 1)
         intent.putExtra("aspectY", 1)
         // outputX , outputY : 裁剪图片宽高
-        intent.putExtra("outputX", 200)
-        intent.putExtra("outputY", 200)
-        intent.putExtra("return-data", true)
+        intent.putExtra("outputX", 720)
+        intent.putExtra("outputY", 720)
+
+        intent.putExtra("return-data", false)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mCropImageFile))
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString())
+        intent.putExtra("noFaceDetection", true)
         startActivityForResult(intent, REQUEST_CODE_CROP)
     }
 
-    private fun setAvatar(intent: Intent) {
-        val extras = intent.extras
-        extras?.let {
-            val photo: Bitmap = extras.getParcelable("data")
-            val savePath = Environment.getExternalStorageDirectory().path + Constant.PATH.PIC
-            saveCropPhoto(photo, savePath)
-            // mIvMine.setImageBitmap(photo)
-        }
-    }
-
-    private fun saveCropPhoto(bitmap: Bitmap, path: String) {
-        val dir = File(path) // 将要保存图片的路径
+    private fun getCropImageFile(): File {
+        val path: String = Environment.getExternalStorageDirectory().path + Constant.PATH.PIC
+        val dir = File(path)
         if (!dir.exists()) {
             dir.mkdirs()
         }
@@ -266,19 +252,44 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
         if (file.exists()) {
             file.delete()
         }
-        try {
-            val bos = BufferedOutputStream(FileOutputStream(file))
-            val res = bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-            if (res) {
-                bos.flush()
-                bos.close()
-                updateAvatar(file) // 更新头像至服务器
-            }
-
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        return file
     }
+
+    private fun handleImage(intent: Intent): String? {
+        val uri = intent.data
+        var imagePath: String? = null
+        if (Build.VERSION.SDK_INT >= 19) {
+            if (DocumentsContract.isDocumentUri(context, uri)) {
+                val docId = DocumentsContract.getDocumentId(uri)
+                if ("com.android.providers.media.documents" == uri.authority) {
+                    val id = docId.split(":")[1]
+                    val selection = MediaStore.Images.Media._ID + "=" + id
+                    imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection)
+                } else if ("com.android.providers.downloads.documents" == uri.authority) {
+                    val contentUri = ContentUris.withAppendedId(Uri.parse("" + "content://downloads/public_downloads"), docId.toLong())
+                    imagePath = getImagePath(contentUri, null)
+                }
+            } else if ("content" == uri.scheme) {
+                imagePath = getImagePath(uri, null)
+            }
+        } else {
+            imagePath = getImagePath(uri, null)
+        }
+        return imagePath
+    }
+
+    private fun getImagePath(uri: Uri, selection: String?): String? {
+        var path: String? = null
+        val cursor = activity?.contentResolver?.query(uri, null, selection, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+            cursor.close();
+        }
+        return path
+    }
+
 
     private fun updateAvatar(avatar: File) {
         UserInfo.user?.let {
