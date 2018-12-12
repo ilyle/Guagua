@@ -41,7 +41,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="你的包名.provider"
+            android:authorities="com.xiaoqi.guagua.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

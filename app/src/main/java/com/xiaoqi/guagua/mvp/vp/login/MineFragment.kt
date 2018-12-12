@@ -3,15 +3,15 @@ package com.xiaoqi.guagua.mvp.vp.login
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.ContentUris
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.support.v4.content.FileProvider
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import android.view.View
@@ -33,10 +33,7 @@ import com.xiaoqi.liteitemview.LiteItemView
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.BufferedOutputStream
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 
 class MineFragment : BaseFragment(), MineView, View.OnClickListener {
 
@@ -49,7 +46,34 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
 
     private lateinit var mDialog: BaseDialog // 头像选择对话框
 
-    private lateinit var mCropImageFile: File
+    private val mPicDir = Environment.getExternalStorageDirectory().path + Constant.PATH.PIC // storage/emulated/0/Guagua/pic
+    private val mCameImagePath = "came.jpg" // 拍摄保存
+    private val mCropImagePath = "avatar.jpg" // 截图保存
+
+    private val mCameImageFile: File by lazy {
+        val dir = File(mPicDir)
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        val file = File(mPicDir, mCameImagePath)
+        if (file.exists()) {
+            file.delete()
+        }
+        file
+    }
+
+    private val mCropImageFile: File by lazy {
+        val dir = File(mPicDir)
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        val file = File(mPicDir, mCropImagePath)
+        if (file.exists()) {
+            file.delete()
+        }
+        file
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_mine_logout -> {
@@ -63,7 +87,7 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
          */
             R.id.tv_mine_camera -> {
                 closeDialog()
-                // openCamera()
+                openCamera()
             }
         /*
         选择从图片中选取
@@ -157,10 +181,10 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
         } else if (resultCode == RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_CAMERA -> {
-
+                    crop(mCameImageFile.absolutePath)
                 }
                 REQUEST_CODE_GALLERY -> {
-                    data?.let { cropAvatar(it.data) }
+                    data?.let { crop(handleImage(it)!!) }
                 }
                 REQUEST_CODE_CROP -> {
                     updateAvatar(mCropImageFile)
@@ -192,6 +216,9 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
         }
     }
 
+    /**
+     * 打开图库
+     */
     private fun openGallery() {
         val intent = Intent()
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
@@ -199,60 +226,37 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
         startActivityForResult(intent, REQUEST_CODE_GALLERY)
     }
 
+    /**
+     * 打开相机
+     */
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        val savePath: String = Environment.getExternalStorageDirectory().path
-        val avatarFile = File(savePath, "avatar.jpg")
-        if (!avatarFile.exists()) {
-            avatarFile.mkdirs()
+        if (intent.resolveActivity(activity?.packageManager) != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(context!!, context!!.applicationContext.packageName + ".provider", mCameImageFile))
+            } else {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mCameImageFile))
+            }
+            startActivityForResult(intent, REQUEST_CODE_CAMERA)
         }
-        val avatarUri: Uri
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-        } else {
-
-        }
-
-        // intent.putExtra(MediaStore.EXTRA_OUTPUT, avatarUri)
-        startActivityForResult(intent, REQUEST_CODE_CAMERA)
     }
 
     /**
      * 调用系统剪切功能
      */
-    private fun cropAvatar(uri: Uri) {
+    private fun crop(imagePath: String) {
         val intent = Intent("com.android.camera.action.CROP")
-        mCropImageFile = getCropImageFile() // 裁剪图片File
-
-        intent.setDataAndType(uri, "image/*")
-        // 设置裁剪
+        intent.setDataAndType(getImageContentUri(File(imagePath)), "image/*")
         intent.putExtra("crop", "true")
-        // aspectX , aspectY :宽高的比例
         intent.putExtra("aspectX", 1)
         intent.putExtra("aspectY", 1)
-        // outputX , outputY : 裁剪图片宽高
         intent.putExtra("outputX", 720)
         intent.putExtra("outputY", 720)
-
         intent.putExtra("return-data", false)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mCropImageFile))
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString())
         intent.putExtra("noFaceDetection", true)
         startActivityForResult(intent, REQUEST_CODE_CROP)
-    }
-
-    private fun getCropImageFile(): File {
-        val path: String = Environment.getExternalStorageDirectory().path + Constant.PATH.PIC
-        val dir = File(path)
-        if (!dir.exists()) {
-            dir.mkdirs()
-        }
-        val file = File(path, "avatar.jpg")
-        if (file.exists()) {
-            file.delete()
-        }
-        return file
     }
 
     private fun handleImage(intent: Intent): String? {
@@ -280,16 +284,41 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
 
     private fun getImagePath(uri: Uri, selection: String?): String? {
         var path: String? = null
-        val cursor = activity?.contentResolver?.query(uri, null, selection, null, null);
+        val cursor = activity?.contentResolver?.query(uri, null, selection, null, null)
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
             }
-            cursor.close();
+            cursor.close()
         }
         return path
     }
 
+    /**
+     * 把fileUri转换成ContentUri
+     */
+    private fun getImageContentUri(imageFile: File): Uri? {
+        val filePath = imageFile.absolutePath
+        val cursor = activity?.contentResolver?.query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                arrayOf(MediaStore.Images.Media._ID),
+                MediaStore.Images.Media.DATA + "=? ",
+                arrayOf(filePath), null)
+        return if (cursor != null && cursor.moveToFirst()) {
+            val id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID))
+            val baseUri = Uri.parse("content://media/external/images/media")
+            cursor.close()
+            Uri.withAppendedPath(baseUri, "" + id)
+        } else {
+            if (imageFile.exists()) {
+                val values = ContentValues()
+                values.put(MediaStore.Images.Media.DATA, filePath)
+                activity?.contentResolver?.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            } else {
+                null
+            }
+        }
+    }
 
     private fun updateAvatar(avatar: File) {
         UserInfo.user?.let {
