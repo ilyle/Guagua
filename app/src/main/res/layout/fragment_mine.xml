@@ -46,9 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ic_camera"
         app:layout_anchor="@id/abl_mine"
-        app:layout_anchorGravity="bottom|end" />
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/ic_camera" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -56,17 +56,19 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:layout_marginTop="32dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:orientation="vertical">
 
             <com.xiaoqi.liteitemview.LiteItemView
                 android:id="@+id/liv_mine_username"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:isShowLeftIcon="false"
                 app:leftText="@string/mine_username"
-                app:rightText="@string/mine_username"/>
+                app:rightStyle="iconHide"
+                app:rightText="@string/mine_username" />
 
             <Button
                 android:id="@+id/btn_mine_logout"

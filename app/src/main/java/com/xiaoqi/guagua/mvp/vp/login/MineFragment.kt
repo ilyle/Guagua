@@ -20,6 +20,7 @@ import android.widget.Button
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.xiaoqi.base.dialog.BaseDialog
+import com.xiaoqi.base.dialog.ConfirmDialog
 import com.xiaoqi.guagua.BaseFragment
 import com.xiaoqi.guagua.R
 import com.xiaoqi.guagua.constant.Constant
@@ -77,7 +78,14 @@ class MineFragment : BaseFragment(), MineView, View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_mine_logout -> {
-                UserInfo.user?.let { mPresenter.logout(it.uid!!) }
+                // 弹出对话框
+                val dialog = ConfirmDialog(context!!)
+                dialog.setContent(R.string.logout_confirm)
+                        .setLeftBtn(R.string.cancel, View.OnClickListener { dialog.dismiss() })
+                        .setRightBtn(R.string.sure, View.OnClickListener {
+                            dialog.dismiss()
+                            UserInfo.user?.let { mPresenter.logout(it.uid!!) }
+                        }).show()
             }
             R.id.iv_mine_avatar -> {
                 showAvatarChooseDialog()
