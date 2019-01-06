@@ -58,6 +58,8 @@ dependencies {
     implementation group: 'com.hyman', name: 'flowlayout-lib', version: '1.1.2'
     // LiteItemView
     implementation 'com.github.ilyle:LiteItemView:1.0.2'
+    // LiteDragView
+    implementation 'com.github.ilyle:LiteDragView:1.0.0'
     // SmartRefreshLayout
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-7'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'

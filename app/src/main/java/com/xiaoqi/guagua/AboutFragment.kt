@@ -1,6 +1,7 @@
 package com.xiaoqi.guagua
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.AppCompatTextView
 import android.view.View
@@ -11,6 +12,7 @@ import com.xiaoqi.guagua.util.AppUtil
 import com.xiaoqi.guagua.util.AppVersion
 import com.xiaoqi.guagua.util.PhoneInformation
 import com.xiaoqi.guagua.util.ToastUtil
+import com.xiaoqi.litedragview.LiteDragHelper
 import com.xiaoqi.liteitemview.LiteItemView
 
 class AboutFragment : BaseFragment(), LiteItemView.OnLiteItemViewClick {
@@ -51,6 +53,8 @@ class AboutFragment : BaseFragment(), LiteItemView.OnLiteItemViewClick {
             mLlConcat.scaleY = slideOffset
             mLlConcat.translationY = - mLlConcat.left * slideOffset
         }
+
+        LiteDragHelper.bind(context!!, mIvConcat, Color.parseColor("#536DFD"))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
