@@ -14,15 +14,29 @@ object PhoneInformation {
         get() {
             if (TextUtils.isEmpty(field)) {
                 val context = MainApplication.getContext()
-                val deviceId = (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).deviceId
-                field = if (!TextUtils.isEmpty(deviceId)) {
-                    deviceId
+                val imei = (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).deviceId
+                field = if (!TextUtils.isEmpty(imei)) {
+                    imei
                 } else {
                     Settings.System.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
                 }
             }
             return field
         }
+
+    var imsi: String? = null
+    get() {
+        if (TextUtils.isEmpty(field)) {
+            val context = MainApplication.getContext()
+            val imsi = (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).subscriberId
+            field = if (!TextUtils.isEmpty(imsi)) {
+                imsi
+            } else {
+                Settings.System.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+            }
+        }
+        return field
+    }
 
     var deviceName: String? = null
         get() {
