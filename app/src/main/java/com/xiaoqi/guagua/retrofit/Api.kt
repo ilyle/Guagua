@@ -2,7 +2,7 @@ package com.xiaoqi.guagua.retrofit
 
 object Api {
 
-    const val API_WAN_ANDROID = "http://www.wanandroid.com/"
+    const val API_WAN_ANDROID = "https://www.wanandroid.com/"
 
     const val ARTICLE_LIST = API_WAN_ANDROID + "article/list/"
 
