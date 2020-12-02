@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/abl_article"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:expanded="false">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/ctl_article"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:contentScrim="@color/color_primary"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+
+            <ImageView
+                android:id="@+id/iv_article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                tools:ignore="ContentDescription" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_article"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_menu"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:title="@string/tb_article"
+                app:titleTextColor="@color/white" />
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tl_article"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_layout_background"
+            app:tabIndicatorColor="@color/color_primary"
+            app:tabSelectedTextColor="@color/color_primary"
+            app:tabTextColor="@color/black" />
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_article"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</android.support.design.widget.CoordinatorLayout>

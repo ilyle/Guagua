@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_white_radius10"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fl_dialog_content"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="80dp"
+        android:padding="18dp">
+
+        <TextView
+            android:id="@+id/tv_dialog_hints"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:lineSpacingExtra="8dp"
+            android:lineSpacingMultiplier="0.6"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/dialog_two_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <com.xiaoqi.base.view.CommonShapeButton
+            android:id="@+id/btn_dialog_left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/common_333333"
+            app:csb_cornerPosition="bottomLeft"
+            app:csb_cornerRadius="5dp"
+            app:csb_fillColor="#F0F0FF" />
+
+        <com.xiaoqi.base.view.CommonShapeButton
+            android:id="@+id/btn_dialog_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            app:csb_cornerPosition="bottomRight"
+            app:csb_cornerRadius="5dp"
+            app:csb_fillColor="#536DFD" />
+    </LinearLayout>
+
+    <com.xiaoqi.base.view.CommonShapeButton
+        android:id="@+id/dialog_one_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:csb_cornerPosition="bottomLeft|bottomRight"
+        app:csb_cornerRadius="5dp"
+        app:csb_fillColor="#536DFD" />
+</LinearLayout>

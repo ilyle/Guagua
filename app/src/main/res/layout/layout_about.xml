@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_about_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:layout_marginTop="48dp"
+        android:drawablePadding="16dp"
+        android:drawableTop="@mipmap/ic_launcher"
+        android:gravity="center_horizontal"
+        android:text="@string/app_name"
+        android:textColor="@color/color_a5a5a5"
+        android:textSize="20sp" />
+
+    <com.xiaoqi.liteitemview.LiteItemView
+        android:id="@+id/liv_about_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftIcon="@drawable/ic_update"
+        app:leftText="@string/about_update"
+        app:rightIcon="@drawable/ic_forward" />
+
+    <com.xiaoqi.liteitemview.LiteItemView
+        android:id="@+id/liv_about_appreciate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftIcon="@drawable/ic_appreciate"
+        app:leftText="@string/about_appreciate"
+        app:rightIcon="@drawable/ic_forward" />
+
+    <com.xiaoqi.liteitemview.LiteItemView
+        android:id="@+id/liv_about_license"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftIcon="@drawable/ic_license"
+        app:leftText="@string/about_license"
+        app:rightIcon="@drawable/ic_forward" />
+
+    <com.xiaoqi.liteitemview.LiteItemView
+        android:id="@+id/liv_about_support"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftIcon="@drawable/ic_support"
+        app:leftText="@string/about_support"
+        app:rightIcon="@drawable/ic_forward" />
+
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hx.curtain.drawer.CurtainContentLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ccl_about"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:behind_menu="@layout/layout_concat"
+    app:content="@layout/layout_about"
+    app:h_waveCount="8"
+    app:maxRate="0.75"
+    app:v_waveCount="1.8" />
