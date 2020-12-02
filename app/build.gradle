@@ -78,8 +78,8 @@ dependencies {
     // 换肤
     implementation 'com.noober.backgorund:core:1.0.5'
     // 运行时权限
-    compile('com.github.hotchemi:permissionsdispatcher:3.1.0') { exclude module: 'support-v13' }
-    kapt 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'
+    // compile('com.github.hotchemi:permissionsdispatcher:3.1.0') { exclude module: 'support-v13' }
+    // kapt 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'
     // 运行时权限（陈祝界）
     implementation 'com.ysbing:ypermission:1.0.0'
 
